@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelTogether">
-        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".MessageActivity" />
         <activity android:name=".Chat" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".Profile" />
