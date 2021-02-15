@@ -1,4 +1,6 @@
 package com.example.traveltogether;
+import com.example.traveltogether.Adapter.*;
+import com.example.traveltogether.Model.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -26,8 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +45,7 @@ public class MessageActivity extends AppCompatActivity {
     EditText text_send;
 
     MessageAdapter messageAdapter;
-    List<InChat> mChat;
+    List<Chat> mChat;
     RecyclerView recyclerView;
 
     Intent intent;
@@ -128,7 +128,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mChat.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
-                    InChat chat = snap.getValue(InChat.class);
+                    Chat chat = snap.getValue(Chat.class);
                     if ((chat.getReceiver().equals(myid) && chat.getSender().equals(userid)) || (chat.getReceiver().equals(userid) && chat.getSender().equals(myid))) {
                         mChat.add(chat);
                     }

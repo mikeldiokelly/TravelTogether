@@ -1,4 +1,5 @@
 package com.example.traveltogether;
+import com.example.traveltogether.Adapter.*;
 
 import android.os.Bundle;
 
@@ -8,7 +9,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-public class Chat extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

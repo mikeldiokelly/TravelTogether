@@ -1,4 +1,5 @@
 package com.example.traveltogether;
+import com.example.traveltogether.Model.*;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
+public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button banner, register;
     private EditText first_name, last_name, age, email, password;
@@ -122,19 +123,19 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(com.example.traveltogether.RegisterUser.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(com.example.traveltogether.RegisterUser.this, MainActivity.class));
+                                        Toast.makeText(RegisterUserActivity.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(RegisterUserActivity.this, MainActivity.class));
                                         progressBar.setVisibility(View.GONE);
                                     }
                                     else {
-                                        Toast.makeText(com.example.traveltogether.RegisterUser.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
                         }
                         else {
-                            Toast.makeText(com.example.traveltogether.RegisterUser.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }

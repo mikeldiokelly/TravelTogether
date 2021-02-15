@@ -1,7 +1,9 @@
-package com.example.traveltogether;
+package com.example.traveltogether.Adapter;
+import com.example.traveltogether.R;
+import com.example.traveltogether.*;
+import com.example.traveltogether.Model.*;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltogether.MessageAdapter.ViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.MessageAdapter.ViewHolder> {
     private Context mContext;
-    private List<InChat> mChat;
+    private List<Chat> mChat;
 
     public static final int MSG_TYPE_LEFT=0;
     public static final int MSG_TYPE_RIGHT=1;
@@ -26,7 +28,7 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltoget
 
     FirebaseUser fuser;
 
-    public MessageAdapter(Context mContext, List<InChat> mChat) {
+    public MessageAdapter(Context mContext, List<Chat> mChat) {
         this.mChat = mChat;
         this.mContext = mContext;
         //this.imageur1 = imageur1;
@@ -48,7 +50,7 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltoget
 
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
-        InChat chat = mChat.get(position);
+        Chat chat = mChat.get(position);
         holder.show_message.setText(chat.getMessage());
     }
 

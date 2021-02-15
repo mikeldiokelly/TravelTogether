@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.traveltogether.R;
+import com.example.traveltogether.*;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Profile extends AppCompatActivity implements View.OnClickListener{
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button logout,chat;
 
@@ -37,7 +39,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener{
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.chat:
-                startActivity(new Intent(this, Chat.class));
+                startActivity(new Intent(this, ChatActivity.class));
                 break;
         }
     }

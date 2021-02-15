@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ForgotPassword extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     private EditText email;
     private Button reset_password;
@@ -58,11 +58,11 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(com.example.traveltogether.ForgotPassword.this, "Please check your email to reset your password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgotPasswordActivity.this, "Please check your email to reset your password", Toast.LENGTH_LONG).show();
                     forgotBar.setVisibility(View.GONE);
                 }
                 else {
-                    Toast.makeText(com.example.traveltogether.ForgotPassword.this, "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ForgotPasswordActivity.this, "Something went wrong. Please try again.", Toast.LENGTH_LONG).show();
                     forgotBar.setVisibility(View.VISIBLE);
                 }
             }

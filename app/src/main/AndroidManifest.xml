@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MessageActivity"></activity>
-        <activity android:name=".Chat" />
-        <activity android:name=".ForgotPassword" />
-        <activity android:name=".Profile" />
-        <activity android:name=".RegisterUser" />
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".RegisterUserActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,5 @@
-package com.example.traveltogether;
+package com.example.traveltogether.Adapter;
+import com.example.traveltogether.Fragments.*;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

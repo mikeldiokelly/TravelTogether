@@ -1,4 +1,7 @@
-package com.example.traveltogether;
+package com.example.traveltogether.Adapter;
+import com.example.traveltogether.R;
+import com.example.traveltogether.*;
+import com.example.traveltogether.Model.*;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +16,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class UserAdapter extends RecyclerView.Adapter<com.example.traveltogether.UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.UserAdapter.ViewHolder> {
     private Context mContext;
-    private List<com.example.traveltogether.User> mUsers;
+    private List<User> mUsers;
 
-    public UserAdapter(Context mContext, List<com.example.traveltogether.User> mUsers) {
+    public UserAdapter(Context mContext, List<User> mUsers) {
         this.mUsers = mUsers;
         this.mContext = mContext;
     }
@@ -26,12 +29,12 @@ public class UserAdapter extends RecyclerView.Adapter<com.example.traveltogether
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
-        return new com.example.traveltogether.UserAdapter.ViewHolder(view);
+        return new com.example.traveltogether.Adapter.UserAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        com.example.traveltogether.User user = mUsers.get(position);
+        User user = mUsers.get(position);
         holder.username.setText(user.first_name);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

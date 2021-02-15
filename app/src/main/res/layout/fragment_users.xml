@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#C1EBF1"
-    tools:context=".UsersFragment">
+    tools:context=".Fragments.UsersFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

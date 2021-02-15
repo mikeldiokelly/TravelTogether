@@ -1,4 +1,8 @@
-package com.example.traveltogether;
+package com.example.traveltogether.Fragments;
+import com.example.traveltogether.*;
+import com.example.traveltogether.Adapter.*;
+import com.example.traveltogether.R;
+import com.example.traveltogether.Model.*;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link com.example.traveltogether.UsersFragment#newInstance} factory method to
+ * Use the {@link com.example.traveltogether.Fragments.UsersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class UsersFragment extends Fragment {
@@ -54,8 +58,8 @@ public class UsersFragment extends Fragment {
      * @return A new instance of fragment UsersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static com.example.traveltogether.UsersFragment newInstance(String param1, String param2) {
-        com.example.traveltogether.UsersFragment fragment = new com.example.traveltogether.UsersFragment();
+    public static com.example.traveltogether.Fragments.UsersFragment newInstance(String param1, String param2) {
+        com.example.traveltogether.Fragments.UsersFragment fragment = new com.example.traveltogether.Fragments.UsersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

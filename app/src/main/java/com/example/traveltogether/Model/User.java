@@ -1,5 +1,6 @@
-package com.example.traveltogether;
-
+package com.example.traveltogether.Model;
+import com.example.traveltogether.R;
+import com.example.traveltogether.*;
 public class User {
 
     public String first_name, last_name, age, email, id;
@@ -17,12 +18,14 @@ public class User {
         this.id = id;
     }
 
-    /*public String getId() {
+
+
+    public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }*/
+    }
 
 }
