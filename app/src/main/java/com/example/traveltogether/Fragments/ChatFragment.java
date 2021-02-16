@@ -101,6 +101,7 @@ public class ChatFragment extends Fragment {
                 usersList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
+                    assert chat != null;
                     if(chat.getSender().equals(fuser.getUid())){
                         usersList.add(chat.getReceiver());
 
@@ -132,14 +133,20 @@ public class ChatFragment extends Fragment {
 
                     // display 1 user from chats
                     for (String id: usersList){
-                        if(user.getId().equals(id)){
-                            if(mUsers.size()!=0){
+                        boolean inlist = false;
+                        assert user != null;
+                        if (user.getId().equals(id)){
+                            if (mUsers.size()!=0){
                                 for (User userl : mUsers){
-                                    if(!user.getId().equals(userl.getId())){
-                                        mUsers.add(user);
+                                    if(user.getId().equals(userl.getId())){
+                                        inlist = true;
                                     }
                                 }
-                            } else {
+                                if (inlist==false) {
+                                    mUsers.add(user);
+                                }
+                            }
+                            else {
                                 mUsers.add(user);
                             }
                         }
