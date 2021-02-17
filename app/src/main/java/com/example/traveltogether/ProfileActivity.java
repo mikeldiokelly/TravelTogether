@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.traveltogether.R;
-import com.example.traveltogether.*;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
+// todo: modify this activity to manage the profile page
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button logout,chat;
@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.profile_logout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.chat:
                 startActivity(new Intent(this, ChatActivity.class));

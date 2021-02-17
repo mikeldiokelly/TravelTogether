@@ -1,116 +1,87 @@
 package com.example.traveltogether;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.ui.AppBarConfiguration;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+//public class TestActivity extends AppCompatActivity {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_test);
+//    }
+//}
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity {
 
-    private Button login_register, login, forgot;
-    private EditText login_email, login_pass;
-
-    private FirebaseAuth mauth;
-    private ProgressBar loginBar;
+    private AppBarConfiguration mAppBarConfiguration;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_test);
+        auth = FirebaseAuth.getInstance();
 
-        login_register = (Button) findViewById(R.id.login_register);
-        login_register.setOnClickListener(this);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(this);
-
-        forgot = (Button) findViewById(R.id.forgot);
-        forgot.setOnClickListener(this);
-
-        login_email = (EditText) findViewById(R.id.login_email);
-        login_pass = (EditText) findViewById(R.id.login_password);
-        loginBar = (ProgressBar) findViewById(R.id.login_progressBar);
-
-        mauth = FirebaseAuth.getInstance();
-        if (mauth.getCurrentUser() != null) {
-            startActivity(new Intent(this, ProfileActivity.class));
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login_register:
-                startActivity(new Intent(this, RegisterUserActivity.class));
-                break;
-            case R.id.login:
-                User_login();
-                break;
-            case R.id.forgot:
-                startActivity(new Intent(this, ForgotPasswordActivity.class));
-                break;
-        }
-    }
-
-    private void User_login() {
-        String email = login_email.getText().toString().trim();
-        String password = login_pass.getText().toString().trim();
-
-        if (email.isEmpty()) {
-            login_email.setError("Please enter your email address.");
-            login_email.requestFocus();
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            login_email.setError("Please enter a valid email address.");
-            login_email.requestFocus();
-            return;
-        }
-        if (password.isEmpty()) {
-            login_pass.setError("Please enter a password.");
-            login_pass.requestFocus();
-            return;
-        }
-        if (password.length() < 6) {
-            login_pass.setError("Password must have at least 6 characters.");
-            login_pass.requestFocus();
-            return;
-        }
-        loginBar.setVisibility(View.VISIBLE);
-        mauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        //send
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    if (user.isEmailVerified()) {
-                        startActivity(new Intent(com.example.traveltogether.MainActivity.this, ProfileActivity.class));
-                        loginBar.setVisibility(View.GONE);
-                    }
-                    else {
-                        user.sendEmailVerification();
-                        Toast.makeText(com.example.traveltogether.MainActivity.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
-                        loginBar.setVisibility(View.GONE);
-                    }
-                }
-                else {
-                    Toast.makeText(com.example.traveltogether.MainActivity.this, "Login failed. Try again.", Toast.LENGTH_LONG).show();
-                    loginBar.setVisibility(View.GONE);
-                }
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this, ChatActivity.class));
             }
         });
+
+        // chat
+        FloatingActionButton logout = findViewById(R.id.main_logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home,R.id.nav_chat, R.id.nav_setting)
+                .setDrawerLayout(drawer)
+                .build();
+//                .setOpenableLayout(drawer).build();
+//
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView, navController);
     }
+
+
+
+    //    @Override
+//    public boolean onSupportNavigateUp() {
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+//                || super.onSupportNavigateUp();
+//    }
 }
