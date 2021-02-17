@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 
 public class ProfileFragment extends Fragment {
     ImageView image_profile;
-    TextView username;
+    TextView first, last, age;
 
     DatabaseReference dbr ;
     FirebaseUser fuser;
@@ -40,30 +40,36 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_profile, container, false);
 
-        image_profile = view.findViewById(R.id.prof_image);
-        username = view.findViewById(R.id.username);
+        image_profile = view.findViewById(R.id.profile_image);
+        first = view.findViewById(R.id.first);
+        last = view.findViewById(R.id.last);
+        age = view.findViewById(R.id.p_age);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-//        dbr = FirebaseDatabase.getInstance().getReference("User").child(fuser.getUid());
-//
-//        dbr.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-//                User user = datasnapshot.getValue(User.class);
-//                username.setText(user.getUsername());
-//                if(user.getImageURL().equals("default")){
-//                    Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
-//                    image_profile.setImageResource(R.mipmap.ic_launcher);
-//                }else{
-////                    Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        dbr = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+
+        dbr.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+                User user = datasnapshot.getValue(User.class);
+                if (user!=null) {
+                    first.setText(user.first_name);
+                    last.setText(user.last_name);
+                    age.setText(user.age + " years old");
+                    if (user.getImageURL().equals("default")) {
+                        Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
+                        image_profile.setImageResource(R.mipmap.ic_launcher);
+                    }
+                    else {
+                        Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return view;
     }
 }

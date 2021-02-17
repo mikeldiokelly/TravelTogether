@@ -17,24 +17,63 @@
                 android:text="Profile"
                 android:textColor="@color/design_default_color_primary_dark"
                 android:textStyle="bold"/>
+
             <ImageView
+                android:id="@+id/profile_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:id="@+id/profile_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="83dp"
+                android:layout_marginLeft="83dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_launcher" />
+
             <TextView
+                android:id="@+id/first"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="username"
                 android:layout_below="@id/profile_image"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="15dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="248dp"
+                android:layout_marginLeft="248dp"
+                android:layout_marginTop="-105dp"
+                android:text="first"
                 android:textColor="@color/design_default_color_primary_dark"
-                android:textStyle="bold"
-                android:id="@+id/username"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/p_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="249dp"
+                android:layout_marginLeft="249dp"
+                android:layout_marginTop="-64dp"
+                android:text="age"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/profile_image"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="337dp"
+                android:layout_marginLeft="337dp"
+                android:layout_marginTop="-104dp"
+                android:text="last"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
