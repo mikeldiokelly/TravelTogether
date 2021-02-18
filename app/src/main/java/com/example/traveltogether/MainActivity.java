@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.p2pButton:
                 startActivity(new Intent(this, PeerToPeer.class));
             case R.id.map:
-                startActivity(new Intent(this, MapsActivity.class));
+                startActivity(new Intent(this, LocateMe.class));
         }
     }
 
