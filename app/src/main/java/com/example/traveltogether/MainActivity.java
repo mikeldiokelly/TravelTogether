@@ -56,24 +56,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // chat
-        FloatingActionButton logout = findViewById(R.id.main_logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            }
-        });
+//        // chat
+//        FloatingActionButton logout = findViewById(R.id.main_logout);
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            }
+//        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_chat, R.id.nav_setting)
+                R.id.homeFragment,R.id.chatFragment, R.id.settingFragment)
 //                .setDrawerLayout(drawer)
 //                .build();
                 .setOpenableLayout(drawer).build();

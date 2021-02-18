@@ -22,8 +22,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new ChatFragment();
             case 1:
                 return new UsersFragment();
-            case 2:
-                return new ProfileFragment();
             default:
                 return new ChatFragment();
         }

@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment {
                     age.setText(user.age + " years old");
                     if (user.getImageURL().equals("default")) {
                         Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
-                        image_profile.setImageResource(R.mipmap.ic_launcher);
+                        image_profile.setImageResource(R.drawable.user_dp);
                     }
                     else {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);

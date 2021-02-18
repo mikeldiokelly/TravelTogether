@@ -5,22 +5,26 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/homeFragment">
 
-
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.traveltogether.Fragments.ProfileFragment"
+        android:label="My Account"
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.traveltogether.HomeFragment"
-        android:label="fragment_home"
+        android:label="Home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.traveltogether.Fragments.ChatFragment"
-        android:label="fragment_chat"
+        android:label="Chat"
         tools:layout="@layout/fragment_chat" />
     <fragment
-        android:id="@+id/mapsFragment2"
-        android:name="com.example.traveltogether.MapsFragment"
-        android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        android:id="@+id/settingFragment"
+        android:name="com.example.traveltogether.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 
 
 </navigation>
