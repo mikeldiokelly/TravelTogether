@@ -45,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_pass = (EditText) findViewById(R.id.login_password);
         loginBar = (ProgressBar) findViewById(R.id.login_progressBar);
 
+        Button p2pbtn = findViewById(R.id.realTime);
+        p2pbtn.setOnClickListener(this);
         mauth = FirebaseAuth.getInstance();
         if (mauth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
@@ -62,6 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.forgot:
                 startActivity(new Intent(this, ForgotPasswordActivity.class));
+                break;
+            case R.id.realTime:
+                startActivity(new Intent(this, WifiPeerToPeer.class));
                 break;
         }
     }
