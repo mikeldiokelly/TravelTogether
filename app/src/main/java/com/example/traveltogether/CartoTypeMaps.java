@@ -59,7 +59,7 @@ public class CartoTypeMaps extends AppCompatActivity {
 
         try
         {
-            map_file = getCopyOfFile("isle_of_wight.ctm1", "isle_of_wight.ctm1");
+            map_file = getCopyOfFile("map.ctm1", "map.ctm1");
             font_file = getCopyOfFile("DejaVuSans.ttf", "DejaVuSans.ttf");
             style_file = getCopyOfFile("standard.ctstyle", "standard.ctstyle");
         }
