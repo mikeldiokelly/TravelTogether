@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.NetworkInfo;
-import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.widget.Toast;
 
@@ -67,12 +66,12 @@ public class WifiPeerBroadcastReceiver extends BroadcastReceiver {
 
             NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
 
-            if(networkInfo.isConnected()){
-                wifiP2pManager.requestConnectionInfo(channel, wifiPeerToPeer.connectionInfoListener);
-            }
-            else {
-                wifiPeerToPeer.connectionStatus.setText("Device Disconnected");
-            }
+//            if(networkInfo.isConnected()){
+//                wifiP2pManager.requestConnectionInfo(channel, wifiPeerToPeer.connectionInfoListener);
+//            }
+//            else {
+//                wifiPeerToPeer.connectionStatus.setText("Device Disconnected");
+//            }
 
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
 //            DeviceListFragment fragment = (DeviceListFragment) activity.getFragmentManager()

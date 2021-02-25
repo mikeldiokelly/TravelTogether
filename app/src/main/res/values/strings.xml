@@ -8,4 +8,6 @@
     <string name="message">Message</string>
     <string name="send">Send</string>
     <string name="connection_status">Connection Status</string>
+    <string name="discovery_started">Discovery started ...</string>
+    <string name="discovery_not_started">can\'t start discovery services !</string>
 </resources>
