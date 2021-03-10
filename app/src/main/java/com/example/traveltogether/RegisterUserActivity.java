@@ -2,6 +2,7 @@ package com.example.traveltogether;
 import com.example.traveltogether.Model.*;
 
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mapbox.geojson.Point;
+import com.mapbox.mapboxsdk.location.LocationComponent;
 
 import java.util.HashMap;
 
@@ -26,9 +29,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button banner, register;
-    private EditText first_name, last_name, age, email, password;
+    private EditText first_name, last_name, age, email, password, gender, perm_residence;
+    private Point perm_res, curr_loc;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private LocationComponent locationComponent;
 
     DatabaseReference reference;
 
@@ -51,6 +56,12 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         email = (EditText) findViewById(R.id.email_address);
         password = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        gender = (EditText) findViewById(R.id.gender);
+        perm_residence = (EditText) findViewById(R.id.perm_residence);
+
+        curr_loc = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+                locationComponent.getLastKnownLocation().getLatitude());
+        perm_res = curr_loc;
     }
 
     @Override
@@ -68,6 +79,10 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         String r_age = age.getText().toString().trim();
         String r_email = email.getText().toString().trim();
         String r_pass = password.getText().toString().trim();
+        String r_gender = gender.getText().toString().trim();
+        String r_permRes = perm_residence.getText().toString().trim();
+        Point r_perm = perm_res;
+        Point r_curr = curr_loc;
 
 
         if (r_first.isEmpty()) {
@@ -113,7 +128,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                         if (task.isSuccessful()) {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             String userid = firebaseUser.getUid();
-                            User user = new User(r_first, r_last, r_age, r_email, userid);
+                            User user = new User(r_first, r_last, r_age, r_email, userid, r_gender, r_perm, r_curr);
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put("id", userid);
