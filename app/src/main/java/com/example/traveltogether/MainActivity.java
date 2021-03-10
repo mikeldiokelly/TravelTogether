@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mauth = FirebaseAuth.getInstance();
         if (mauth.getCurrentUser() != null) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, ChatActivity.class));
         }
     }
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     if (user.isEmailVerified()) {
-                        startActivity(new Intent(com.example.traveltogether.MainActivity.this, ProfileActivity.class));
+                        startActivity(new Intent(com.example.traveltogether.MainActivity.this, ChatActivity.class));
                         loginBar.setVisibility(View.GONE);
                     }
                     else {
