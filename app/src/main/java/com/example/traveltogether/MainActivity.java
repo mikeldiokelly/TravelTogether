@@ -22,7 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private Button login_register, login, forgot, p2p, map;
+    private Button login_register, login, forgot;
     private EditText login_email, login_pass;
 
     private FirebaseAuth mauth;
@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         login_pass = (EditText) findViewById(R.id.login_password);
         loginBar = (ProgressBar) findViewById(R.id.login_progressBar);
 
-        p2p = (Button) findViewById(R.id.p2pButton);
-        p2p.setOnClickListener(this);
-
-        map = (Button) findViewById(R.id.map);
-        map.setOnClickListener(this);
-
         mauth = FirebaseAuth.getInstance();
         if (mauth.getCurrentUser() != null) {
             startActivity(new Intent(this, ChatActivity.class));
@@ -76,10 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.forgot:
                 startActivity(new Intent(this, ForgotPasswordActivity.class));
                 break;
-            case R.id.p2pButton:
-                startActivity(new Intent(this, PeerToPeer.class));
-            case R.id.map:
-                startActivity(new Intent(this, LocateMe.class));
         }
     }
 

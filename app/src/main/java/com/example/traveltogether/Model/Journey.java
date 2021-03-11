@@ -10,25 +10,28 @@ import androidx.annotation.RequiresApi;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class Journey {
-    String Id;
+    int Id;
     List<User> Users;
-    Point Source, Destination;
-    LocalDate time;
-    Journey(String Id, List<User> Users, Point Source, Point Destination, LocalDate time){
+    List<Double> Source, Destination;
+    String time;
+    boolean repeatWeakly;
+
+    public Journey(int Id, List<User> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly){
         this.Id = Id;
         this.Destination = Destination;
         this.Source = Source;
         this.Users = Users;
         this.time = time;
+        this.repeatWeakly = repeatWeakly;
     }
     public void addUser(User user){ this.Users.add(user); }
-    public void setId(String Id){ this.Id = Id; }
+    public void setId(int Id){ this.Id = Id; }
     public void setUserList(List<User> Users){ this.Users = Users; }
-    public void setSource(Point Source){ this.Source = Source; }
-    public void setDestination(Point Destination){ this.Destination = Destination; }
+    public void setSource(List<Double> Source){ this.Source = Source; }
+    public void setDestination(List<Double> Destination){ this.Destination = Destination; }
 
-    public String getId(){ return Id; }
-    public Point getSource(){ return Source; }
-    public Point getDestination(){ return Destination; }
+    public int getId(){ return Id; }
+    public List<Double> getSource(){ return Source; }
+    public List<Double> getDestination(){ return Destination; }
     public List<User> getUserList(){ return Users; }
 }

@@ -2,6 +2,7 @@ package com.example.traveltogether;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
@@ -59,11 +60,14 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
     private PermissionsManager permissionsManager;
     private LocationComponent locationComponent;
     // variables for calculating and drawing a route
-    private DirectionsRoute currentRoute;
+    public static DirectionsRoute currentRoute;
+    public static Point source;                                                // TODO: need a better way to do this...!
+    public static Point endPoint;
     private static final String TAG = "DirectionsActivity";
+
     private NavigationMapRoute navigationMapRoute;
     // variables needed to initialize navigation
-    private Button button;
+    private Button button, createJourneyBtn;
 
 
     @Override
@@ -74,6 +78,14 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+        createJourneyBtn = findViewById(R.id.CreateJourneyBtn);
+        createJourneyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CreateCommute.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -141,6 +153,8 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void getRoute(Point origin, Point destination) {
+        source = origin;
+        endPoint = destination;
         NavigationRoute.builder(this)
                 .accessToken(Mapbox.getAccessToken())
                 .origin(origin)
@@ -160,6 +174,7 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
                         }
 
                         currentRoute = response.body().routes().get(0);
+
 
 // Draw the route on the map
                         if (navigationMapRoute != null) {
@@ -213,7 +228,6 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
             finish();
         }
     }
-
 
     @Override
     protected void onStart() {
