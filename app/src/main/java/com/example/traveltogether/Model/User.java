@@ -8,7 +8,6 @@ public class User {
     public String first_name, last_name, age, email, id;
     //private String id;
 
-
     public User() {
     }
 

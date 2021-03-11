@@ -74,6 +74,13 @@
 
     <TextView
         style="@style/viewParent.headerText.settingsTextIcon"
+        android:drawableLeft="@drawable/ic_edit_profile"
+        android:layout_marginTop="10dp"
+        android:text="Journey Preferences"
+        android:id="@+id/setting_userPreference"/>
+
+    <TextView
+        style="@style/viewParent.headerText.settingsTextIcon"
         android:drawableLeft="@drawable/ic_edit_password"
         android:layout_marginTop="10dp"
         android:text="Change Password" />

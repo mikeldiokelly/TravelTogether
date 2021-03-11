@@ -20,6 +20,7 @@ public class SettingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+
         TextView logout = (TextView) view.findViewById(R.id.setting_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +31,18 @@ public class SettingFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        TextView journeyPreference = (TextView) view.findViewById(R.id.setting_userPreference);
+        journeyPreference.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), preferenceActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
+
 }
