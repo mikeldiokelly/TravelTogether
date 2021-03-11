@@ -40,7 +40,7 @@ public class preferenceActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(preferenceActivity.this,"You select："+listGender.get(position),Toast.LENGTH_SHORT).show();
 
-                editor.putString("gender",listGender.get(position) );
+                editor.putString("genderpreference",listGender.get(position) );
             }
 
             @Override
@@ -59,7 +59,7 @@ public class preferenceActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(preferenceActivity.this,"You select："+listAge.get(position),Toast.LENGTH_SHORT).show();
-                editor.putString("age",listAge.get(position) );
+                editor.putString("agepreference",listAge.get(position) );
             }
 
             @Override
