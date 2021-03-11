@@ -2,10 +2,12 @@ package com.example.traveltogether;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ public class preferenceActivity extends AppCompatActivity {
     private Spinner spinnerGender, spinnerAge;
     ArrayAdapter<String> adapterGender, adapterAge;
     private List<String> listGender, listAge;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +32,15 @@ public class preferenceActivity extends AppCompatActivity {
         initGenderData();
         adapterGender=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listGender);
         spinnerGender.setAdapter(adapterGender);
+        SharedPreferences shrd= getSharedPreferences("prefernces", MODE_PRIVATE);
+        SharedPreferences.Editor editor= shrd.edit();
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(preferenceActivity.this,"You select："+listGender.get(position),Toast.LENGTH_SHORT).show();
+
+                editor.putString("gender",listGender.get(position) );
             }
 
             @Override
@@ -41,9 +49,6 @@ public class preferenceActivity extends AppCompatActivity {
             }
         });
 //
-
-
-
 
         spinnerAge = (Spinner) findViewById(R.id.spinnerAge);
         spinnerAge.setPrompt("Set your age preferences");
@@ -54,6 +59,7 @@ public class preferenceActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(preferenceActivity.this,"You select："+listAge.get(position),Toast.LENGTH_SHORT).show();
+                editor.putString("age",listAge.get(position) );
             }
 
             @Override
@@ -61,7 +67,6 @@ public class preferenceActivity extends AppCompatActivity {
 
             }
         });
-
 
 
 
