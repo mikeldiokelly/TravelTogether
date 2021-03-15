@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class JourneysFragment extends Fragment  {
-    Button create_journey;
+    Button create_journey, p2pBtn;
     DatabaseReference dbr ;
     FirebaseUser fuser;
 
@@ -49,6 +49,15 @@ public class JourneysFragment extends Fragment  {
                         startActivity(intent1);
                         break;
                 }
+            }
+        });
+
+        p2pBtn = (Button) view.findViewById(R.id.p2pBtn);
+        p2pBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        startActivity(new Intent(JourneysFragment.this.getActivity(), WifiPeerToPeer.class));
+
             }
         });
         return view;
