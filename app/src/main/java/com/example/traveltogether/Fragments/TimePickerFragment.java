@@ -2,22 +2,19 @@ package com.example.traveltogether.Fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.view.View;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.traveltogether.MainActivity;
+import com.example.traveltogether.Communicator.ItemViewModel;
 import com.example.traveltogether.Model.Journey;
 import com.example.traveltogether.Model.User;
-import com.example.traveltogether.RegisterUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +34,7 @@ public class TimePickerFragment extends DialogFragment
     private List<User> users;
 
     private FirebaseAuth mAuth;                 //TODO: organize
+    ItemViewModel viewModel;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,6 +43,10 @@ public class TimePickerFragment extends DialogFragment
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         mAuth = FirebaseAuth.getInstance();
+
+        // viewModel to communicate between fragments and activity
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
@@ -58,7 +60,12 @@ public class TimePickerFragment extends DialogFragment
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();  //TODO: get stuff from this user
         System.out.println(user);
 
-        Journey journey = new Journey(1, users, source.coordinates(), endPoint.coordinates(), journeyTime, true);
+
+        //sending into viewModel
+        viewModel.selectItem(journeyTime);
+
+
+        Journey journey = new Journey(1, users, source.coordinates(), endPoint.coordinates(), journeyTime, true, "");
         FirebaseDatabase.getInstance().getReference("Journeys")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .setValue(journey).addOnCompleteListener(new OnCompleteListener<Void>() {

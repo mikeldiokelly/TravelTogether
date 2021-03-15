@@ -14,16 +14,19 @@ public class Journey {
     List<User> Users;
     List<Double> Source, Destination;
     String time;
+    String transport;
     boolean repeatWeakly;
 
-    public Journey(int Id, List<User> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly){
+    public Journey(int Id, List<User> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport){
         this.Id = Id;
         this.Destination = Destination;
         this.Source = Source;
         this.Users = Users;
         this.time = time;
         this.repeatWeakly = repeatWeakly;
+        this.transport = transport;
     }
+
     public void addUser(User user){ this.Users.add(user); }
     public void setId(int Id){ this.Id = Id; }
     public void setUserList(List<User> Users){ this.Users = Users; }

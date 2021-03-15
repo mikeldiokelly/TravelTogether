@@ -271,4 +271,7 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
         mapView.onLowMemory();
     }
 
+    public static Point getSource() {
+        return source;
+    }
 }

@@ -45,8 +45,8 @@ import androidx.appcompat.app.AppCompatActivity;
 //    }
 //}
 
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+//public class MainActivity extends AppCompatActivity implements View.OnClickListener
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth auth;
