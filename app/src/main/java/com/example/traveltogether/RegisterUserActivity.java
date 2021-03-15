@@ -139,7 +139,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(RegisterUserActivity.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(RegisterUserActivity.this, MainActivity.class));
+                                        startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
                                         progressBar.setVisibility(View.GONE);
                                     }
                                     else {

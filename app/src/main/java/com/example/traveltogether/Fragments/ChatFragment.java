@@ -143,6 +143,7 @@ public class ChatFragment extends Fragment {
                                     }
                                 }
                                 if (inlist==false) {
+                                    //if not already added
                                     mUsers.add(user);
                                 }
                             }
