@@ -16,9 +16,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        TabLayout chat_tab = findViewById(R.id.chat_tab);
+        TabLayout chat_tab = findViewById(R.id.main_tab);
         TabItem chats = findViewById(R.id.chat);
-        TabItem chat_users = findViewById(R.id.chat_users);
+        TabItem journeys = findViewById(R.id.journeys);
+        TabItem profile = findViewById(R.id.profile_tab);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
         PagerAdapter pagerAdapter = new

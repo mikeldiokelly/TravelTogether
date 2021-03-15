@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.traveltogether.HomeFragment"
+        android:name="com.example.traveltogether.Fragments.JourneysFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_journeys" />
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.traveltogether.Fragments.ChatFragment"
