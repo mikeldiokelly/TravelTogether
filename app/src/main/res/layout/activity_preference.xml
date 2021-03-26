@@ -26,6 +26,7 @@
             tools:layout_editor_absoluteY="128dp" />
         <TextView
             style="@style/viewParent.headerText.settingsMiniTitle"
+            android:id="@+id/textGender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Age"/>

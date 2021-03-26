@@ -163,7 +163,7 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                        // You can get the generic HTTP info about the response
                         Log.d(TAG, "Response code: " + response.code());
                         if (response.body() == null) {
                             Log.e(TAG, "No routes found, make sure you set the right user and access token.");
@@ -172,11 +172,9 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
                             Log.e(TAG, "No routes found");
                             return;
                         }
-
                         currentRoute = response.body().routes().get(0);
 
-
-// Draw the route on the map
+                        // Draw the route on the map
                         if (navigationMapRoute != null) {
                             navigationMapRoute.removeRoute();
                         } else {
@@ -191,6 +189,7 @@ public class CreateJourneyActivity extends AppCompatActivity implements OnMapRea
                     }
                 });
     }
+
 
     @SuppressWarnings( {"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {

@@ -12,32 +12,32 @@
         mapbox:mapbox_cameraTargetLng="-77.0295"
         mapbox:mapbox_cameraZoom="12" />
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/mapboxGrayLight"
-        android:enabled="false"
-        android:text="Start navigation"
-        android:textColor="@color/mapboxWhite"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/startButton"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:background="@color/mapboxGrayLight"-->
+<!--        android:enabled="false"-->
+<!--        android:text="Start navigation"-->
+<!--        android:textColor="@color/mapboxWhite"-->
+<!--        mapbox:layout_constraintStart_toStartOf="parent"-->
+<!--        mapbox:layout_constraintTop_toTopOf="parent" />-->
 
-    <Button
-        android:id="@+id/CreateJourneyBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/mapboxGrayLight"
-        android:text="Create Journey"
-        android:textColor="@color/mapboxWhite"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/CreateJourneyBtn"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        android:layout_marginTop="80dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:background="@color/mapboxGrayLight"-->
+<!--        android:text="Create Journey"-->
+<!--        android:textColor="@color/mapboxWhite"-->
+<!--        mapbox:layout_constraintStart_toStartOf="parent"-->
+<!--        mapbox:layout_constraintTop_toTopOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
