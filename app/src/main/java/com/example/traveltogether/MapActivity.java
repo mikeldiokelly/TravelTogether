@@ -52,18 +52,20 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
         // variables for adding location layer
         private MapView mapView;
-        private MapboxMap mapboxMap;
+    private MapboxMap mapboxMap;
 
-        // variables for adding location layer
-        private PermissionsManager permissionsManager;
-        private LocationComponent locationComponent;
-        // variables for calculating and drawing a route
-        public static DirectionsRoute currentRoute;
-        public static Point source;
-        private static final String TAG = "DirectionsActivity";
+    // variables for adding location layer
+    private PermissionsManager permissionsManager;
+    private LocationComponent locationComponent;
+    // variables for calculating and drawing a route
+    public static DirectionsRoute currentRoute;
+    public static Point source;                                                // TODO: need a better way to do this...!
+    public static Point endPoint;
+    private static final String TAG = "DirectionsActivity";
 
-        // variables needed to initialize navigation
-        private Button button, createJourneyBtn;
+    private NavigationMapRoute navigationMapRoute;
+    // variables needed to initialize navigation
+    private Button button, createJourneyBtn;
 
 
         @Override
