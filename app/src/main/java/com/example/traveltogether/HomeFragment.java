@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
 
     private NavigationMapRoute navigationMapRoute;
     // variables needed to initialize navigation
-    private Button button, createJourneyBtn;
+    private Button button, createJourneyBtn, createCommuteBtn;
 
     public HomeFragment() { }
 
@@ -130,11 +130,18 @@ public class HomeFragment extends Fragment {
         createJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), CreateCommute.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getContext(), CreateJourneyActivity.class);
+                startActivity(intent);
             }
         });
-
+        createCommuteBtn = view.findViewById(R.id.CreateCommuteBtn);
+        createCommuteBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CreateCommuteActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
