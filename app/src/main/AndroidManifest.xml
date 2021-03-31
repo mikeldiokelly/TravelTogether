@@ -17,12 +17,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <!-- You don't need to include android:required="false" if your app's
-         minSdkVersion is 28 or higher. -->
-        <uses-library android:name="android.test.runner"
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map"
+            android:theme="@style/NoActionBar"></activity>
+        <!--
+         You don't need to include android:required="false" if your app's
+         minSdkVersion is 28 or higher.
+        -->
+        <uses-library
+            android:name="android.test.runner"
             android:required="false" />
 
-        <activity android:name=".WifiPeerToPeer"></activity>
+        <activity android:name=".WifiPeerToPeer" />
         <activity android:name=".PreferenceActivity" /> <!-- android:theme="@style/Theme.AppCompat.DayNight"> -->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -38,8 +45,7 @@
         <activity android:name=".CreateJourneyActivity" />
         <activity android:name=".ForgotPasswordActivity" />
         <activity android:name=".RegisterUserActivity" />
-        <activity android:name=".MainActivity" />
-        <!--  <activity android:name=".MainActivity"> -->
+        <activity android:name=".MainActivity" /> <!-- <activity android:name=".MainActivity"> -->
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

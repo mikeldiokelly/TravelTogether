@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.traveltogether.Communicator.ItemViewModel;
+import com.example.traveltogether.Fragments.TimePickerFragment;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -55,6 +57,7 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
  */
 public class CreateJourneyActivity extends AppCompatActivity {
     public ItemViewModel viewModel;
+    private Button src_btn, dest_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +69,16 @@ public class CreateJourneyActivity extends AppCompatActivity {
             System.out.println("heres our item !!!!!!!!!!!!!!!!!!!!!!");
             System.out.println(item);
         });
-        setContentView(R.layout.activity_create_commute2);
+        setContentView(R.layout.activity_create_journey);
 
-        System.out.println("in new activity ...........!!!!!!!!!!!!!!");
-//        System.out.println(source);
-//        System.out.println(endPoint);
+        src_btn= findViewById(R.id.srcBtn);
+        dest_btn= findViewById(R.id.destBtn);
+
+
+    }
+    public void showTimePickerDialog(View view) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
 
