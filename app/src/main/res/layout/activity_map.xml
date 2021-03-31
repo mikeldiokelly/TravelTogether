@@ -23,6 +23,11 @@
         mapbox:mapbox_cameraZoom="12" >
 
 
+        <Button
+            android:id="@+id/confirmSrcBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm" />
     </com.mapbox.mapboxsdk.maps.MapView>
 
 </FrameLayout>

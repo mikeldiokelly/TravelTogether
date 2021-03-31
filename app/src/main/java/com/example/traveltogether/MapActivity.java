@@ -2,7 +2,9 @@ package com.example.traveltogether;
 //see
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
@@ -65,7 +67,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private NavigationMapRoute navigationMapRoute;
     // variables needed to initialize navigation
-    private Button button, createJourneyBtn;
+    private Button button;
 
 
         @Override
@@ -76,8 +78,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView = findViewById(R.id.mapView2);
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(this);
-
+            button = findViewById(R.id.confirmSrcBtn);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent _result = new Intent();
+                    _result.setData(Uri.parse(endPoint.toString()));
+                    setResult(Activity.RESULT_OK, _result);
+                    finish();
+                }
+            });
         }
+
+
 
         @Override
         public void onMapReady(@NonNull final MapboxMap mapboxMap) {
@@ -91,19 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     addDestinationIconSymbolLayer(style);
 
                     mapboxMap.addOnMapClickListener(MapActivity.this);
-                    button = findViewById(R.id.startButton);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            boolean simulateRoute = true;
-                            NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                                    .directionsRoute(currentRoute)
-                                    .shouldSimulateRoute(simulateRoute)
-                                    .build();
-// Call this method with Context from within an Activity
-                            NavigationLauncher.startNavigation(MapActivity.this, options);
-                        }
-                    });
+
                 }
 
             });
@@ -127,18 +128,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         @SuppressWarnings( {"MissingPermission"})
         @Override
         public boolean onMapClick(@NonNull LatLng point) {
-
-            Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-            Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                    locationComponent.getLastKnownLocation().getLatitude());
-
-            GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-            if (source != null) {
-                source.setGeoJson(Feature.fromGeometry(destinationPoint));
-            }
-
-            button.setEnabled(true);
-            button.setBackgroundResource(R.color.mapboxBlue);
+            endPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
             return true;
         }
 
