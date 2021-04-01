@@ -2,12 +2,14 @@ package com.example.traveltogether;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,34 +54,82 @@ import android.util.Log;
 
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 
+import org.w3c.dom.Text;
+
+
 /**
  * Display {@link SymbolLayer} icons on the map.
  */
 public class CreateJourneyActivity extends AppCompatActivity {
     public ItemViewModel viewModel;
     private Button src_btn, dest_btn;
+    static final  int SRC_MAPACTIVITY = 1;
+    static final  int DEST_MAPACTIVITY = 2;
+    TextView srcLocation, destLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-
-        // viewModel listeners
         viewModel.getSelectedItem().observe(this, item -> {
             System.out.println("heres our item !!!!!!!!!!!!!!!!!!!!!!");
             System.out.println(item);
         });
         setContentView(R.layout.activity_create_journey);
 
-        src_btn= findViewById(R.id.srcBtn);
-        dest_btn= findViewById(R.id.destBtn);
+        srcLocation = (TextView)findViewById(R.id.srcLoc);
+        destLocation = (TextView)findViewById(R.id.destLoc);
 
+
+        src_btn= findViewById(R.id.srcBtn);
+        src_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateJourneyActivity.this, MapActivity.class);
+                startActivityForResult(intent, SRC_MAPACTIVITY);
+            }
+        });
+        dest_btn= findViewById(R.id.destBtn);
+        dest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateJourneyActivity.this, MapActivity.class);
+                startActivityForResult(intent, DEST_MAPACTIVITY);
+            }
+        });
 
     }
     public void showTimePickerDialog(View view) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (SRC_MAPACTIVITY) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String returnValue = data.getStringExtra("loc");
+                    System.out.println("HAHAHA "+returnValue);
+                    srcLocation.setText(returnValue);
+                }
+                break;
+            }
+            case (DEST_MAPACTIVITY) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String returnValue = data.getStringExtra("loc");
+                    System.out.println("HAHAHA "+returnValue);
+                    destLocation.setText(returnValue);
+                }
+                break;
+            }
+        }
+    }
+
+
+
+
 
 
 }

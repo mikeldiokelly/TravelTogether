@@ -83,7 +83,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 @Override
                 public void onClick(View v) {
                     Intent _result = new Intent();
-                    _result.setData(Uri.parse(endPoint.toString()));
+//                    _result.setData(Uri.parse(endPoint.toString()));
+                    _result.putExtra("loc",endPoint.toString());
                     setResult(Activity.RESULT_OK, _result);
                     finish();
                 }
