@@ -113,6 +113,8 @@ public class CreateJourneyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 writeNewLoc("1236",souceLatLong,destLatLong);
                 System.out.println("send");
+                startActivity(new Intent(CreateJourneyActivity.this, SearchResultActivity.class));
+                System.out.println("wiwi");
 
             }
         });
