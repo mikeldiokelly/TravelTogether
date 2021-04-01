@@ -53,3 +53,11 @@ steps:
     apksignerKeystoreAlias: 'key'
     apksignerKeyPassword: 'traveltogether'
 
+- task: AppCenterDistribute@3
+  inputs:
+    serverEndpoint: 'AppCenter'
+    appSlug: 'SINGHP1-tcd.ie/Travel-Together'
+    appFile: '/Users/runner/work/1/s/app/build/outputs/apk/debug/app-debug.apk'
+    releaseNotesOption: 'input'
+    releaseNotesInput: '-'
+    destinationType: 'groups'
