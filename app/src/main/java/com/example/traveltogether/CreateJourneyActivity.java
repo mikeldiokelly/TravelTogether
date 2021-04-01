@@ -113,6 +113,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 writeNewLoc("123",souceLatLong,destLatLong);
                 System.out.println("send");
+
             }
         });
 
