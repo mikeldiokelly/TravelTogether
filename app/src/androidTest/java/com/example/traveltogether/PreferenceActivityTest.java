@@ -1,10 +1,12 @@
 package com.example.traveltogether;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.traveltogether.Model.Preferences;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -18,6 +20,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
+@RunWith(AndroidJUnit4.class)
 public class PreferenceActivityTest {
 
 
@@ -32,7 +35,7 @@ public class PreferenceActivityTest {
         onData(allOf(is(instanceOf(String.class)), is(selection))).perform(click());
         onView(withId(R.id.spinnerGender)).check(matches(withSpinnerText(selection)));
 
-        onView(withText("Agessss")).check(matches(isDisplayed()));
+        onView(withText("Age")).check(matches(isDisplayed()));
         onView(withId(R.id.spinnerAge)).perform(click());
         selection = Preferences.listAge.get(0);
         onData(allOf(is(instanceOf(String.class)), is(selection))).perform(click());
