@@ -66,7 +66,7 @@ import org.w3c.dom.Text;
  */
 public class CreateJourneyActivity extends AppCompatActivity {
     public ItemViewModel viewModel;
-    private Button src_btn, dest_btn;
+    private Button src_btn, dest_btn, send_btn;
     static final  int SRC_MAPACTIVITY = 1;
     static final  int DEST_MAPACTIVITY = 2;
     TextView srcLocation, destLocation;
@@ -106,6 +106,15 @@ public class CreateJourneyActivity extends AppCompatActivity {
         });
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        send_btn= findViewById(R.id.send);
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                writeNewLoc("123",souceLatLong,destLatLong);
+                System.out.println("send");
+            }
+        });
 
     }
     public void showTimePickerDialog(View view) {
@@ -162,7 +171,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
         Location user = new Location(source, destination);
 
         mDatabase.child("locations").child(locId).setValue(user);
-        mDatabase.child("locations").child(locId).child("long_lat").setValue(souceLatLong);
+        mDatabase.child("locations").child(locId).child("source").setValue(souceLatLong);
+        mDatabase.child("locations").child(locId).child("destination").setValue(destLatLong);
+
     }
 
 
