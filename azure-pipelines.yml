@@ -48,6 +48,8 @@ steps:
   inputs:
     apkFiles: '**/*.apk'
     apksignerKeystoreFile: 'keystore.jks'
+    zipalign: false
     apksignerKeystorePassword: 'traveltogether'
     apksignerKeystoreAlias: 'key'
     apksignerKeyPassword: 'traveltogether'
+
