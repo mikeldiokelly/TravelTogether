@@ -18,6 +18,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.traveltogether.Communicator.ItemViewModel;
 import com.example.traveltogether.Fragments.TimePickerFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -66,6 +70,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
     static final  int SRC_MAPACTIVITY = 1;
     static final  int DEST_MAPACTIVITY = 2;
     TextView srcLocation, destLocation;
+    private DatabaseReference mDatabase;
+
+    private  String souceLatLong, destLatLong;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +105,30 @@ public class CreateJourneyActivity extends AppCompatActivity {
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
     }
     public void showTimePickerDialog(View view) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
+    @IgnoreExtraProperties
+    public class Location {
+
+        public String source;
+        public String destination;
+
+        public Location() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public Location(String source, String destination) {
+            this.source = source;
+            this.destination = destination;
+        }
+
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -112,7 +138,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnValue = data.getStringExtra("loc");
                     System.out.println("HAHAHA "+returnValue);
-                    srcLocation.setText(returnValue);
+                    souceLatLong=returnValue.substring(42,returnValue.length()-2);
+                    System.out.println("WOW "+souceLatLong);
+                    srcLocation.setText(souceLatLong);
                 }
                 break;
             }
@@ -120,13 +148,22 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnValue = data.getStringExtra("loc");
                     System.out.println("HAHAHA "+returnValue);
-                    destLocation.setText(returnValue);
+                    destLatLong=returnValue.substring(42,returnValue.length()-2);
+                    System.out.println("WOW "+souceLatLong);
+                    destLocation.setText(destLatLong);
                 }
                 break;
             }
         }
+
     }
 
+    public void writeNewLoc(String locId, String source, String destination) {
+        Location user = new Location(source, destination);
+
+        mDatabase.child("locations").child(locId).setValue(user);
+        mDatabase.child("locations").child(locId).child("long_lat").setValue(souceLatLong);
+    }
 
 
 

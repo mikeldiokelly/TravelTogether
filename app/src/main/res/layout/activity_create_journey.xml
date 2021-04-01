@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CreateJourneyActivity">
 
-
     <Button
         android:id="@+id/srcBtn"
         android:layout_width="wrap_content"
@@ -17,7 +16,6 @@
         android:text="Src"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/destBtn"
         android:layout_width="wrap_content"
@@ -28,7 +26,6 @@
         android:text="Dest"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button4"
         android:layout_width="163dp"
@@ -39,7 +36,6 @@
         android:text="TimePicker (for now)"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/srcLoc"
         android:layout_width="wrap_content"
@@ -50,7 +46,6 @@
         android:text="src location"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/destLoc"
         android:layout_width="wrap_content"
