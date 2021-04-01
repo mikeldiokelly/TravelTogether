@@ -7,6 +7,7 @@
     tools:context=".SearchResultActivity">
 
     <ListView
+        android:id="@+id/list1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="229dp"

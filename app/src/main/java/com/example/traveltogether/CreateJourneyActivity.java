@@ -111,7 +111,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewLoc("123",souceLatLong,destLatLong);
+                writeNewLoc("1236",souceLatLong,destLatLong);
                 System.out.println("send");
 
             }
