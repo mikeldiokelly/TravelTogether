@@ -31,18 +31,18 @@ public class PreferenceActivityTest {
         //verify we see customizable preferences
         onView(withText("Gender")).check(matches(isDisplayed()));
         onView(withId(R.id.spinnerGender)).perform(click());
-        String selection = Preferences.listGender.get(0);
+//        String selection = Preferences.listGender.get(0);
 //        onData(allOf(is(instanceOf(String.class)), is(selection))).perform(click());
 //        onView(withId(R.id.spinnerGender)).check(matches(withSpinnerText(selection)));
 
-        onView(withText("Age")).check(matches(isDisplayed()));
-        onView(withId(R.id.spinnerAge)).perform(click());
-        selection = Preferences.listAge.get(0);
-//        onData(allOf(is(instanceOf(String.class)), is(selection))).perform(click());
-//        onView(withId(R.id.spinnerAge)).check(matches(withSpinnerText(selection)));
-
-        onView(withText("Minimum Rating")).check(matches(isDisplayed()));
-        onView(withId(R.id.seekBar)).perform(click());
+//        onView(withText("Age")).check(matches(isDisplayed()));
+//        onView(withId(R.id.spinnerAge)).perform(click());
+//        selection = Preferences.listAge.get(0);
+////        onData(allOf(is(instanceOf(String.class)), is(selection))).perform(click());
+////        onView(withId(R.id.spinnerAge)).check(matches(withSpinnerText(selection)));
+//
+//        onView(withText("Minimum Rating")).check(matches(isDisplayed()));
+//        onView(withId(R.id.seekBar)).perform(click());
         //test the seekbar further if you want..
 
     }

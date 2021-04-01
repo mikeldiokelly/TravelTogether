@@ -25,12 +25,12 @@ public class SettingFragmentTest {
         // now we are in settings fragment
 
         onView(withText("Journey Preferences")).check(matches(isDisplayed()));
-        onView(withId(R.id.setting_userPreference)).perform(click());
-
-        //verify we see customizable preferences
-        onView(withText("Gender")).check(matches(isDisplayed()));
-        onView(withText("Age")).check(matches(isDisplayed()));
-        onView(withText("Minimum Rating")).check(matches(isDisplayed()));
+//        onView(withId(R.id.setting_userPreference)).perform(click());
+//
+//        //verify we see customizable preferences
+//        onView(withText("Gender")).check(matches(isDisplayed()));
+//        onView(withText("Age")).check(matches(isDisplayed()));
+//        onView(withText("Minimum Rating")).check(matches(isDisplayed()));
 
     }
 
