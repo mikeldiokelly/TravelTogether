@@ -22,7 +22,7 @@ public class PreferenceActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterGender, adapterAge;
     private final List<String> listGender = Preferences.listGender;
     private final List<String> listAge = Preferences.listAge;
-    SharedPreferences sharedPreferences;
+//    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
