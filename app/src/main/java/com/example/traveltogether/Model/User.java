@@ -3,6 +3,7 @@ package com.example.traveltogether.Model;
 import com.example.traveltogether.R;
 import com.example.traveltogether.*;
 import com.google.android.gms.common.internal.Objects;
+import com.google.firebase.auth.FirebaseUser;
 import com.mapbox.geojson.Point;
 
 public class User {
@@ -13,7 +14,9 @@ public class User {
 
     public User() {
     }
-
+    public User(FirebaseUser fu){
+        // todo: init User from FirebaseUser
+    }
     public User(String first_name, String last_name, String age, String email, String id, String gender, com.mapbox.geojson.Point perm_res, com.mapbox.geojson.Point curr_loc) {
         this.first_name = first_name;
         this.last_name = last_name;
@@ -28,7 +31,7 @@ public class User {
     public String getUsername(){
         return this.first_name;
     }
-
+    public void setUsername(String name){ this.first_name = name;}
     public String getId() {
         return id;
     }
@@ -40,4 +43,5 @@ public class User {
     public String getImageURL() {
         return "default";
     }
+
 }

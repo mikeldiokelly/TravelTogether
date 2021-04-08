@@ -175,17 +175,11 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
 
     public void writeNewLoc(String locId, String source, String destination) {
-        Location user = new Location(source, destination);
-
-        mDatabase.child("locations").child(locId).setValue(user);
-        mDatabase.child("locations").child(locId).child("source").setValue(souceLatLong);
-        mDatabase.child("locations").child(locId).child("destination").setValue(destLatLong);
-
-
 
         FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
         List<String> users = new ArrayList();
         users.add(userN.getUid());
+
         List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
         Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
         String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);

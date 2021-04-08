@@ -2,11 +2,19 @@ package com.example.traveltogether;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.traveltogether.Adapter.JourneyAdapter;
+import com.example.traveltogether.Adapter.UserAdapter;
+import com.example.traveltogether.Model.Chat;
+import com.example.traveltogether.Model.Journey;
+import com.example.traveltogether.Model.User;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -14,28 +22,44 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultActivity extends AppCompatActivity {
 
-    private ListView listView;
+    private RecyclerView recyclerView;
+    private JourneyAdapter journeyAdapter;
+    private List<Journey> mJourneys;
+
+    FirebaseUser fuser;
+    DatabaseReference reference;
+
+//    private List<String> usersList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        listView=findViewById(R.id.list1);
-        ArrayList<String> list= new ArrayList<>();
-        ArrayAdapter adapter= new ArrayAdapter<String>(this,R.layout.list_item,list);
-        listView.setAdapter(adapter);
+        recyclerView=findViewById(R.id.list1);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("locations");
+        mJourneys = new ArrayList<>();
+//        ArrayList<String> list= new ArrayList<>();
+//        ArrayAdapter adapter= new ArrayAdapter<String>(this,R.layout.journey_item,list);
+//        recyclerView.setAdapter(adapter);
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Journeys");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
-                    list.add(snapshot1.getValue().toString());
+                    Journey j = snapshot1.getValue(Journey.class);
+                    mJourneys.add(j);
                 }
-                adapter.notifyDataSetChanged();
+                journeyAdapter = new JourneyAdapter(SearchResultActivity.this,mJourneys);
+                recyclerView.setAdapter(journeyAdapter);
             }
 
             @Override

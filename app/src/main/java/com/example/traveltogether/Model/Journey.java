@@ -8,7 +8,7 @@ import java.util.List;
 
 import androidx.annotation.RequiresApi;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
+//@RequiresApi(api = Build.VERSION_CODES.O)
 public class Journey {
     int Id;
     List<String> Users;
@@ -17,7 +17,10 @@ public class Journey {
     String transport;
     boolean repeatWeakly;
 
+    public Journey() {
+    }
     public Journey(int Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport){
+
         this.Id = Id;
         this.Destination = Destination;
         this.Source = Source;
@@ -27,7 +30,7 @@ public class Journey {
         this.transport = transport;
     }
 
-    public void addUser(String userId){ this.Users.add(userId); }
+    public void addUser(String user){ this.Users.add(user); }
     public void setId(int Id){ this.Id = Id; }
     public void setUserList(List<String> Users){ this.Users = Users; }
     public void setSource(List<Double> Source){ this.Source = Source; }
@@ -37,4 +40,8 @@ public class Journey {
     public List<Double> getSource(){ return Source; }
     public List<Double> getDestination(){ return Destination; }
     public List<String> getUserList(){ return Users; }
+
+    public String getFirstUser() {
+        return Users.get(0);
+    }
 }
