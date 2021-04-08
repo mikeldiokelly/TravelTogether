@@ -92,8 +92,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
         src_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CreateJourneyActivity.this, MapActivity.class);
-                startActivityForResult(intent, SRC_MAPACTIVITY);
+                Intent intent = new Intent(CreateJourneyActivity.this, LocationPickerActivity.class);
+//                startActivityForResult(intent, SRC_MAPACTIVITY);
+                startActivity(intent);
             }
         });
         dest_btn= findViewById(R.id.destBtn);
@@ -150,7 +151,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnValue = data.getStringExtra("loc");
                     System.out.println("HAHAHA "+returnValue);
+//                    double source_lat = MapActivity.source.latitude();
                     souceLatLong=returnValue.substring(42,returnValue.length()-2);
+
                     System.out.println("WOW "+souceLatLong);
                     srcLocation.setText(souceLatLong);
                 }
