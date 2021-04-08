@@ -1,9 +1,11 @@
 package com.example.traveltogether;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
@@ -18,7 +20,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.traveltogether.Communicator.ItemViewModel;
 import com.example.traveltogether.Fragments.TimePickerFragment;
+import com.example.traveltogether.Model.Journey;
+import com.example.traveltogether.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -149,9 +156,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
             case (SRC_MAPACTIVITY) : {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnValue = data.getStringExtra("loc");
-                    System.out.println("HAHAHA "+returnValue);
                     souceLatLong=returnValue.substring(42,returnValue.length()-2);
-                    System.out.println("WOW "+souceLatLong);
                     srcLocation.setText(souceLatLong);
                 }
                 break;
@@ -159,9 +164,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
             case (DEST_MAPACTIVITY) : {
                 if (resultCode == Activity.RESULT_OK) {
                     String returnValue = data.getStringExtra("loc");
-                    System.out.println("HAHAHA "+returnValue);
                     destLatLong=returnValue.substring(42,returnValue.length()-2);
-                    System.out.println("WOW "+souceLatLong);
                     destLocation.setText(destLatLong);
                 }
                 break;
@@ -170,6 +173,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
     }
 
+
     public void writeNewLoc(String locId, String source, String destination) {
         Location user = new Location(source, destination);
 
@@ -177,6 +181,41 @@ public class CreateJourneyActivity extends AppCompatActivity {
         mDatabase.child("locations").child(locId).child("source").setValue(souceLatLong);
         mDatabase.child("locations").child(locId).child("destination").setValue(destLatLong);
 
+
+
+        FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
+        List<String> users = new ArrayList();
+        users.add(userN.getUid());
+        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
+        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
+        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
+        Double srcLat = Double.parseDouble( temp);
+        System.out.println(srcLong);
+        System.out.println(srcLat);
+        src.add(srcLong);src.add(srcLat);
+        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
+        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
+        dest.add(destLong);dest.add(destLat);
+        System.out.println(destLong);
+        System.out.println(destLat);
+
+        Journey journey = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            journey = new Journey(1, users, src, dest ,"journeyTime", true, "");
+        }
+        FirebaseDatabase.getInstance().getReference("Journeys")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .setValue(journey).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    System.out.println("done");
+                }
+                else {
+                    System.out.println("......");
+                }
+            }
+        });
     }
 
 
