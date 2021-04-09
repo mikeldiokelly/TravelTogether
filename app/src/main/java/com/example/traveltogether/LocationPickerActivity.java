@@ -1,7 +1,9 @@
 package com.example.traveltogether;
 
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import retrofit2.Call;
@@ -65,9 +68,10 @@ public class LocationPickerActivity extends AppCompatActivity implements Permiss
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        // Mapbox access token is configured here. This needs to be called either in your application
+            // Mapbox access token is configured here. This needs to be called either in your application
         // object or in the same activity which contains the mapview.
         Mapbox.getInstance(this, getString(R.string.access_token));
 
@@ -78,6 +82,50 @@ public class LocationPickerActivity extends AppCompatActivity implements Permiss
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+    }
+
+    private void searchForLocation(String location){
+        MapboxGeocoding mapboxGeocoding = MapboxGeocoding.builder()
+                .accessToken(getString(R.string.access_token))
+                .query(location)
+                .build();
+
+        //.proximity()
+        //
+
+        mapboxGeocoding.enqueueCall(new Callback<GeocodingResponse>() {
+            private static final String TAG = "SEARCH_LOCATION";
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+
+                List<CarmenFeature> results = response.body().features();
+
+                if (results.size() > 0) {
+
+                    // Log the first results Point.
+                    Point firstResultPoint = results.get(0).center();
+                    System.out.println(results);
+                    for(CarmenFeature r : results){
+                        Log.d(TAG, "onResponse: " + r.placeName().toString()); // put this in a list
+
+                    }
+                    Log.d(TAG, "onResponse: " + results.toString());
+
+                } else {
+
+                    // No result for your request were found.
+                    Log.d(TAG, "onResponse: No result found");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeocodingResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
