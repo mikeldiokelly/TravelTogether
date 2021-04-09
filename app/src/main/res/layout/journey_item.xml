@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/journey_username"
         android:text="username"
-        android:textSize="34sp"
+        android:textSize="14sp"
         android:layout_width="263dp"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"

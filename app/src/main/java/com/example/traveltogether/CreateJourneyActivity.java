@@ -119,9 +119,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 writeNewLoc("1236",souceLatLong,destLatLong);
-                System.out.println("send");
                 startActivity(new Intent(CreateJourneyActivity.this, SearchResultActivity.class));
-                System.out.println("wiwi");
 
             }
         });
@@ -193,10 +191,8 @@ public class CreateJourneyActivity extends AppCompatActivity {
         System.out.println(destLong);
         System.out.println(destLat);
 
-        Journey journey = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            journey = new Journey(1, users, src, dest ,"journeyTime", true, "");
-        }
+        Journey journey = new Journey(1, users, src, dest ,"journeyTime", true, "");
+
         FirebaseDatabase.getInstance().getReference("Journeys")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .setValue(journey).addOnCompleteListener(new OnCompleteListener<Void>() {

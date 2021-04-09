@@ -44,4 +44,5 @@ public class Journey {
     public String getFirstUser() {
         return Users.get(0);
     }
+
 }
