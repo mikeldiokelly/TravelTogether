@@ -61,8 +61,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LocationComponent locationComponent;
     // variables for calculating and drawing a route
     public static DirectionsRoute currentRoute;
-    public static Point source;                                                // TODO: need a better way to do this...!
-    public static Point endPoint;
+    public  Point source;                                                // TODO: need a better way to do this...!
+    public  Point endPoint;
     private static final String TAG = "DirectionsActivity";
 
     private NavigationMapRoute navigationMapRoute;
@@ -101,9 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 @Override
                 public void onStyleLoaded(@NonNull Style style) {
                     enableLocationComponent(style);
-
                     addDestinationIconSymbolLayer(style);
-
                     mapboxMap.addOnMapClickListener(MapActivity.this);
 
                 }
@@ -214,7 +212,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView.onLowMemory();
         }
 
-        public static Point getSource() {
+        public  Point getSource() {
             return source;
         }
     }

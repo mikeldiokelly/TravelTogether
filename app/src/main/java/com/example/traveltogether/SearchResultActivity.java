@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.traveltogether.Adapter.JourneyAdapter;
@@ -32,6 +35,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     FirebaseUser fuser;
     DatabaseReference reference;
+    Button returnToHomeBtn;
 
 //    private List<String> usersList;
 
@@ -67,5 +71,17 @@ public class SearchResultActivity extends AppCompatActivity {
 
             }
         });
+
+
+        returnToHomeBtn = findViewById(R.id.returnToHomeBtn);
+        returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 }

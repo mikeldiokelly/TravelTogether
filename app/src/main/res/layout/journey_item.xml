@@ -11,22 +11,32 @@
         android:layout_height="64dp"
         tools:src="@tools:sample/avatars" />
 
-    <TextView
-        android:id="@+id/journey_username"
-        android:text="username"
-        android:textSize="14sp"
-        android:layout_width="263dp"
+    <LinearLayout
+        android:id="@+id/journeyItemText"
+        android:layout_width="220dp"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginLeft="31dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginRight="52dp"
-        android:layout_toEndOf="@+id/profile_image"
-        android:layout_toRightOf="@+id/profile_image" />
+        android:layout_toEndOf="@+id/j_profile_image"
+        android:layout_toRightOf="@+id/j_profile_image">
+
+        <TextView
+            android:id="@+id/journey_username"
+            android:layout_width="220dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="31dp"
+            android:layout_marginEnd="52dp"
+            android:layout_marginRight="52dp"
+            android:text="username"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/journeyItemJoinBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JOIN"
+        android:layout_toRightOf="@+id/journeyItemText"/>
 
 
 </RelativeLayout>
