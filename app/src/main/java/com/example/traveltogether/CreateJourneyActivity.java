@@ -191,21 +191,13 @@ public class CreateJourneyActivity extends AppCompatActivity {
         System.out.println(destLong);
         System.out.println(destLat);
 
-        Journey journey = new Journey(1, users, src, dest ,"journeyTime", true, "");
 
-        FirebaseDatabase.getInstance().getReference("Journeys")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .setValue(journey).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    System.out.println("done");
-                }
-                else {
-                    System.out.println("......");
-                }
-            }
-        });
+        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
+        DatabaseReference newPostRef =  dbr.push();
+        // update journey ID
+        Journey journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
+
+        newPostRef.setValue(journey);
     }
 
 
