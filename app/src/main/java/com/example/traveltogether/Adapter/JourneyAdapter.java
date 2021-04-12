@@ -61,9 +61,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
                 FirebaseDatabase.getInstance().getReference("Journeys")
                         .child(journey.getId())
                         .setValue(journey);
-                // update my journey
-
-
+                // delete
                 Intent intent = new Intent(mContext, MainActivity.class);
                 mContext.startActivity(intent);
             }

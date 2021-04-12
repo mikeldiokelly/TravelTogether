@@ -17,6 +17,7 @@ import com.example.traveltogether.Adapter.UserAdapter;
 import com.example.traveltogether.Model.Chat;
 import com.example.traveltogether.Model.Journey;
 import com.example.traveltogether.Model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
     private List<Journey> mJourneys;
+    private  String souceLatLong, destLatLong;
 
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -44,6 +46,9 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
+        souceLatLong = getIntent().getStringExtra("SOURCE");
+        destLatLong = getIntent().getStringExtra("DESTINATION");
 
         recyclerView=findViewById(R.id.list1);
         recyclerView.setHasFixedSize(true);
@@ -77,6 +82,7 @@ public class SearchResultActivity extends AppCompatActivity {
         returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                writeNewLoc(souceLatLong,destLatLong);
                 Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
                 startActivity(intent);
 
@@ -84,4 +90,37 @@ public class SearchResultActivity extends AppCompatActivity {
         });
 
     }
+
+    public void writeNewLoc( String souceLatLong, String destLatLong) {
+
+        FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
+        List<String> users = new ArrayList();
+        users.add(userN.getUid());
+
+        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
+        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
+        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
+        Double srcLat = Double.parseDouble( temp);
+        System.out.println(srcLong);
+        System.out.println(srcLat);
+        src.add(srcLong);src.add(srcLat);
+        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
+        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
+        dest.add(destLong);dest.add(destLat);
+        System.out.println(destLong);
+        System.out.println(destLat);
+
+
+        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
+        DatabaseReference newPostRef =  dbr.push();
+        // update journey ID
+        Journey journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
+
+        // todo: keep a mJourneyList
+
+
+        newPostRef.setValue(journey);
+    }
+
+
 }

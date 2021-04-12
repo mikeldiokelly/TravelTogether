@@ -80,6 +80,8 @@ public class CreateJourneyActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
     private  String souceLatLong, destLatLong;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,8 +120,11 @@ public class CreateJourneyActivity extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewLoc("1236",souceLatLong,destLatLong);
-                startActivity(new Intent(CreateJourneyActivity.this, SearchResultActivity.class));
+//                writeNewLoc();
+                Intent intent =new Intent(CreateJourneyActivity.this, SearchResultActivity.class);
+                intent.putExtra("SOURCE",souceLatLong);
+                intent.putExtra("DESTINATION",destLatLong);
+                startActivity(intent);
 
             }
         });
@@ -172,33 +177,36 @@ public class CreateJourneyActivity extends AppCompatActivity {
     }
 
 
-    public void writeNewLoc(String locId, String source, String destination) {
-
-        FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
-        List<String> users = new ArrayList();
-        users.add(userN.getUid());
-
-        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
-        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
-        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
-        Double srcLat = Double.parseDouble( temp);
-        System.out.println(srcLong);
-        System.out.println(srcLat);
-        src.add(srcLong);src.add(srcLat);
-        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
-        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
-        dest.add(destLong);dest.add(destLat);
-        System.out.println(destLong);
-        System.out.println(destLat);
-
-
-        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
-        DatabaseReference newPostRef =  dbr.push();
-        // update journey ID
-        Journey journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
-
-        newPostRef.setValue(journey);
-    }
+//    public void writeNewLoc() {
+//
+//        FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
+//        List<String> users = new ArrayList();
+//        users.add(userN.getUid());
+//
+//        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
+//        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
+//        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
+//        Double srcLat = Double.parseDouble( temp);
+//        System.out.println(srcLong);
+//        System.out.println(srcLat);
+//        src.add(srcLong);src.add(srcLat);
+//        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
+//        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
+//        dest.add(destLong);dest.add(destLat);
+//        System.out.println(destLong);
+//        System.out.println(destLat);
+//
+//
+//        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
+//        DatabaseReference newPostRef =  dbr.push();
+//        // update journey ID
+//        journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
+//        mJourneyID = newPostRef.getKey();
+//        // todo: keep a mJourneyList
+//
+//
+//        newPostRef.setValue(journey);
+//    }
 
 
 

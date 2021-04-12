@@ -33,7 +33,7 @@ public class PreferenceActivity extends AppCompatActivity {
         spinnerGender.setPrompt("Set your gender preferences");
         adapterGender=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listGender);
         spinnerGender.setAdapter(adapterGender);
-        SharedPreferences shrd= getSharedPreferences("prefernces", MODE_PRIVATE);
+        SharedPreferences shrd = getSharedPreferences("prefernces", MODE_PRIVATE);
         SharedPreferences.Editor editor= shrd.edit();
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
