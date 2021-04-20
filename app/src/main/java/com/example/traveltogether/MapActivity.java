@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,10 @@ import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
@@ -36,6 +42,7 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,16 +65,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // variables for adding location layer
     private PermissionsManager permissionsManager;
-    private LocationComponent locationComponent;
     // variables for calculating and drawing a route
     public static DirectionsRoute currentRoute;
     public  Point source;                                                // TODO: need a better way to do this...!
     public  Point endPoint;
+    String endPointAddress;
     private static final String TAG = "DirectionsActivity";
 
     private NavigationMapRoute navigationMapRoute;
-    // variables needed to initialize navigation
-    private Button button;
 
 
         @Override
@@ -78,20 +83,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView = findViewById(R.id.mapView2);
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(this);
-            button = findViewById(R.id.confirmSrcBtn);
+            // variables needed to initialize navigation
+
+            Button button = findViewById(R.id.confirmSrcBtn);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent _result = new Intent();
 //                    _result.setData(Uri.parse(endPoint.toString()));
                     _result.putExtra("loc",endPoint.toString());
+                    _result.putExtra("loc_address",endPointAddress);
                     setResult(Activity.RESULT_OK, _result);
                     finish();
                 }
             });
         }
-
-
 
         @Override
         public void onMapReady(@NonNull final MapboxMap mapboxMap) {
@@ -108,7 +114,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             });
         }
-
 
         private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
             loadedMapStyle.addImage("destination-icon-id",
@@ -128,9 +133,40 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         @Override
         public boolean onMapClick(@NonNull LatLng point) {
             endPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+            MapboxGeocoding reverseGeocode = MapboxGeocoding.builder()
+                    .accessToken(getString(R.string.access_token))
+                    .query(endPoint)
+                    .build();
+
+            reverseGeocode.enqueueCall(new Callback<GeocodingResponse>() {
+                @Override
+                public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+                    List<CarmenFeature> features = response.body().features();
+
+                    String selectedAddress = "";
+                    if(!features.isEmpty()){
+
+                        CarmenFeature feature = features.get(0);
+
+                        selectedAddress = feature.placeName();
+                        endPointAddress = selectedAddress;
+                        Log.d(" MapActivity ", " selectedAddress: feature " + feature);
+                        Log.d(" MapActivity ", " selectedAddress: placeName " + feature.placeName());
+                    }
+
+                    TextView selectedLocationTextView = (TextView) findViewById(R.id.selectedLocationTextView);
+                    selectedLocationTextView.setText(selectedAddress);
+
+                }
+
+                @Override
+                public void onFailure(Call<GeocodingResponse> call, Throwable t) {
+
+                }
+            });
+
             return true;
         }
-
 
 
         @SuppressWarnings( {"MissingPermission"})
@@ -139,7 +175,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             if (PermissionsManager.areLocationPermissionsGranted(this)) {
 // Activate the MapboxMap LocationComponent to show user location
 // Adding in LocationComponentOptions is also an optional parameter
-                locationComponent = mapboxMap.getLocationComponent();
+                LocationComponent locationComponent = mapboxMap.getLocationComponent();
                 locationComponent.activateLocationComponent(this, loadedMapStyle);
                 locationComponent.setLocationComponentEnabled(true);
 // Set the component's camera mode
@@ -212,7 +248,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView.onLowMemory();
         }
 
-        public  Point getSource() {
-            return source;
-        }
+//        public  Point getSource() {
+//            return source;
+//        }
     }

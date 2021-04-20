@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".SearchResultActivity"></activity>
+        <activity android:name=".LocationSearch"></activity>
+        <activity android:name=".SearchResultActivity" />
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
