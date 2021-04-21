@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.geojson.Point;
@@ -41,6 +42,8 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,49 +74,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "Key: " + key + " Value: " + value);
             }
         }
+        setDeviceToken();
 
-        // [END handle_data_extras]
-
-//        //send
-        FloatingActionButton logTokenButton = findViewById(R.id.fab1);
-        logTokenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ChatActivity.class));
-                // Get token
-                // [START log_reg_token]
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(new OnCompleteListener<String>() {
-                            @Override
-                            public void onComplete(@NonNull Task<String> task) {
-                                if (!task.isSuccessful()) {
-                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                    return;
-                                }
-
-                                // Get new FCM registration token
-                                String token = task.getResult();
-
-                                // Log and toast
-                                String msg = getString(R.string.msg_token_fmt, token);
-                                Log.d(TAG, msg);
-                                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                // [END log_reg_token]
-            }
-        });
-
-        FloatingActionButton subscribeButton = findViewById(R.id.fab2);
-        subscribeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+//
+//        FloatingActionButton subscribeButton = findViewById(R.id.fab2);
+//        subscribeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            }
+//        });
 
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.profileFragment,R.id.homeFragment, R.id.chatFragment, R.id.settingFragment)
@@ -126,7 +101,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        @Override
+    public void setDeviceToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        String token = task.getResult();// Get new FCM registration token
+                        HashMap<String, Object> values = new HashMap<>();
+                        values.put("deviceToken", token);
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .updateChildren(values);
+                    }
+                });
+    }
+
+
+
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)

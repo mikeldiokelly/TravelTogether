@@ -5,7 +5,12 @@ import com.example.traveltogether.Model.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +29,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.JourneyAdapter.ViewHolder> {
     private Context mContext;
     private List<Journey> mJourneys;
+    List<String> mUsers;
+    FirebaseUser fuser;
+    DatabaseReference ref;
 
     public JourneyAdapter(Context mContext,  List<Journey> mJourneys) {
 //        super(mContext,resource,textViewResourceId, mJourneys);
@@ -38,6 +46,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         return new com.example.traveltogether.Adapter.JourneyAdapter.ViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Journey journey = mJourneys.get(position);
@@ -51,8 +61,6 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         holder.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 // todo: send request to FireBase -> Firebase ask the other user to confirm
                 //       if confirmed, update database, and send notification to this user
 
@@ -68,6 +76,12 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         });
 
     }
+
+
+
+
+
+
 
     @Override
     public int getItemCount() {
@@ -85,7 +99,6 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
 
             username = itemView.findViewById(R.id.journey_username);
             profile_image = itemView.findViewById(R.id.j_profile_image);
-
             btnJoin = (Button) itemView.findViewById(R.id.journeyItemJoinBtn);
 
         }

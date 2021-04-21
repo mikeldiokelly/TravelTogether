@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "journeygroup12"
+    "default": "journeygroup12",
+    "journeysharing": "journeygroup12",
+    "sharing": "journeygroup12"
   }
 }
