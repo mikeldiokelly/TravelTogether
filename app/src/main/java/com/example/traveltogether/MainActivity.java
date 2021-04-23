@@ -32,6 +32,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -41,25 +43,19 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-//public class TestActivity extends AppCompatActivity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_test);
-//    }
-//}
-
+//cASj3iaXSwKBLxhkNdzHMc:APA91bFj7RZ2lHv2iQDpPoSF9ZWkDaN3PX9ElB955ywcl_GHt5nQShCAcUfb_yqlaNSYnkHaFz97w66LGh3-JJNnmSsmdfEyqqHKTu9ZvuLbjrta-2YlUH4qiXd33jG0r07PzrTdEJyN
 //public class MainActivity extends AppCompatActivity implements View.OnClickListener
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
     private AppBarConfiguration mAppBarConfiguration;
     FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +68,27 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        //send
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                Object value = getIntent().getExtras().get(key);
+                Log.d(TAG, "Key: " + key + " Value: " + value);
+            }
+        }
+        setDeviceToken();
+
+//
+//        FloatingActionButton subscribeButton = findViewById(R.id.fab2);
+//        subscribeButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ChatActivity.class));
 //            }
 //        });
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        mAppBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.homeFragment,R.id.chatFragment, R.id.settingFragment)
-////                .setDrawerLayout(drawer)
-////                .build();
-//                .setOpenableLayout(drawer).build();
-//
+
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.profileFragment,R.id.homeFragment, R.id.chatFragment, R.id.settingFragment)
@@ -103,7 +101,29 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        @Override
+    public void setDeviceToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+                        String token = task.getResult();// Get new FCM registration token
+                        HashMap<String, Object> values = new HashMap<>();
+                        values.put("deviceToken", token);
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .updateChildren(values);
+                    }
+                });
+    }
+
+
+
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)

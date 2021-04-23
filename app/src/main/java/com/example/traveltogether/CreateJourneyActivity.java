@@ -1,17 +1,41 @@
 package com.example.traveltogether;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.traveltogether.Communicator.ItemViewModel;
+import com.example.traveltogether.Fragments.TimePickerFragment;
+import com.example.traveltogether.Model.Journey;
+import com.example.traveltogether.Model.User;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
@@ -37,6 +61,7 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.traveltogether.Fragments.TimePickerFragment.journeyTime;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -44,233 +69,210 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import android.util.Log;
 
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 
+import org.w3c.dom.Text;
+import com.example.traveltogether.Communicator.ItemViewModel;
+import com.example.traveltogether.Fragments.TimePickerFragment;
+
 /**
  * Display {@link SymbolLayer} icons on the map.
  */
-public class CreateJourneyActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
-    // variables for adding location layer
-    private MapView mapView;
-    private MapboxMap mapboxMap;
+public class CreateJourneyActivity extends AppCompatActivity {
+    private static final int REQUEST_LOCATION = 999;
+    private static final String LOCATION_TO_SOURCE = "location_to_search";
+    public ItemViewModel viewModel;
+    static final int SRC_MAPACTIVITY = 1;
+    static final int DEST_MAPACTIVITY = 2;
+    TextView srcLocation, destLocation;
+    private DatabaseReference mDatabase;
+    private EditText srcSearchLocationText, destSearchLocationText;
+    private String souceLatLong, destLatLong;
+    private FusedLocationProviderClient fusedLocationClient;
+    private android.location.Location currentLocation;
 
-    // variables for adding location layer
-    private PermissionsManager permissionsManager;
-    private LocationComponent locationComponent;
-    // variables for calculating and drawing a route
-    public static DirectionsRoute currentRoute;
-    public static Point source;                                                // TODO: need a better way to do this...!
-    public static Point endPoint;
-    private static final String TAG = "DirectionsActivity";
-
-    private NavigationMapRoute navigationMapRoute;
-    // variables needed to initialize navigation
-    private Button button, createJourneyBtn;
-
+    static final int CHOSEN_LOCATION_SRC = 101;
+    static final int CHOSEN_LOCATION_DEST = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this, getString(R.string.access_token));
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        updateLocation();
+
+
+        viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        viewModel.getSelectedItem().observe(this, item -> {
+            TextView startTimeText ;
+            startTimeText=(TextView)findViewById(R.id.startTimeText);
+            startTimeText.setText(journeyTime);
+        });
         setContentView(R.layout.activity_create_journey);
-        mapView = findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
-        createJourneyBtn = findViewById(R.id.CreateJourneyBtn);
-        createJourneyBtn.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+
+        srcSearchLocationText = findViewById(R.id.src_location_search_text);
+        Button srcLocationSearchButton = findViewById(R.id.src_location_search_button);
+        srcLocationSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CreateCommute.class);
-                startActivity(intent);
+                startLocationSearchWith(CHOSEN_LOCATION_SRC, srcSearchLocationText.getText().toString());
             }
         });
-    }
 
-    @Override
-    public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        this.mapboxMap = mapboxMap;
-        mapboxMap.setStyle(getString(R.string.navigation_guidance_day), new Style.OnStyleLoaded() {
-
+        destSearchLocationText = findViewById(R.id.dest_location_search_text);
+        Button destLocationSearchButton = findViewById(R.id.dest_location_search_button);
+        destLocationSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
-
-                addDestinationIconSymbolLayer(style);
-
-                mapboxMap.addOnMapClickListener(CreateJourneyActivity.this);
-                button = findViewById(R.id.startButton);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        boolean simulateRoute = true;
-                        NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                                .directionsRoute(currentRoute)
-                                .shouldSimulateRoute(simulateRoute)
-                                .build();
-// Call this method with Context from within an Activity
-                        NavigationLauncher.startNavigation(CreateJourneyActivity.this, options);
-                    }
-                });
+            public void onClick(View v) {
+                startLocationSearchWith(CHOSEN_LOCATION_DEST, destSearchLocationText.getText().toString());
             }
-
         });
+
+        srcLocation = (TextView) findViewById(R.id.srcLoc);
+        destLocation = (TextView) findViewById(R.id.destLoc);
+
+
+        Button src_btn = findViewById(R.id.srcBtn);
+        src_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateJourneyActivity.this, MapActivity.class);
+                startActivityForResult(intent, SRC_MAPACTIVITY);
+            }
+        });
+        Button dest_btn = findViewById(R.id.destBtn);
+        dest_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateJourneyActivity.this, MapActivity.class);
+                startActivityForResult(intent, DEST_MAPACTIVITY);
+            }
+        });
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Button send_btn = findViewById(R.id.send);
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateJourneyActivity.this, SearchResultActivity.class);
+                intent.putExtra("SOURCE", souceLatLong);
+                intent.putExtra("DESTINATION", destLatLong);
+                intent.putExtra("START_TIME", journeyTime);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
 
-    private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
-        loadedMapStyle.addImage("destination-icon-id",
-                BitmapFactory.decodeResource(this.getResources(), R.drawable.mapbox_marker_icon_default));
-        GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
-        loadedMapStyle.addSource(geoJsonSource);
-        SymbolLayer destinationSymbolLayer = new SymbolLayer("destination-symbol-layer-id", "destination-source-id");
-        destinationSymbolLayer.withProperties(
-                iconImage("destination-icon-id"),
-                iconAllowOverlap(true),
-                iconIgnorePlacement(true)
-        );
-        loadedMapStyle.addLayer(destinationSymbolLayer);
+
+
+    private void startLocationSearchWith(int searchCode, String searchKeyword) {
+        updateLocation();
+        Intent _searchList = new Intent(CreateJourneyActivity.this, LocationSearch.class);
+        _searchList.putExtra(LOCATION_TO_SOURCE, searchKeyword);
+        _searchList.putExtra("current_location_lat", currentLocation.getLatitude());
+        _searchList.putExtra("current_location_long", currentLocation.getLongitude());
+        startActivityForResult(_searchList, searchCode);
     }
 
-    @SuppressWarnings( {"MissingPermission"})
-    @Override
-    public boolean onMapClick(@NonNull LatLng point) {
+    private void updateLocation() {
+        Log.d("current location -> ", "location: ");
 
-        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                locationComponent.getLastKnownLocation().getLatitude());
-
-        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-        if (source != null) {
-            source.setGeoJson(Feature.fromGeometry(destinationPoint));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            return;
         }
 
-        getRoute(originPoint, destinationPoint);
-        button.setEnabled(true);
-        button.setBackgroundResource(R.color.mapboxBlue);
-        return true;
-    }
-
-    private void getRoute(Point origin, Point destination) {
-        source = origin;
-        endPoint = destination;
-        NavigationRoute.builder(this)
-                .accessToken(Mapbox.getAccessToken())
-                .origin(origin)
-                .destination(destination)
-                .build()
-                .getRoute(new Callback<DirectionsResponse>() {
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<android.location.Location>() {
                     @Override
-                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-                        // You can get the generic HTTP info about the response
-                        Log.d(TAG, "Response code: " + response.code());
-                        if (response.body() == null) {
-                            Log.e(TAG, "No routes found, make sure you set the right user and access token.");
-                            return;
-                        } else if (response.body().routes().size() < 1) {
-                            Log.e(TAG, "No routes found");
-                            return;
-                        }
-                        currentRoute = response.body().routes().get(0);
-
-                        // Draw the route on the map
-                        if (navigationMapRoute != null) {
-                            navigationMapRoute.removeRoute();
-                        } else {
-                            navigationMapRoute = new NavigationMapRoute(null, mapView, mapboxMap, R.style.NavigationMapRoute);
-                        }
-                        navigationMapRoute.addRoute(currentRoute);
+                    public void onSuccess(android.location.Location location) {
+                        Log.d("current location -> ", "location: " + location);
+                        Log.d("current location -> ", "location lat: " + location.getLatitude());
+                        Log.d("current location -> ", "location long: " + location.getLongitude());
+                        currentLocation = location;
                     }
+    });
+    }
 
-                    @Override
-                    public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
-                    }
-                });
+    public void showTimePickerDialog(View view) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    @IgnoreExtraProperties
+    public class Location {
+
+        public String source;
+        public String destination;
+
+        public Location() {
+            // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        }
+
+        public Location(String source, String destination) {
+            this.source = source;
+            this.destination = destination;
+        }
+
     }
 
 
-    @SuppressWarnings( {"MissingPermission"})
-    private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
-        if (PermissionsManager.areLocationPermissionsGranted(this)) {
-// Activate the MapboxMap LocationComponent to show user location
-// Adding in LocationComponentOptions is also an optional parameter
-            locationComponent = mapboxMap.getLocationComponent();
-            locationComponent.activateLocationComponent(this, loadedMapStyle);
-            locationComponent.setLocationComponentEnabled(true);
-// Set the component's camera mode
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-        } else {
-            permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(this);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (SRC_MAPACTIVITY) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String returnValue = data.getStringExtra("loc");
+                    String locationAddress = data.getStringExtra("loc_address");
+                    souceLatLong=returnValue.substring(42,returnValue.length()-2);
+                    srcLocation.setText(locationAddress);
+                }
+                break;
+            }
+            case (DEST_MAPACTIVITY) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String returnValue = data.getStringExtra("loc");
+                    String locationAddress = data.getStringExtra("loc_address");
+                    destLatLong=returnValue.substring(42,returnValue.length()-2);
+                    destLocation.setText(locationAddress);
+                }
+                break;
+            }
+            case (CHOSEN_LOCATION_SRC) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String locationName = data.getStringExtra("location_name");
+                    String locationPoint = data.getStringExtra("location_point");
+                    souceLatLong = locationPoint.substring(42, locationPoint.length()-2);
+                    srcLocation.setText(locationName);                                                         //reverse geocode for other cases with location picker !
+                }
+                break;
+            }
+                case (CHOSEN_LOCATION_DEST) : {
+                    if (resultCode == Activity.RESULT_OK){
+                        String locationName = data.getStringExtra("location_name");
+                        String locationPoint = data.getStringExtra("location_point");
+                        souceLatLong = locationPoint.substring(42, locationPoint.length()-2);
+                        destLocation.setText(locationName);                                                         //reverse geocode for other cases..
+                    }
+            }
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
-    @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
-    }
 
-    @Override
-    public void onPermissionResult(boolean granted) {
-        if (granted) {
-            enableLocationComponent(mapboxMap.getStyle());
-        } else {
-            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
-            finish();
-        }
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mapView.onStart();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mapView.onStop();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    public static Point getSource() {
-        return source;
-    }
 }

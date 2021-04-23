@@ -10,7 +10,7 @@ import android.view.View;
 import com.example.traveltogether.Communicator.ItemViewModel;
 import com.example.traveltogether.Fragments.TimePickerFragment;
 
-public class CreateCommute extends AppCompatActivity {
+public class CreateCommuteActivity extends AppCompatActivity {
 
     public ItemViewModel viewModel;
 
