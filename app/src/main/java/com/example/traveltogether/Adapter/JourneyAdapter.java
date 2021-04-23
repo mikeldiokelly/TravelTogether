@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -51,27 +52,38 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Journey journey = mJourneys.get(position);
-        holder.username.setText(String.valueOf(journey.getFirstUser()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
+        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        
+        holder.username.setText(String.valueOf(journey.getHost()));
         holder.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // todo: send request to FireBase -> Firebase ask the other user to confirm
                 //       if confirmed, update database, and send notification to this user
 
-                // add the current user id to the userList of this Journey
-                journey.addUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                FirebaseDatabase.getInstance().getReference("Journeys")
-                        .child(journey.getId())
-                        .setValue(journey);
-                // delete
-                Intent intent = new Intent(mContext, MainActivity.class);
-                mContext.startActivity(intent);
+                // check whether the user is in the user list
+                mUsers = journey.getUserList();
+
+                boolean joined = false;
+                for (String newuser : mUsers){
+                    if (fuser.getUid().equals(newuser))
+                        joined=true;
+                }
+                
+                if(!joined){
+                    // add user
+                    journey.addUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    FirebaseDatabase.getInstance().getReference("Journeys")
+                            .child(journey.getId())
+                            .setValue(journey);
+                    // delete
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                }
+                else{
+                    Toast.makeText(mContext, "You already joined this", Toast.LENGTH_SHORT).show();
+                }
+               
             }
         });
 

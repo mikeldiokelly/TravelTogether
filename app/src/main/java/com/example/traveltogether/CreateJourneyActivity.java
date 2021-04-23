@@ -61,6 +61,7 @@ import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.traveltogether.Fragments.TimePickerFragment.journeyTime;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -74,7 +75,8 @@ import android.util.Log;
 import com.mapbox.mapboxsdk.location.modes.CameraMode;
 
 import org.w3c.dom.Text;
-
+import com.example.traveltogether.Communicator.ItemViewModel;
+import com.example.traveltogether.Fragments.TimePickerFragment;
 
 /**
  * Display {@link SymbolLayer} icons on the map.
@@ -101,12 +103,19 @@ public class CreateJourneyActivity extends AppCompatActivity {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         updateLocation();
+
+
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         viewModel.getSelectedItem().observe(this, item -> {
-            System.out.println("heres our item !!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(item);
+            TextView startTimeText ;
+            startTimeText=(TextView)findViewById(R.id.startTimeText);
+            startTimeText.setText(journeyTime);
         });
         setContentView(R.layout.activity_create_journey);
+
+
+
+
 
         srcSearchLocationText = findViewById(R.id.src_location_search_text);
         Button srcLocationSearchButton = findViewById(R.id.src_location_search_button);
@@ -153,16 +162,19 @@ public class CreateJourneyActivity extends AppCompatActivity {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                writeNewLoc();
                 Intent intent = new Intent(CreateJourneyActivity.this, SearchResultActivity.class);
                 intent.putExtra("SOURCE", souceLatLong);
                 intent.putExtra("DESTINATION", destLatLong);
+                intent.putExtra("START_TIME", journeyTime);
                 startActivity(intent);
 
             }
         });
 
     }
+
+
+
 
     private void startLocationSearchWith(int searchCode, String searchKeyword) {
         updateLocation();
@@ -197,6 +209,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
+
     @IgnoreExtraProperties
     public class Location {
 
@@ -257,37 +270,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
         }
     }
 
-
-//    public void writeNewLoc() {
-//
-//        FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
-//        List<String> users = new ArrayList();
-//        users.add(userN.getUid());
-//
-//        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
-//        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
-//        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
-//        Double srcLat = Double.parseDouble( temp);
-//        System.out.println(srcLong);
-//        System.out.println(srcLat);
-//        src.add(srcLong);src.add(srcLat);
-//        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
-//        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
-//        dest.add(destLong);dest.add(destLat);
-//        System.out.println(destLong);
-//        System.out.println(destLat);
-//
-//
-//        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
-//        DatabaseReference newPostRef =  dbr.push();
-//        // update journey ID
-//        journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
-//        mJourneyID = newPostRef.getKey();
-//        // todo: keep a mJourneyList
-//
-//
-//        newPostRef.setValue(journey);
-//    }
 
 
 
