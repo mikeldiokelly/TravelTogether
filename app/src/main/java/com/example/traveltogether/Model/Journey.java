@@ -46,10 +46,4 @@ public class Journey {
     public String getStartTime(){return startTime;}
     public boolean getRepeatWeekly(){return repeatWeakly;}
 
-
-
-
-    public String getStartTime() {
-        return time;
-    }
 }
