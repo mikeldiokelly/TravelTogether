@@ -35,7 +35,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
     private List<Journey> mJourneys;
-    private  String souceLatLong, destLatLong;
+    private  String souceLatLong, destLatLong, startTime;
 
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -51,6 +51,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         souceLatLong = getIntent().getStringExtra("SOURCE");
         destLatLong = getIntent().getStringExtra("DESTINATION");
+        startTime = getIntent().getStringExtra("START_TIME");
 
         recyclerView=findViewById(R.id.list1);
         recyclerView.setHasFixedSize(true);
@@ -118,7 +119,7 @@ public class SearchResultActivity extends AppCompatActivity {
         DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
         DatabaseReference newPostRef =  dbr.push();
         // update journey ID
-        Journey journey = new Journey(newPostRef.getKey(), users, src, dest ,"journeyTime", true, "");
+        Journey journey = new Journey(newPostRef.getKey(), users, src, dest, startTime, true, "");
 
         // todo: keep a mJourneyList
 
