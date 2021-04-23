@@ -81,8 +81,8 @@ import org.w3c.dom.Text;
  */
 public class CreateJourneyActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 999;
+    private static final String LOCATION_TO_SOURCE = "location_to_search";
     public ItemViewModel viewModel;
-    private Button src_btn, dest_btn, send_btn;
     static final int SRC_MAPACTIVITY = 1;
     static final int DEST_MAPACTIVITY = 2;
     TextView srcLocation, destLocation;
@@ -130,7 +130,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         destLocation = (TextView) findViewById(R.id.destLoc);
 
 
-        src_btn = findViewById(R.id.srcBtn);
+        Button src_btn = findViewById(R.id.srcBtn);
         src_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +138,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 startActivityForResult(intent, SRC_MAPACTIVITY);
             }
         });
-        dest_btn = findViewById(R.id.destBtn);
+        Button dest_btn = findViewById(R.id.destBtn);
         dest_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +149,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        send_btn = findViewById(R.id.send);
+        Button send_btn = findViewById(R.id.send);
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +167,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
     private void startLocationSearchWith(int searchCode, String searchKeyword) {
         updateLocation();
         Intent _searchList = new Intent(CreateJourneyActivity.this, LocationSearch.class);
-        _searchList.putExtra("location_to_search", searchKeyword);
+        _searchList.putExtra(LOCATION_TO_SOURCE, searchKeyword);
         _searchList.putExtra("current_location_lat", currentLocation.getLatitude());
         _searchList.putExtra("current_location_long", currentLocation.getLongitude());
         startActivityForResult(_searchList, searchCode);

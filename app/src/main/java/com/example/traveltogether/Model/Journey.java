@@ -45,4 +45,7 @@ public class Journey {
     }
 
 
+    public String getStartTime() {
+        return time;
+    }
 }
