@@ -20,7 +20,7 @@
         android:layout_marginLeft="158dp"
         android:layout_marginTop="100dp"
         android:background="@color/white"
-        android:text="My journeys"
+        android:text="@string/my_journeys"
         android:textColor="@color/black" />
 
     <Button
@@ -35,7 +35,7 @@
         android:layout_marginLeft="158dp"
         android:layout_marginTop="170dp"
         android:background="@color/white"
-        android:text="Create a journey"
+        android:text="@string/create_a_journey"
         android:textColor="@color/black" />
 
     <Button
@@ -49,7 +49,7 @@
         android:layout_marginLeft="158dp"
         android:layout_marginTop="240dp"
         android:background="@color/white"
-        android:text="Discover journeys"
+        android:text="@string/discover_journeys"
         android:textColor="@color/black" />
 
     <Button
@@ -64,7 +64,7 @@
         android:layout_marginLeft="158dp"
         android:layout_marginTop="300dp"
         android:background="@color/white"
-        android:text="P2P"
+        android:text="@string/p2p"
         android:textColor="@color/black" />
 
 

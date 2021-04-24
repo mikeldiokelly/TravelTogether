@@ -25,20 +25,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            android:text="Chat" />
+            android:text="@string/chat" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/journeys"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            android:text="Journeys" />
+            android:text="@string/journeys" />
         <com.google.android.material.tabs.TabItem
             android:id="@+id/profile_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/black"
-            android:text="Profile" />
+            android:text="@string/profile" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
