@@ -9,11 +9,12 @@
         android:id="@+id/profile_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        android:contentDescription="@string/username" />
 
     <TextView
         android:id="@+id/profile_username"
-        android:text="username"
+        android:text="@string/username"
         android:textSize="34sp"
         android:layout_width="263dp"
         android:layout_height="64dp"

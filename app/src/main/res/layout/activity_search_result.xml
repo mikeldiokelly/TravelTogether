@@ -25,6 +25,6 @@
         android:id="@+id/returnToHomeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return" />
+        android:text="@string/_return" />
 
 </LinearLayout>

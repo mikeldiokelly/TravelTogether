@@ -78,7 +78,7 @@
         android:layout_marginStart="304dp"
         android:layout_marginLeft="304dp"
         android:layout_marginTop="36dp"
-        android:text="Src"
+        android:text="@string/src"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +89,7 @@
         android:layout_marginStart="304dp"
         android:layout_marginLeft="304dp"
         android:layout_marginTop="116dp"
-        android:text="Dest"
+        android:text="@string/dest"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
 
@@ -123,7 +123,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="48dp"
-        android:text="src location"
+        android:text="@string/src_location"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
 
@@ -134,7 +134,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="120dp"
-        android:text="dest location"
+        android:text="@string/dest_location"
         mapbox:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
 
@@ -143,7 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="192dp"
-        android:text="Confirm"
+        android:text="@string/confirm"
         mapbox:layout_constraintBottom_toBottomOf="parent"
         mapbox:layout_constraintEnd_toEndOf="parent"
         mapbox:layout_constraintHorizontal_bias="0.455"
@@ -156,7 +156,7 @@
         android:layout_marginStart="258dp"
         android:layout_marginLeft="258dp"
         android:layout_marginTop="192dp"
-        android:text=" "
+        android:text=""
         app:layout_constraintStart_toStartOf="parent"
         mapbox:layout_constraintTop_toTopOf="parent" />
 

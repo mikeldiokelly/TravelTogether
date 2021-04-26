@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/message_username"
-            android:text="username"
+            android:text="@string/username"
             android:textSize="34sp"
             android:layout_width="263dp"
             android:layout_height="64dp"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_send"
             android:layout_toLeftOf="@id/send"
-            android:hint="Type a message..."
+            android:hint="@string/type_a_message"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent">
         </EditText>

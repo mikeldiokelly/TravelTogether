@@ -10,7 +10,8 @@
         android:id="@+id/j_profile_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        android:contentDescription="@string/profile" />
 
     <LinearLayout
         android:id="@+id/journeyItemText"
@@ -28,7 +29,7 @@
             android:layout_marginLeft="31dp"
             android:layout_marginEnd="52dp"
             android:layout_marginRight="52dp"
-            android:text="username"
+            android:text="@string/username"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -36,8 +37,9 @@
         android:id="@+id/journeyItemJoinBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="JOIN"
-        android:layout_toRightOf="@+id/journeyItemText"/>
+        android:text="@string/join"
+        android:layout_toRightOf="@+id/journeyItemText"
+        android:layout_toEndOf="@+id/journeyItemText" />
 
 
 </RelativeLayout>

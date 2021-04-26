@@ -12,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:id="@+id/profile_card"
@@ -23,7 +22,8 @@
             android:id="@+id/profile_image"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
-            android:src="@drawable/user_dp" />
+            android:src="@drawable/user_dp"
+            android:contentDescription="@string/profile" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,16 +32,16 @@
             android:id="@+id/first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="First"
-            android:textSize="28dp"
+            android:text="@string/first"
+            android:textSize="28sp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
             <TextView
                 android:id="@+id/last"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Last"
-                android:textSize="28dp"
+                android:text="@string/last"
+                android:textSize="28sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -52,15 +52,15 @@
             android:id="@+id/p_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20"
-            android:textSize="12dp"
+            android:text="@string/_20"
+            android:textSize="12sp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" years old"
-                android:textSize="12dp"
+                android:text="@string/years_old"
+                android:textSize="12sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
         </LinearLayout>
