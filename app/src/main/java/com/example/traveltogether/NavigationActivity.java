@@ -83,6 +83,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        updateLocation();
         Mapbox.getInstance(this, getString(R.string.access_token));
         setContentView(R.layout.activity_navigation);
         mapView = findViewById(R.id.mapView);
@@ -157,9 +158,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 Point origin = Point.fromLngLat(currentLocation.getLongitude(), currentLocation.getLatitude());
 
                 getRoute(origin, destinationPoint);
-                button.setEnabled(true);
-                button.setBackgroundResource(R.color.mapboxBlue);
-
        //         mapboxMap.addOnMapClickListener(NavigationActivity.this);
                 button = findViewById(R.id.startButton);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +172,10 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                         NavigationLauncher.startNavigation(NavigationActivity.this, options);
                     }
                 });
+
+        //uncomment when you get stuff working
+//                button.setEnabled(true);
+//                button.setBackgroundResource(R.color.mapboxBlue);
             }
 
         });
