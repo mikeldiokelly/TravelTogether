@@ -12,6 +12,21 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cartotype" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+        <option name="useQualifiedModuleNames" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="testRunner" value="PLATFORM" />
+        <option name="disableWrapperSourceDistributionNotification" value="true" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/cartotype" />
+        <option name="gradleHome" value="C:/Gradle/gradle-6.8.2" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/cartotype" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

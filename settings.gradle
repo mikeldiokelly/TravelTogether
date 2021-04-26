@@ -1,2 +1,3 @@
+include ':cartotype'
 include ':app'
 rootProject.name = "TravelTogether"

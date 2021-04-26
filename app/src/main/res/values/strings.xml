@@ -107,4 +107,6 @@
     <string name="username">username</string>
     <string name="join">JOIN</string>
     <string name="navigation_header">Navigation header</string>
+    <string name="cartotype_maps">Cartotype Maps</string>
+    <string name="cartoType_maps">Cartotype Maps</string>
 </resources>

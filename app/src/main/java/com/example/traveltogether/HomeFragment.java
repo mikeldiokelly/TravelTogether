@@ -61,6 +61,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        Button mapsBtn = view.findViewById(R.id.cartoTypeMaps);
+        mapsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CartoTypeMaps.class));
+            }
+        });
+
         return view;
     }
 
