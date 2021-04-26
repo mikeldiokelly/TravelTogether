@@ -20,15 +20,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class SettingFragmentTest {
 
-    @Before
-    public void setUp() throws InterruptedException {
-        FirebaseAuth.getInstance().signOut();
-        Object scenario = ActivityScenario.launch(LoginActivity.class);
-        onView(withId(R.id.login_email)).perform(typeText("okellymikeldi@gmail.com"));
-        onView(withId(R.id.login_password)).perform(typeText("123456"));
-        onView(withId(R.id.login)).perform(click());
-        Thread.sleep(5000);
-    }
+//    @Before
+//    public void setUp() throws InterruptedException {
+//        FirebaseAuth.getInstance().signOut();
+//        Object scenario = ActivityScenario.launch(LoginActivity.class);
+//        onView(withId(R.id.login_email)).perform(typeText("okellymikeldi@gmail.com"));
+//        onView(withId(R.id.login_password)).perform(typeText("123456"));
+//        onView(withId(R.id.login)).perform(click());
+//        Thread.sleep(5000);
+//    }
 
     @Test
     public void testPreferences_whenClicked(){
