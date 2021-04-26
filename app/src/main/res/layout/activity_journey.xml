@@ -44,8 +44,8 @@
 
     <Button
         android:id="@+id/startJourney"
-        android:layout_width="115dp"
-        android:layout_height="32dp"
+        android:layout_width="127dp"
+        android:layout_height="71dp"
         android:text="@string/start_journey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

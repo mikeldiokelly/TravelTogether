@@ -59,8 +59,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
         mJourneys = new ArrayList<>();
 //        ArrayList<String> list= new ArrayList<>();
-//        ArrayAdapter adapter= new ArrayAdapter<String>(this,R.layout.journey_item,list);
-//        recyclerView.setAdapter(adapter);
+ //       ArrayAdapter adapter= new ArrayAdapter<String>(this,R.layout.journey_item,mJourneys);
+ //       recyclerView.setAdapter(adapter);
 
         reference = FirebaseDatabase.getInstance().getReference().child("Journeys");
         reference.addValueEventListener(new ValueEventListener() {

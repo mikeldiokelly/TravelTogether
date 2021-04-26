@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.6.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.42.6'
 
 
 

@@ -210,7 +210,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-    @IgnoreExtraProperties
+/*    @IgnoreExtraProperties
     public class Location {
 
         public String source;
@@ -225,7 +225,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
             this.destination = destination;
         }
 
-    }
+    }*/
 
 
     @Override

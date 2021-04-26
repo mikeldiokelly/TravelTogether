@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".JourneyActivity"></activity>
+        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".Navigation_to_source" />
+        <activity android:name=".JourneyActivity" />
         <activity android:name=".MyJourneys" />
         <activity android:name=".LocationSearch" />
         <activity android:name=".SearchResultActivity" />
