@@ -197,9 +197,9 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<android.location.Location>() {
                     @Override
                     public void onSuccess(android.location.Location location) {
-                        Log.d("current location -> ", "location: " + location);
-                        Log.d("current location -> ", "location lat: " + location.getLatitude());
-                        Log.d("current location -> ", "location long: " + location.getLongitude());
+//                        Log.d("current location -> ", "location: " + location);
+//                        Log.d("current location -> ", "location lat: " + location.getLatitude());
+//                        Log.d("current location -> ", "location long: " + location.getLongitude());
                         currentLocation = location;
                     }
     });
