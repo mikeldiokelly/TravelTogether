@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         myJourneysBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyJourneys.class));
+                startActivity(new Intent(getActivity(), MyJourneysActivity.class));
             }
         });
 

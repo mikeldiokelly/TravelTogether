@@ -21,7 +21,7 @@
         <activity android:name=".NavigationActivity" />
         <activity android:name=".Navigation_to_source" />
         <activity android:name=".JourneyActivity" />
-        <activity android:name=".MyJourneys" />
+        <activity android:name=".MyJourneysActivity" />
         <activity android:name=".LocationSearch" />
         <activity android:name=".SearchResultActivity" />
         <activity

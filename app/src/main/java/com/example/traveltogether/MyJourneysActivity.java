@@ -3,7 +3,6 @@ package com.example.traveltogether;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.traveltogether.Adapter.JourneyAdapter;
 import com.example.traveltogether.Model.Journey;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class MyJourneys extends AppCompatActivity {
+public class MyJourneysActivity extends AppCompatActivity {
 
     ListView listView;
     Journey[] journeyList;
@@ -40,7 +38,7 @@ public class MyJourneys extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String title = journeyTitles[position];
                 Journey journey = journeyList[position];
-                Intent _journey = new Intent(MyJourneys.this, JourneyActivity.class);
+                Intent _journey = new Intent(MyJourneysActivity.this, JourneyActivity.class);
                 _journey.putExtra("journey_source", journey.getSource().toString());
                 _journey.putExtra("journey_destination", journey.getDestination().toString());
                 _journey.putExtra("journey_time", journey.getStartTime());
