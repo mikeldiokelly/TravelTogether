@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.profileFragment,R.id.homeFragment, R.id.chatFragment, R.id.settingFragment)
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         FirebaseDatabase.getInstance().getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .updateChildren(values);
+                        Log.w(TAG, "FCM Token: "+token+" USER: "+ FirebaseAuth.getInstance().getCurrentUser().getUid());
                     }
                 });
     }

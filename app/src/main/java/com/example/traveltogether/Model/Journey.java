@@ -10,13 +10,19 @@ import androidx.annotation.RequiresApi;
 
 //@RequiresApi(api = Build.VERSION_CODES.O)
 public class Journey {
+    public enum JourneyStatus {
+        PENDING,
+        ONGOING,
+        FINISHED
+    }
+
     String Id;
     List<String> Users;
     List<Double> Source, Destination;
     String startTime;
     String transport;
     boolean repeatWeakly;
-
+    JourneyStatus journeyStatus;
     public Journey() {
     }
     public Journey(String Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport){
@@ -28,6 +34,7 @@ public class Journey {
         this.startTime = time;
         this.repeatWeakly = repeatWeakly;
         this.transport = transport;
+        this.journeyStatus = JourneyStatus.PENDING;
     }
 
     public void addUser(String user){ this.Users.add(user); }
@@ -45,5 +52,7 @@ public class Journey {
     }
     public String getStartTime(){return startTime;}
     public boolean getRepeatWeekly(){return repeatWeakly;}
-
+    public JourneyStatus getJourneyStatus(){
+        return journeyStatus;
+    }
 }
