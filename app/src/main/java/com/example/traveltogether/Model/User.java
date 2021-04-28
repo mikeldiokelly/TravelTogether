@@ -11,6 +11,8 @@ public class User {
     public String first_name, last_name, age, email, id, gender;
     //private String id;
     Point perm_res, curr_loc;
+    Double avgRating;
+    int numRatingsReceived;
 
     public User() {
     }
@@ -26,6 +28,7 @@ public class User {
         this.gender = gender;
         this.perm_res = perm_res;
         this.curr_loc = curr_loc;
+        this.avgRating = 0.0;
     }
 
     public String getUsername(){
@@ -43,5 +46,11 @@ public class User {
     public String getImageURL() {
         return "default";
     }
+    public Double getAvgRating(){return avgRating;}
 
+    public Double updateRating(int newRating){
+        avgRating = (avgRating*numRatingsReceived + newRating)/(numRatingsReceived+1);
+        numRatingsReceived +=1;
+        return avgRating;
+    }
 }
