@@ -43,15 +43,15 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        recyclerView = findViewById(R.id.partnerList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        jid = getIntent().getStringExtra("journey_id");
-
-        mUsers = new ArrayList<>();
-
-        reference = FirebaseDatabase.getInstance().getReference().child("Journeys");
-
+//        recyclerView = findViewById(R.id.partnerList);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        jid = getIntent().getStringExtra("journey_id");
+//
+//        mUsers = new ArrayList<>();
+//
+//        reference = FirebaseDatabase.getInstance().getReference().child("Journeys");
+//
 
     }
 

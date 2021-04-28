@@ -45,6 +45,7 @@ public class MyJourneys extends AppCompatActivity {
                 _journey.putExtra("journey_destination", journey.getDestination().toString());
                 _journey.putExtra("journey_time", journey.getStartTime());
                 _journey.putExtra("journey_id", journey.getId());
+                _journey.putExtra("host_id", journey.getHost());
                 startActivity(_journey);
                 Log.d(" clicked ", "clicked on title: " + title);
             }

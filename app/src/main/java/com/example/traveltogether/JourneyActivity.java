@@ -1,17 +1,25 @@
 package com.example.traveltogether;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.traveltogether.Model.Journey;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class JourneyActivity extends AppCompatActivity {
 
@@ -20,7 +28,8 @@ public class JourneyActivity extends AppCompatActivity {
     String source;
     String destination;
     Button startJourneyBtn, endJourneyBtn;
-
+    Boolean isHost = false;
+    String hostID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +47,7 @@ public class JourneyActivity extends AppCompatActivity {
         journeyTime = findViewById(R.id.journeyStartTime);
         journeyTime.setText(getIntent().getStringExtra("journey_time"));
 
+        hostID = getIntent().getStringExtra("host_id");
 
         routeToStart = findViewById(R.id.journeyRouteToSource);
         routeToStart.setOnClickListener(new View.OnClickListener() {
@@ -62,11 +72,21 @@ public class JourneyActivity extends AppCompatActivity {
         startJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //set firebase journey status
+
                 String jid = getIntent().getStringExtra("journey_id");
-                FirebaseDatabase.getInstance().getReference("Journeys")
-                        .child(jid).child("journeyStatus")
-                        .setValue(Journey.JourneyStatus.ONGOING);
+                //check if the current user is the host
+
+                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    FirebaseDatabase.getInstance().getReference("Journeys")
+                            .child(jid).child("journeyStatus")
+                            .setValue(Journey.JourneyStatus.ONGOING);
+                    Toast.makeText(JourneyActivity.this, "The journey has started", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         endJourneyBtn = findViewById(R.id.endJourneyBtn);
@@ -76,14 +96,19 @@ public class JourneyActivity extends AppCompatActivity {
 
 
                 String jid = getIntent().getStringExtra("journey_id");
+                //check if the current user is the host
 
-                FirebaseDatabase.getInstance().getReference("Journeys")
+                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                    FirebaseDatabase.getInstance().getReference("Journeys")
                         .child(jid).child("journeyStatus")
                         .setValue(Journey.JourneyStatus.FINISHED);
-                Intent intent = new Intent(JourneyActivity.this, RatingActivity.class);
-                intent.putExtra("journey_id", jid);
-                startActivity(intent);
-
+                    Intent intent = new Intent(JourneyActivity.this, RatingActivity.class);
+                    intent.putExtra("journey_id", jid);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
