@@ -28,7 +28,6 @@ public class JourneyActivity extends AppCompatActivity {
     String source;
     String destination;
     Button startJourneyBtn, endJourneyBtn;
-    Boolean isHost = false;
     String hostID;
 
     @Override

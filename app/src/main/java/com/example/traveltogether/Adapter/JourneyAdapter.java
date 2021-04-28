@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         this.mContext = mContext;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,7 +56,28 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         Journey journey = mJourneys.get(position);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         
-        holder.username.setText(String.valueOf(journey.getHost()));
+
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(journey.getHost())
+                .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userName = snapshot.child("first_name").getValue().toString();
+                holder.username.setText(userName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
+
         holder.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,13 +128,13 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
         public ImageView profile_image;
-        Button btnJoin;
+        ImageButton btnJoin;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.journey_username);
             profile_image = itemView.findViewById(R.id.j_profile_image);
-            btnJoin = (Button) itemView.findViewById(R.id.journeyItemJoinBtn);
+            btnJoin =  itemView.findViewById(R.id.journeyItemJoinBtn);
 
         }
     }

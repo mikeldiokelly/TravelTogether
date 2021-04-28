@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -139,7 +140,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
         destLocation = (TextView) findViewById(R.id.destLoc);
 
 
-        Button src_btn = findViewById(R.id.srcBtn);
+        ImageButton src_btn = findViewById(R.id.srcBtn);
         src_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +148,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 startActivityForResult(intent, SRC_MAPACTIVITY);
             }
         });
-        Button dest_btn = findViewById(R.id.destBtn);
+        ImageButton dest_btn = findViewById(R.id.destBtn);
         dest_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,158 +7,187 @@
     android:layout_height="match_parent"
     tools:context=".CreateJourneyActivity">
 
-    <EditText
-        android:id="@+id/src_location_search_text"
-        android:layout_width="146dp"
-        android:layout_height="36dp"
-        android:autofillHints=""
-        android:background="#EDEDED"
-        android:ems="10"
-        android:enabled="true"
-        android:focusable="auto"
-        android:hint="@string/search_a_location"
-        android:inputType="text"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintHorizontal_bias="0.411"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:layout_constraintVertical_bias="0.059" />
-
-    <Button
-        android:id="@+id/src_location_search_button"
-        android:layout_width="47dp"
-        android:layout_height="36dp"
-        android:layout_gravity="end"
-        android:background="#EDEDED"
-        android:drawableBottom="@android:drawable/ic_menu_search"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintHorizontal_bias="0.7"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:layout_constraintVertical_bias="0.057" />
-
-    <EditText
-        android:id="@+id/dest_location_search_text"
-        android:layout_width="146dp"
-        android:layout_height="36dp"
-        android:autofillHints=""
-        android:background="#EDEDED"
-        android:ems="10"
-        android:enabled="true"
-        android:focusable="auto"
-        android:hint="@string/search_a_location"
-        android:inputType="text"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintHorizontal_bias="0.411"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:layout_constraintVertical_bias="0.192" />
-
-    <Button
-        android:id="@+id/dest_location_search_button"
-        android:layout_width="47dp"
-        android:layout_height="36dp"
-        android:layout_gravity="end"
-        android:background="#EDEDED"
-        android:drawableBottom="@android:drawable/ic_menu_search"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintHorizontal_bias="0.7"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
-        mapbox:layout_constraintVertical_bias="0.195" />
-
-    <Button
-        android:id="@+id/srcBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
-        android:layout_marginLeft="304dp"
-        android:layout_marginTop="36dp"
-        android:text="@string/src"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/destBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="304dp"
-        android:layout_marginLeft="304dp"
-        android:layout_marginTop="116dp"
-        android:text="@string/dest"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <Button-->
-    <!--        android:id="@+id/button4"-->
-    <!--        android:layout_width="163dp"-->
-    <!--        android:layout_height="109dp"-->
-    <!--        android:layout_marginStart="116dp"-->
-    <!--        android:layout_marginLeft="116dp"-->
-    <!--        android:layout_marginTop="228dp"-->
-    <!--        android:text="TimePicker (for now)"-->
-    <!--        mapbox:layout_constraintStart_toStartOf="parent"-->
-    <!--        mapbox:layout_constraintTop_toTopOf="parent" />-->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="showTimePickerDialog"
-        android:text="@string/pick_time"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.295" />
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_border"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <EditText
+                    android:id="@+id/src_location_search_text"
+                    android:layout_width="200dp"
+                    android:layout_height="36dp"
+                    android:autofillHints=""
+                    android:background="#EDEDED"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:focusable="auto"
+                    android:hint="@string/search_a_location"
+                    android:inputType="text"
+                    mapbox:layout_constraintBottom_toBottomOf="parent"
+                    mapbox:layout_constraintEnd_toEndOf="parent"
+                    mapbox:layout_constraintHorizontal_bias="0.411"
+                    mapbox:layout_constraintStart_toStartOf="parent"
+                    mapbox:layout_constraintTop_toTopOf="parent"
+                    mapbox:layout_constraintVertical_bias="0.059" />
+
+                <Button
+                    android:id="@+id/src_location_search_button"
+                    android:layout_width="47dp"
+                    android:layout_height="36dp"
+                    android:layout_toRightOf="@+id/src_location_search_text"
+                    android:background="#EDEDED"
+                    android:drawableBottom="@android:drawable/ic_menu_search" />
+
+                <ImageButton
+                    android:id="@+id/srcBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/white"
+                    android:src="@drawable/location_red"
+                    android:layout_toRightOf="@+id/src_location_search_button"/>
+
+            </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/srcLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="48dp"
-        android:text="@string/src_location"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/srcLoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/src_location"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/destLoc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="120dp"
-        android:text="@string/dest_location"
-        mapbox:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_border"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
 
-    <Button
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
-        android:text="@string/confirm"
-        mapbox:layout_constraintBottom_toBottomOf="parent"
-        mapbox:layout_constraintEnd_toEndOf="parent"
-        mapbox:layout_constraintHorizontal_bias="0.455"
-        mapbox:layout_constraintStart_toStartOf="parent" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/startTimeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="258dp"
-        android:layout_marginLeft="258dp"
-        android:layout_marginTop="192dp"
-        android:text=""
-        app:layout_constraintStart_toStartOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/dest_location_search_text"
+                    android:layout_width="200dp"
+                    android:layout_height="36dp"
+                    android:autofillHints=""
+                    android:background="#EDEDED"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:focusable="auto"
+                    android:hint="@string/search_a_location"
+                    android:inputType="text"
+                    mapbox:layout_constraintBottom_toBottomOf="parent"
+                    mapbox:layout_constraintEnd_toEndOf="parent"
+                    mapbox:layout_constraintHorizontal_bias="0.411"
+                    mapbox:layout_constraintStart_toStartOf="parent"
+                    mapbox:layout_constraintTop_toTopOf="parent"
+                    mapbox:layout_constraintVertical_bias="0.059" />
 
+                <Button
+                    android:id="@+id/dest_location_search_button"
+                    android:layout_width="47dp"
+                    android:layout_height="36dp"
+                    android:layout_toRightOf="@+id/dest_location_search_text"
+                    android:background="#EDEDED"
+                    android:drawableBottom="@android:drawable/ic_menu_search" />
+
+
+                <ImageButton
+                    android:id="@+id/destBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/white"
+                    android:src="@drawable/loaction_green"
+                    android:layout_toRightOf="@+id/dest_location_search_button"/>
+
+
+
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/destLoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/src_location"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="28dp"
+                android:layout_marginRight="28dp" />
+
+        </LinearLayout>
+ <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shadow_border"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+     <RelativeLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal">
+     <TextView
+         android:id="@+id/startTimeText"
+         android:layout_width="230dp"
+         android:layout_height="36dp"
+         android:background="#EDEDED"
+         android:text="@string/pick_time"
+         android:gravity="center_vertical"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showTimePickerDialog"
+            android:background="@color/white"
+            android:src="@drawable/time"
+            android:layout_toEndOf="@+id/startTimeText"
+            android:layout_toRightOf="@+id/startTimeText"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="3dp"/>
+     </RelativeLayout>
+ </LinearLayout>
+        <Button
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:drawableLeft="@drawable/outline_search_white_18dp"
+            android:background="@color/teal_700"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -106,5 +106,6 @@
     <string name="app_ver_0_0_1">App ver 0.0.1</string>
     <string name="username">username</string>
     <string name="join">JOIN</string>
+    <string name="submitRating">Submit Rating</string>
     <string name="navigation_header">Navigation header</string>
 </resources>

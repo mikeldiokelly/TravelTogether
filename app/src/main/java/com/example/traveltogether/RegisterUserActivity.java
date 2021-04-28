@@ -132,6 +132,8 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put("id", userid);
+                            hashMap.put("numRating", "0");
+                            hashMap.put("avgRating", "0.0");
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
