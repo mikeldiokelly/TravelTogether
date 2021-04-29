@@ -46,30 +46,35 @@ public class ProfileFragment extends Fragment {
         age = view.findViewById(R.id.p_age);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         dbr = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        getProfile();
 
-        dbr.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
-                User user = datasnapshot.getValue(User.class);
-                if (user!=null) {
-                    first.setText(user.first_name);
-                    last.setText(user.last_name);
-                    age.setText(user.age + " years old");
-                    if (user.getImageURL().equals("default")) {
-                        Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
-                        image_profile.setImageResource(R.drawable.user_dp);
-                    }
-                    else {
-                        Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         return view;
     }
+
+   public void getProfile(){
+       dbr.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot datasnapshot) {
+               User user = datasnapshot.getValue(User.class);
+               if (user!=null) {
+                   first.setText(user.first_name);
+                   last.setText(user.last_name);
+                   age.setText(user.age + " years old");
+                   if (user.getImageURL().equals("default")) {
+                       Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
+                       image_profile.setImageResource(R.drawable.user_dp);
+                   }
+                   else {
+                       Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
+                   }
+               }
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
+
+   }
 }

@@ -74,25 +74,30 @@ public class RatingActivity extends AppCompatActivity {
         submitRatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ratingList = rateUserAdapter.getRatingList();
-                List<Double> oldRatingList = rateUserAdapter.getOldRatingList();
-                List<Integer> numRatingList = rateUserAdapter.getNumRatingList();
-                List<String> UserIDList =  rateUserAdapter.getUserIDList();
-                for (int i =0;i<UserIDList.size();i++){
-                    int numRating = numRatingList.get(i);
-                    Double newRating =( oldRatingList.get(i)* numRating + ratingList.get(0))/(numRating+1);
-                    HashMap<String, Object> values = new HashMap<>();
-                    values.put("numRating", numRatingList.get(i)+1);
-                    values.put("avgRating", newRating);
-                    FirebaseDatabase.getInstance().getReference("Users")
-                            .child(UserIDList.get(i))
-                            .updateChildren(values);
-                }
+                rate();
                 Intent intent = new Intent(RatingActivity.this, MainActivity.class);
                 startActivity(intent);
 
             }
         });
+
+    }
+
+    public void rate(){
+        ratingList = rateUserAdapter.getRatingList();
+        List<Double> oldRatingList = rateUserAdapter.getOldRatingList();
+        List<Integer> numRatingList = rateUserAdapter.getNumRatingList();
+        List<String> UserIDList =  rateUserAdapter.getUserIDList();
+        for (int i =0;i<UserIDList.size();i++){
+            int numRating = numRatingList.get(i);
+            Double newRating =( oldRatingList.get(i)* numRating + ratingList.get(0))/(numRating+1);
+            HashMap<String, Object> values = new HashMap<>();
+            values.put("numRating", numRatingList.get(i)+1);
+            values.put("avgRating", newRating);
+            FirebaseDatabase.getInstance().getReference("Users")
+                    .child(UserIDList.get(i))
+                    .updateChildren(values);
+        }
 
     }
 

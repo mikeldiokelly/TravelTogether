@@ -99,7 +99,7 @@ exports.notifyJourneyEnd = functions.database.ref('/Journeys/{journeyUid}/journe
       }
       const getUsersPromise = admin.database().ref(`/Journeys/${journeyUid}/userList`).once('value')
       const results1 = await Promise.all([getUsersPromise]);
-      results1.forEach(function(childSnapshot) {
+      results1.results.forEach(async function(childSnapshot) {
         var key = childSnapshot.key;
         var childData = childSnapshot.val();
         // get participants token
@@ -146,7 +146,7 @@ exports.notifyJourneyStart = functions.database.ref('/Journeys/{journeyUid}/jour
       }
       const getUsersPromise = admin.database().ref(`/Journeys/${journeyUid}/userList`).once('value')
       const results1 = await Promise.all([getUsersPromise]);
-      results1.forEach(function(childSnapshot) {
+      results1.results.forEach(async function(childSnapshot) {
         var key = childSnapshot.key;
         var childData = childSnapshot.val();
         // get participants token

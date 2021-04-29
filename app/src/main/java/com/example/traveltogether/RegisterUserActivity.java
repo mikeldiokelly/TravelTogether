@@ -184,4 +184,91 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                     }
                 });
     }
+
+    public void addNewUser(){
+        String r_first = first_name.getText().toString().trim();
+        String r_last = last_name.getText().toString().trim();
+        String r_age = age.getText().toString().trim();
+        String r_email = email.getText().toString().trim();
+        String r_pass = password.getText().toString().trim();
+        String r_gender = gender.getText().toString().trim();
+        String r_permRes = perm_residence.getText().toString().trim();
+        Point r_perm = perm_res;
+        Point r_curr = curr_loc;
+
+
+        if (r_first.isEmpty()) {
+            first_name.setError("Please enter your first name.");
+            first_name.requestFocus();
+            return;
+        }
+        if (r_last.isEmpty()) {
+            last_name.setError("Please enter your last name.");
+            last_name.requestFocus();
+            return;
+        }
+        if (r_age.isEmpty()) {
+            age.setError("Please enter your age.");
+            age.requestFocus();
+            return;
+        }
+        if (r_email.isEmpty()) {
+            email.setError("Please enter your email address.");
+            email.requestFocus();
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(r_email).matches()) {
+            email.setError("Please enter a valid email address.");
+            email.requestFocus();
+            return;
+        }
+        if (r_pass.isEmpty()) {
+            password.setError("Please enter a password.");
+            password.requestFocus();
+            return;
+        }
+        if (r_pass.length() < 6) {
+            password.setError("Password must have at least 6 characters.");
+            password.requestFocus();
+            return;
+        }
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.createUserWithEmailAndPassword(r_email, r_pass)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            String userid = firebaseUser.getUid();
+                            User user = new User(r_first, r_last, r_age, r_email, userid, r_gender, r_perm, r_curr);
+                            reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("id", userid);
+                            hashMap.put("numRating", "0");
+                            hashMap.put("avgRating", "0.0");
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(RegisterUserActivity.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                    else {
+                                        Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
 }
