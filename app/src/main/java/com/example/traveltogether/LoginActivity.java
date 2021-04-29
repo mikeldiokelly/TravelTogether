@@ -44,12 +44,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_email = (EditText) findViewById(R.id.login_email);
         login_pass = (EditText) findViewById(R.id.login_password);
         loginBar = (ProgressBar) findViewById(R.id.login_progressBar);
+        login ();
+    }
 
+
+    public void login (){
         mauth = FirebaseAuth.getInstance();
         if (mauth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
         }
     }
+
 
     @Override
     public void onClick(View v) {
