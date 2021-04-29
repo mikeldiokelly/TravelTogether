@@ -6,6 +6,9 @@ import com.google.android.gms.common.internal.Objects;
 import com.google.firebase.auth.FirebaseUser;
 import com.mapbox.geojson.Point;
 
+import java.util.Collections;
+import java.util.List;
+
 public class User {
 
     public String first_name, last_name, age, email, id, gender;
@@ -13,6 +16,7 @@ public class User {
     Point perm_res, curr_loc;
     Double avgRating;
     int numRating;
+    List<Journey> journeys;
 
     public User() {
     }
@@ -28,12 +32,21 @@ public class User {
         this.curr_loc = curr_loc;
         this.numRating=0;
         this.avgRating = (Double) 0.0;
+        this.journeys = Collections.emptyList();
     }
 
     public String getUsername(){
         return this.first_name;
     }
     public void setUsername(String name){ this.first_name = name;}
+
+    public void addJourney(Journey journey){
+        journeys.add(journey);
+    };
+
+    public List<Journey> getJourneys(){
+        return journeys;
+    }
 
     public String getId() {
         return id;

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.traveltogether.Model.Journey;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyJourneysActivity extends AppCompatActivity {
 
@@ -39,11 +49,19 @@ public class MyJourneysActivity extends AppCompatActivity {
                 String title = journeyTitles[position];
                 Journey journey = journeyList[position];
                 Intent _journey = new Intent(MyJourneysActivity.this, JourneyActivity.class);
+
+                String[] usersList = new String[journey.getUserList().size()];
+                usersList = journey.getUserList().toArray(usersList);
+
                 _journey.putExtra("journey_source", journey.getSource().toString());
+                _journey.putExtra("journey_source_address", journey.getSourceAddress());
+                _journey.putExtra("journey_destination_address", journey.getDestAddress());
                 _journey.putExtra("journey_destination", journey.getDestination().toString());
                 _journey.putExtra("journey_time", journey.getStartTime());
                 _journey.putExtra("journey_id", journey.getId());
                 _journey.putExtra("host_id", journey.getHost());
+                _journey.putExtra("users_in_journey", usersList);
+
                 startActivity(_journey);
                 Log.d(" clicked ", "clicked on title: " + title);
             }
@@ -88,8 +106,40 @@ public class MyJourneysActivity extends AppCompatActivity {
 
     String getJourneyTitleFromJourney(Journey journey){
         String title = "";
-        title += journey.getSource() + " -> " + journey.getDestination();
+        title += journey.getSourceAddress() + " -> " + journey.getDestAddress();
         return title;
     }
+
+//    String reverseGeocodeFromLatLong(){
+//
+//        String pointAddress;
+//        MapboxGeocoding reverseGeocode = MapboxGeocoding.builder()
+//                .accessToken(getString(R.string.access_token))
+//                .query(point)
+//                .build();
+//
+//        reverseGeocode.enqueueCall(new Callback<GeocodingResponse>() {
+//            @Override
+//            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+//                List<CarmenFeature> features = response.body().features();
+//
+//                String selectedAddress = "";
+//                if(!features.isEmpty()){
+//
+//                    CarmenFeature feature = features.get(0);
+//
+//                    selectedAddress = feature.placeName();
+//                    pointAddress = selectedAddress;
+//                    Log.d(" MapActivity ", " selectedAddress: feature " + feature);
+//                    Log.d(" MapActivity ", " selectedAddress: placeName " + feature.placeName());
+//                }
+//
+//                TextView selectedLocationTextView = (TextView) findViewById(R.id.selectedLocationTextView);
+//                selectedLocationTextView.setText(selectedAddress);
+//
+//            }
+//    });
+//        return pointAddress;
+//    }
 
 }

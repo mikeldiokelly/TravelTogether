@@ -35,7 +35,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
     private List<Journey> mJourneys;
-    private  String souceLatLong, destLatLong, startTime;
+    private  String souceLatLong, destLatLong, startTime, sourceAddress, destinationAddress;
 
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -52,6 +52,12 @@ public class SearchResultActivity extends AppCompatActivity {
         souceLatLong = getIntent().getStringExtra("SOURCE");
         destLatLong = getIntent().getStringExtra("DESTINATION");
         startTime = getIntent().getStringExtra("START_TIME");
+        sourceAddress = getIntent().getStringExtra("SOURCE_ADDRESS");
+        destinationAddress = getIntent().getStringExtra("DESTINATION_ADDRESS");
+
+        System.out.println(".............................");
+        System.out.println(sourceAddress);
+        System.out.println(destinationAddress);
 
         recyclerView=findViewById(R.id.list1);
         recyclerView.setHasFixedSize(true);
@@ -82,7 +88,7 @@ public class SearchResultActivity extends AppCompatActivity {
         returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewLoc(souceLatLong,destLatLong);
+                writeNewLoc(souceLatLong,destLatLong, sourceAddress, destinationAddress);
                 Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
                 startActivity(intent);
 
@@ -93,7 +99,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     }
 
-    public void writeNewLoc( String souceLatLong, String destLatLong) {
+    public void writeNewLoc( String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
 
         FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
         List<String> users = new ArrayList();
@@ -116,7 +122,7 @@ public class SearchResultActivity extends AppCompatActivity {
         DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
         DatabaseReference newPostRef =  dbr.push();
         // update journey ID
-        Journey journey = new Journey(newPostRef.getKey(), users, src, dest, startTime, true, "");
+        Journey journey = new Journey(newPostRef.getKey(), users, src, dest, startTime, true, "", sourceAddress, destinationAddress);
 
         // todo: keep a mJourneyList
 
