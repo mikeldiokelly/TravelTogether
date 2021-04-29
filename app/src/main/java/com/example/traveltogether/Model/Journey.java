@@ -19,13 +19,16 @@ public class Journey {
     String Id;
     List<String> Users;
     List<Double> Source, Destination;
+    String sourceAddress, destAddress;
     String startTime;
     String transport;
     boolean repeatWeakly;
     JourneyStatus journeyStatus;
-    public Journey() {
+    public Journey(){
+
     }
-    public Journey(String Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport){
+
+    public Journey(String Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport,  String sourceAddress, String destAddress){
 
         this.Id = Id;
         this.Destination = Destination;
@@ -35,6 +38,8 @@ public class Journey {
         this.repeatWeakly = repeatWeakly;
         this.transport = transport;
         this.journeyStatus = JourneyStatus.PENDING;
+        this.sourceAddress = sourceAddress;
+        this.destAddress = destAddress;
     }
 
     public void addUser(String user){ this.Users.add(user); }
@@ -45,6 +50,15 @@ public class Journey {
 
     public String getId(){ return Id; }
     public List<Double> getSource(){ return Source; }
+
+    public String getSourceAddress() {
+        return sourceAddress;
+    }
+
+    public String getDestAddress() {
+        return destAddress;
+    }
+
     public List<Double> getDestination(){ return Destination; }
     public List<String> getUserList(){ return Users; }
     public String getHost() {

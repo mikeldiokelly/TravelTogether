@@ -114,10 +114,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
         });
         setContentView(R.layout.activity_create_journey);
 
-
-
-
-
         srcSearchLocationText = findViewById(R.id.src_location_search_text);
         Button srcLocationSearchButton = findViewById(R.id.src_location_search_button);
         srcLocationSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +163,8 @@ public class CreateJourneyActivity extends AppCompatActivity {
                 intent.putExtra("SOURCE", souceLatLong);
                 intent.putExtra("DESTINATION", destLatLong);
                 intent.putExtra("START_TIME", journeyTime);
+                intent.putExtra("SOURCE_ADDRESS", srcLocation.getText().toString());
+                intent.putExtra("DESTINATION_ADDRESS", destLocation.getText().toString());
                 startActivity(intent);
 
             }
