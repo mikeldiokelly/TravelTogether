@@ -98,18 +98,9 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
     private Point convertStringToPoint(String value){
         System.out.println(value);
-
-        Log.d(" latitude .....","......................................." + value );
-        System.out.println(value.substring(2,value.indexOf(",") )+"thissss");
-        System.out.println(value.substring(value.indexOf(",")+1, value.length()-1)+"888888");
-        System.out.println(" line  89    ......................................................................................................................");
-        System.out.println(value.split("\\[")[1].split(",")[0]);
-        System.out.println(value.split(" ")[1].split("]")[0]);
         Double srcLong = Double.parseDouble( value.substring(2,value.indexOf(",") ));
         String temp = value.substring(value.indexOf(",")+1, value.length()-1);
         Double srcLat = Double.parseDouble( temp);
-        System.out.println(srcLong+".............................>>>>>>>>>>tada.");
-        System.out.println(srcLat);
         Log.d(" latitude ", " lat : " + srcLat);
 
         Point destinationPoint = Point.fromLngLat(srcLong, srcLat);

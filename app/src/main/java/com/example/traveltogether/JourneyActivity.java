@@ -85,7 +85,6 @@ public class JourneyActivity extends AppCompatActivity {
         startJourneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String jid = getIntent().getStringExtra("journey_id");
                 //check if the current user is the host
 
@@ -125,6 +124,10 @@ public class JourneyActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
     private void displayCompanionList() {
         String[] usersList = getIntent().getStringArrayExtra("users_in_journey");
