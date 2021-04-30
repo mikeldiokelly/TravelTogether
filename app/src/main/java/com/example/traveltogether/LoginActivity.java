@@ -63,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(new Intent(this, RegisterUserActivity.class));
                 break;
             case R.id.login:
-                User_login();
+                String email = login_email.getText().toString().trim();
+                String password = login_pass.getText().toString().trim();
+                user_login(email, password);
                 break;
             case R.id.forgot:
                 startActivity(new Intent(this, ForgotPasswordActivity.class));
@@ -71,9 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void User_login() {
-        String email = login_email.getText().toString().trim();
-        String password = login_pass.getText().toString().trim();
+    private void user_login(String email, String password) {
 
         if (email.isEmpty()) {
             login_email.setError("Please enter your email address.");

@@ -46,27 +46,29 @@ public class MyJourneysActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String title = journeyTitles[position];
-                Journey journey = journeyList[position];
-                Intent _journey = new Intent(MyJourneysActivity.this, JourneyActivity.class);
-
-                String[] usersList = new String[journey.getUserList().size()];
-                usersList = journey.getUserList().toArray(usersList);
-
-                _journey.putExtra("journey_source", journey.getSource().toString());
-                _journey.putExtra("journey_source_address", journey.getSourceAddress());
-                _journey.putExtra("journey_destination_address", journey.getDestAddress());
-                _journey.putExtra("journey_destination", journey.getDestination().toString());
-                _journey.putExtra("journey_time", journey.getStartTime());
-                _journey.putExtra("journey_id", journey.getId());
-                _journey.putExtra("host_id", journey.getHost());
-                _journey.putExtra("users_in_journey", usersList);
-
-                startActivity(_journey);
-                Log.d(" clicked ", "clicked on title: " + title);
+                showJourneyInterface(position);
             }
         });
 
+    }
+
+    private void showJourneyInterface(int position) {
+        Journey journey = journeyList[position];
+        Intent _journey = new Intent(MyJourneysActivity.this, JourneyActivity.class);
+
+        String[] usersList = new String[journey.getUserList().size()];
+        usersList = journey.getUserList().toArray(usersList);
+
+        _journey.putExtra("journey_source", journey.getSource().toString());
+        _journey.putExtra("journey_source_address", journey.getSourceAddress());
+        _journey.putExtra("journey_destination_address", journey.getDestAddress());
+        _journey.putExtra("journey_destination", journey.getDestination().toString());
+        _journey.putExtra("journey_time", journey.getStartTime());
+        _journey.putExtra("journey_id", journey.getId());
+        _journey.putExtra("host_id", journey.getHost());
+        _journey.putExtra("users_in_journey", usersList);
+
+        startActivity(_journey);
     }
 
     private void getMyJourneys() {
@@ -77,7 +79,6 @@ public class MyJourneysActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Log.d(" clicked ", " indatachange ");
                 int index = 0;
                 journeyTitles = new String[(int) snapshot.getChildrenCount()];
                 journeyList = new Journey[(int) snapshot.getChildrenCount()];
@@ -90,8 +91,7 @@ public class MyJourneysActivity extends AppCompatActivity {
                     journeyTitles[index] = getJourneyTitleFromJourney(j);
                     index++;
                 }
-//                journeyAdapter = new JourneyAdapter(SearchResultActivity.this,mJourneys);
-//                recyclerView.setAdapter(journeyAdapter);
+
                 listView.setAdapter(new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, journeyTitles));
 
             }
@@ -109,37 +109,5 @@ public class MyJourneysActivity extends AppCompatActivity {
         title += journey.getSourceAddress() + " -> " + journey.getDestAddress();
         return title;
     }
-
-//    String reverseGeocodeFromLatLong(){
-//
-//        String pointAddress;
-//        MapboxGeocoding reverseGeocode = MapboxGeocoding.builder()
-//                .accessToken(getString(R.string.access_token))
-//                .query(point)
-//                .build();
-//
-//        reverseGeocode.enqueueCall(new Callback<GeocodingResponse>() {
-//            @Override
-//            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
-//                List<CarmenFeature> features = response.body().features();
-//
-//                String selectedAddress = "";
-//                if(!features.isEmpty()){
-//
-//                    CarmenFeature feature = features.get(0);
-//
-//                    selectedAddress = feature.placeName();
-//                    pointAddress = selectedAddress;
-//                    Log.d(" MapActivity ", " selectedAddress: feature " + feature);
-//                    Log.d(" MapActivity ", " selectedAddress: placeName " + feature.placeName());
-//                }
-//
-//                TextView selectedLocationTextView = (TextView) findViewById(R.id.selectedLocationTextView);
-//                selectedLocationTextView.setText(selectedAddress);
-//
-//            }
-//    });
-//        return pointAddress;
-//    }
 
 }
