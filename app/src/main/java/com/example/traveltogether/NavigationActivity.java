@@ -82,8 +82,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        updateLocation();
+
         Mapbox.getInstance(this, getString(R.string.access_token));
         setContentView(R.layout.activity_navigation);
         mapView = findViewById(R.id.mapView);
@@ -98,33 +97,14 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
     private Point convertStringToPoint(String value){
         System.out.println(value);
-        Double srcLong = Double.parseDouble( value.substring(2,value.indexOf(",") ));
-        String temp = value.substring(value.indexOf(",")+1, value.length()-1);
-        Double srcLat = Double.parseDouble( temp);
+
+        double srcLong = Double.parseDouble( value.split("\\[")[1].split(",")[0]);
+        double srcLat = Double.parseDouble( value.split("]")[0].split(" ")[1]);
+
         Log.d(" latitude ", " lat : " + srcLat);
+        Log.d(" latitude ", " lat : " + srcLong);
 
-        Point destinationPoint = Point.fromLngLat(srcLong, srcLat);
-        return destinationPoint;
-    }
-
-    private void updateLocation() {
-        Log.d("current location -> ", "location: ");
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-            return;
-        }
-
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(android.location.Location location) {
-                        Log.d("current location -> ", "location: " + location);
-                        Log.d("current location -> ", "location lat: " + location.getLatitude());
-                        Log.d("current location -> ", "location long: " + location.getLongitude());
-                        currentLocation = location;
-                    }
-                });
+        return Point.fromLngLat(srcLong, srcLat);
     }
 
 
@@ -137,43 +117,44 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
             public void onStyleLoaded(@NonNull Style style) {
                 enableLocationComponent(style);
 
-                //addDestinationIconSymbolLayer(style);
-                Point destinationPoint = convertStringToPoint(source);
+                addDestinationIconSymbolLayer(style);
 
-                updateLocation();
+                Point origin = convertStringToPoint(source);
+                Point destinationPoint = convertStringToPoint(destination);
+
                 GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
                 if (source != null) {
                     source.setGeoJson(Feature.fromGeometry(destinationPoint));
                 }
 
-                Point origin = Point.fromLngLat(currentLocation.getLongitude(), currentLocation.getLatitude());
-
                 getRoute(origin, destinationPoint);
-       //         mapboxMap.addOnMapClickListener(NavigationActivity.this);
+//                mapboxMap.addOnMapClickListener((MapboxMap.OnMapClickListener) NavigationActivity.this);
+
                 button = findViewById(R.id.startButton);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean simulateRoute = true;
                         NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                                 .directionsRoute(currentRoute)
-                                .shouldSimulateRoute(simulateRoute)
                                 .build();
 // Call this method with Context from within an Activity
                         NavigationLauncher.startNavigation(NavigationActivity.this, options);
                     }
                 });
 
-        //uncomment when you get stuff working
 //                button.setEnabled(true);
 //                button.setBackgroundResource(R.color.mapboxBlue);
+
+
+//        uncomment when you get stuff working
+
             }
 
         });
     }
 
 
-  /*  private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
+    private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
         loadedMapStyle.addImage("destination-icon-id",
                 BitmapFactory.decodeResource(this.getResources(), R.drawable.mapbox_marker_icon_default));
         GeoJsonSource geoJsonSource = new GeoJsonSource("destination-source-id");
@@ -187,24 +168,24 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         loadedMapStyle.addLayer(destinationSymbolLayer);
     }
 
-    @SuppressWarnings( {"MissingPermission"})
-    @Override
-    public boolean onMapClick(@NonNull LatLng point) {
-
-        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-                locationComponent.getLastKnownLocation().getLatitude());
-
-        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-        if (source != null) {
-            source.setGeoJson(Feature.fromGeometry(destinationPoint));
-        }
-
-        getRoute(originPoint, destinationPoint);
-        button.setEnabled(true);
-        button.setBackgroundResource(R.color.mapboxBlue);
-        return true;
-    }*/
+//    @SuppressWarnings( {"MissingPermission"})
+//    @Override
+//    public boolean onMapClick(@NonNull LatLng point) {
+//
+//        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
+//        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
+//                locationComponent.getLastKnownLocation().getLatitude());
+//
+//        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
+//        if (source != null) {
+//            source.setGeoJson(Feature.fromGeometry(destinationPoint));
+//        }
+//
+//        getRoute(originPoint, destinationPoint);
+//        button.setEnabled(true);
+//        button.setBackgroundResource(R.color.mapboxBlue);
+//        return true;
+//    }
 
     private void getRoute(Point origin, Point destination) {
         NavigationRoute.builder(this)
