@@ -1,4 +1,5 @@
 package com.example.traveltogether;
+
 import com.example.traveltogether.Model.*;
 
 import android.Manifest;
@@ -34,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener{
+public class RegisterUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int REQUEST_LOCATION = 999;
     private Button banner, register;
@@ -57,7 +58,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         //banner = (TextView) findViewById(R.id.banner);
         //banner.setOnClickListener(this);
 
-        register =  (Button) findViewById(R.id.register);
+        register = (Button) findViewById(R.id.register);
         register.setOnClickListener(this);
 
         first_name = (EditText) findViewById(R.id.first_name);
@@ -75,7 +76,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
 
     private void updateLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
             return;
         }
 
@@ -94,7 +95,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register:
-                register ();
+                register();
                 break;
         }
     }
@@ -169,15 +170,13 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                         Toast.makeText(RegisterUserActivity.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
                                         progressBar.setVisibility(View.GONE);
-                                    }
-                                    else {
+                                    } else {
                                         Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }
@@ -185,7 +184,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                 });
     }
 
-    public void addNewUser(){
+    public void addNewUser() {
         String r_first = first_name.getText().toString().trim();
         String r_last = last_name.getText().toString().trim();
         String r_age = age.getText().toString().trim();
@@ -255,15 +254,13 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                                         Toast.makeText(RegisterUserActivity.this, "Sign-up was successful!", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterUserActivity.this, LoginActivity.class));
                                         progressBar.setVisibility(View.GONE);
-                                    }
-                                    else {
+                                    } else {
                                         Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             Toast.makeText(RegisterUserActivity.this, "Sign-up failed. Try again.", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
                         }

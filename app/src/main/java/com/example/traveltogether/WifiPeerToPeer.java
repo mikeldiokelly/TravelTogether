@@ -144,7 +144,7 @@ public class WifiPeerToPeer extends AppCompatActivity {
                 wifiP2PManager.connect(channel, wifiP2pConfig, new WifiP2pManager.ActionListener() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(getApplicationContext(), "connected to "+ device.deviceName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "connected to " + device.deviceName, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -192,7 +192,7 @@ public class WifiPeerToPeer extends AppCompatActivity {
     WifiP2pManager.PeerListListener peerListListener = new WifiP2pManager.PeerListListener() {
         @Override
         public void onPeersAvailable(WifiP2pDeviceList peerList) {
-            if(!peerList.getDeviceList().equals(peers)){
+            if (!peerList.getDeviceList().equals(peers)) {
                 peers.clear();
                 peers.addAll((Collection<? extends WifiP2pDevice>) peerList);
 
@@ -200,16 +200,16 @@ public class WifiPeerToPeer extends AppCompatActivity {
                 deviceArray = new WifiP2pDevice[peerList.getDeviceList().size()];
                 int index = 0;
 
-                for(WifiP2pDevice device : peerList.getDeviceList()){
-                    deviceNameArray[index]=device.deviceName;
-                    deviceArray[index]=device;
+                for (WifiP2pDevice device : peerList.getDeviceList()) {
+                    deviceNameArray[index] = device.deviceName;
+                    deviceArray[index] = device;
                     index++;
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceNameArray);
                 listView.setAdapter(adapter);
 
-                if(peers.size() == 0){
+                if (peers.size() == 0) {
                     Toast.makeText(getApplicationContext(), "No Device Found :( ", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -222,12 +222,11 @@ public class WifiPeerToPeer extends AppCompatActivity {
         public void onConnectionInfoAvailable(WifiP2pInfo info) {
             final InetAddress groupOwnerAddress = info.groupOwnerAddress;
 
-            if(info.groupFormed && info.isGroupOwner){
+            if (info.groupFormed && info.isGroupOwner) {
                 connectionStatus.setText("Host");
                 serverClass = new ServerClass();
                 serverClass.start();
-            }
-            else if(info.groupFormed) {
+            } else if (info.groupFormed) {
                 connectionStatus.setText("Client");
                 clientClass = new ClientClass(groupOwnerAddress);
                 clientClass.start();
@@ -242,17 +241,17 @@ public class WifiPeerToPeer extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
     }
 
-    public class ServerClass extends Thread{
+    public class ServerClass extends Thread {
         Socket socket;
         ServerSocket serverSocket;
 
         @Override
-        public void run(){
+        public void run() {
             try {
                 serverSocket = new ServerSocket(8888);
                 socket = serverSocket.accept();
@@ -265,14 +264,14 @@ public class WifiPeerToPeer extends AppCompatActivity {
         }
     }
 
-    private class SendReceive extends Thread{
+    private class SendReceive extends Thread {
         private Socket socket;
         private InputStream inputStream;
         private OutputStream outputStream;
 
-        public SendReceive (Socket skt){
+        public SendReceive(Socket skt) {
             socket = skt;
-            try{
+            try {
                 inputStream = socket.getInputStream();
                 outputStream = socket.getOutputStream();
             } catch (IOException e) {
@@ -281,14 +280,14 @@ public class WifiPeerToPeer extends AppCompatActivity {
         }
 
         @Override
-        public void run(){
+        public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
 
-            while(socket!= null){
-                try{
+            while (socket != null) {
+                try {
                     bytes = inputStream.read(buffer);
-                    if(bytes > 0){
+                    if (bytes > 0) {
                         handler.obtainMessage(MESSAGE_READ, bytes, -1, buffer).sendToTarget();
                     }
                 } catch (IOException e) {
@@ -297,7 +296,7 @@ public class WifiPeerToPeer extends AppCompatActivity {
             }
         }
 
-        public void write(byte[] bytes){
+        public void write(byte[] bytes) {
             try {
                 outputStream.write(bytes);
             } catch (IOException e) {
@@ -306,23 +305,22 @@ public class WifiPeerToPeer extends AppCompatActivity {
         }
     }
 
-    public class ClientClass extends Thread{
+    public class ClientClass extends Thread {
         Socket socket;
         String hostAdd;
 
-        public ClientClass(InetAddress hostAddress){
+        public ClientClass(InetAddress hostAddress) {
             hostAdd = hostAddress.getHostAddress();
             socket = new Socket();
         }
 
         @Override
         public void run() {
-            try{
+            try {
                 socket.connect(new InetSocketAddress(hostAdd, 8888), 500);
                 sendReceive = new SendReceive(socket);
                 sendReceive.start();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

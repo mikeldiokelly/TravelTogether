@@ -37,8 +37,6 @@ public class RatingActivity extends AppCompatActivity {
     private Button submitRatingBtn;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,11 +54,11 @@ public class RatingActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1:snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     String userId = snapshot1.getValue(String.class);
                     usersList.add(userId);
                 }
-                rateUserAdapter = new RateUserAdapter(RatingActivity.this,usersList);
+                rateUserAdapter = new RateUserAdapter(RatingActivity.this, usersList);
                 recyclerView.setAdapter(rateUserAdapter);
             }
 
@@ -83,16 +81,16 @@ public class RatingActivity extends AppCompatActivity {
 
     }
 
-    public void rate(){
+    public void rate() {
         ratingList = rateUserAdapter.getRatingList();
         List<Double> oldRatingList = rateUserAdapter.getOldRatingList();
         List<Integer> numRatingList = rateUserAdapter.getNumRatingList();
-        List<String> UserIDList =  rateUserAdapter.getUserIDList();
-        for (int i =0;i<UserIDList.size();i++){
+        List<String> UserIDList = rateUserAdapter.getUserIDList();
+        for (int i = 0; i < UserIDList.size(); i++) {
             int numRating = numRatingList.get(i);
-            Double newRating =( oldRatingList.get(i)* numRating + ratingList.get(0))/(numRating+1);
+            Double newRating = (oldRatingList.get(i) * numRating + ratingList.get(0)) / (numRating + 1);
             HashMap<String, Object> values = new HashMap<>();
-            values.put("numRating", numRatingList.get(i)+1);
+            values.put("numRating", numRatingList.get(i) + 1);
             values.put("avgRating", newRating);
             FirebaseDatabase.getInstance().getReference("Users")
                     .child(UserIDList.get(i))

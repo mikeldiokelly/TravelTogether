@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button login_register, login, forgot;
     private EditText login_email, login_pass;
@@ -44,11 +44,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login_email = (EditText) findViewById(R.id.login_email);
         login_pass = (EditText) findViewById(R.id.login_password);
         loginBar = (ProgressBar) findViewById(R.id.login_progressBar);
-        login ();
+        login();
     }
 
 
-    public void login (){
+    public void login() {
         mauth = FirebaseAuth.getInstance();
         if (mauth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
@@ -104,14 +104,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (user.isEmailVerified()) {
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         loginBar.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         user.sendEmailVerification();
                         Toast.makeText(LoginActivity.this, "Check your email to verify your account", Toast.LENGTH_LONG).show();
                         loginBar.setVisibility(View.GONE);
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(LoginActivity.this, "Login failed. Try again.", Toast.LENGTH_LONG).show();
                     loginBar.setVisibility(View.GONE);
                 }

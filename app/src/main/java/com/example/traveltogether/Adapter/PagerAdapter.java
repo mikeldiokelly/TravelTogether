@@ -1,4 +1,5 @@
 package com.example.traveltogether.Adapter;
+
 import com.example.traveltogether.Fragments.*;
 
 import androidx.annotation.NonNull;
@@ -8,10 +9,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private int numOfTabs;
+    private int mNumOfTabs;
+
     public PagerAdapter(FragmentManager fm, int numOfTabs) {
-        super (fm);
-        this.numOfTabs = numOfTabs;
+        super(fm);
+        this.mNumOfTabs = numOfTabs;
     }
 
     @NonNull
@@ -31,6 +33,6 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return numOfTabs;
+        return mNumOfTabs;
     }
 }

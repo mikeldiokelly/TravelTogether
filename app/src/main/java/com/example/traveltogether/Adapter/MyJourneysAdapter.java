@@ -31,9 +31,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MyJourneysAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.MyJourneysAdapter.ViewHolder> {
     private Context mContext;
     private List<Journey> mJourneys;
-    List<String> mUsers;
-    FirebaseUser fuser;
-    DatabaseReference ref;
+    private List<String> mUsers;
+    private FirebaseUser fuser;
+    private DatabaseReference ref;
 
     public MyJourneysAdapter(Context mContext,  List<Journey> mJourneys) {
 //        super(mContext,resource,textViewResourceId, mJourneys);

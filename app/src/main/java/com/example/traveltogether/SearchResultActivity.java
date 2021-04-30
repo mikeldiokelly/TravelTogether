@@ -35,7 +35,7 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
     private List<Journey> mJourneys;
-    private  String souceLatLong, destLatLong, startTime, sourceAddress, destinationAddress;
+    private String souceLatLong, destLatLong, startTime, sourceAddress, destinationAddress;
 
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -59,7 +59,7 @@ public class SearchResultActivity extends AppCompatActivity {
         System.out.println(sourceAddress);
         System.out.println(destinationAddress);
 
-        recyclerView=findViewById(R.id.list1);
+        recyclerView = findViewById(R.id.list1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -69,11 +69,11 @@ public class SearchResultActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snapshot1:snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     Journey j = snapshot1.getValue(Journey.class);
                     mJourneys.add(j);
                 }
-                journeyAdapter = new JourneyAdapter(SearchResultActivity.this,mJourneys);
+                journeyAdapter = new JourneyAdapter(SearchResultActivity.this, mJourneys);
                 recyclerView.setAdapter(journeyAdapter);
             }
 
@@ -88,7 +88,7 @@ public class SearchResultActivity extends AppCompatActivity {
         returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewLoc(souceLatLong,destLatLong, sourceAddress, destinationAddress);
+                writeNewLoc(souceLatLong, destLatLong, sourceAddress, destinationAddress);
                 Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
                 startActivity(intent);
 
@@ -96,31 +96,33 @@ public class SearchResultActivity extends AppCompatActivity {
         });
 
 
-
     }
 
-    public void writeNewLoc( String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
+    public void writeNewLoc(String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
 
         FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
         List<String> users = new ArrayList();
         users.add(userN.getUid());
 
-        List<Double> src = new ArrayList();List<Double> dest = new ArrayList();
-        Double srcLong = Double.parseDouble( souceLatLong.substring(0,souceLatLong.indexOf(",")));
-        String temp = souceLatLong.substring(souceLatLong.indexOf(",")+1);
-        Double srcLat = Double.parseDouble( temp);
+        List<Double> src = new ArrayList();
+        List<Double> dest = new ArrayList();
+        Double srcLong = Double.parseDouble(souceLatLong.substring(0, souceLatLong.indexOf(",")));
+        String temp = souceLatLong.substring(souceLatLong.indexOf(",") + 1);
+        Double srcLat = Double.parseDouble(temp);
         System.out.println(srcLong);
         System.out.println(srcLat);
-        src.add(srcLong);src.add(srcLat);
-        Double destLong = Double.parseDouble( destLatLong.substring(0,destLatLong.indexOf(",")));
-        Double destLat = Double.parseDouble( destLatLong.substring(destLatLong.indexOf(",")+1));
-        dest.add(destLong);dest.add(destLat);
+        src.add(srcLong);
+        src.add(srcLat);
+        Double destLong = Double.parseDouble(destLatLong.substring(0, destLatLong.indexOf(",")));
+        Double destLat = Double.parseDouble(destLatLong.substring(destLatLong.indexOf(",") + 1));
+        dest.add(destLong);
+        dest.add(destLat);
         System.out.println(destLong);
         System.out.println(destLat);
 
 
-        DatabaseReference dbr =FirebaseDatabase.getInstance().getReference("Journeys");
-        DatabaseReference newPostRef =  dbr.push();
+        DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Journeys");
+        DatabaseReference newPostRef = dbr.push();
         // update journey ID
         Journey journey = new Journey(newPostRef.getKey(), users, src, dest, startTime, true, "", sourceAddress, destinationAddress);
 

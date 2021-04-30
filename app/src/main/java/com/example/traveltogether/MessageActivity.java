@@ -1,4 +1,5 @@
 package com.example.traveltogether;
+
 import com.example.traveltogether.Adapter.*;
 import com.example.traveltogether.Model.*;
 
@@ -85,8 +86,7 @@ public class MessageActivity extends AppCompatActivity {
                 String msg = text_send.getText().toString();
                 if (!msg.equals("")) {
                     sendMessage(fuser.getUid(), userid, msg);
-                }
-                else {
+                } else {
                     Toast.makeText(MessageActivity.this, "You can't send empty messages", Toast.LENGTH_SHORT).show();
                 }
                 text_send.setText("");
@@ -110,7 +110,8 @@ public class MessageActivity extends AppCompatActivity {
         });
 
     }
-    private void sendMessage (String sender, String receiver, String message) {
+
+    private void sendMessage(String sender, String receiver, String message) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
@@ -121,7 +122,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void readMessages(String myid, String userid) {
         mChat = new ArrayList<>();
-        reference =FirebaseDatabase.getInstance().getReference("Chats");
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

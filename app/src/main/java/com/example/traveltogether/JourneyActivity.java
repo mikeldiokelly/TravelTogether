@@ -43,8 +43,8 @@ public class JourneyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey);
 
-        source= getIntent().getStringExtra("journey_source");
-        destination= getIntent().getStringExtra("journey_destination");
+        source = getIntent().getStringExtra("journey_source");
+        destination = getIntent().getStringExtra("journey_destination");
 
         journeySource = findViewById(R.id.journeySource);
         journeySource.setText(getIntent().getStringExtra("journey_source_address"));
@@ -88,14 +88,13 @@ public class JourneyActivity extends AppCompatActivity {
                 String jid = getIntent().getStringExtra("journey_id");
                 //check if the current user is the host
 
-                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     FirebaseDatabase.getInstance().getReference("Journeys")
                             .child(jid).child("journeyStatus")
                             .setValue(Journey.JourneyStatus.ONGOING);
                     Toast.makeText(JourneyActivity.this, "The journey has started", Toast.LENGTH_SHORT).show();
 
-                }
-                else{
+                } else {
                     Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
                 }
 
@@ -110,15 +109,14 @@ public class JourneyActivity extends AppCompatActivity {
                 String jid = getIntent().getStringExtra("journey_id");
                 //check if the current user is the host
 
-                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     FirebaseDatabase.getInstance().getReference("Journeys")
-                        .child(jid).child("journeyStatus")
-                        .setValue(Journey.JourneyStatus.FINISHED);
+                            .child(jid).child("journeyStatus")
+                            .setValue(Journey.JourneyStatus.FINISHED);
                     Intent intent = new Intent(JourneyActivity.this, RatingActivity.class);
                     intent.putExtra("journey_id", jid);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -126,15 +124,12 @@ public class JourneyActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void displayCompanionList() {
         String[] usersList = getIntent().getStringArrayExtra("users_in_journey");
 
-        userNameList  = new ArrayList<>();
+        userNameList = new ArrayList<>();
 
-        for(String uId : usersList) {
+        for (String uId : usersList) {
 
             reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
 
