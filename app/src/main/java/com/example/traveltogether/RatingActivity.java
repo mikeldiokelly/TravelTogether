@@ -29,12 +29,12 @@ import java.util.List;
 public class RatingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RateUserAdapter rateUserAdapter;
-    String jid;
+    private String jid;
     private List<String> usersList;
-    List<Double> ratingList;
-    FirebaseUser fuser;
-    DatabaseReference reference;
-    Button submitRatingBtn;
+    private List<Double> ratingList;
+    private FirebaseUser fuser;
+    private DatabaseReference reference;
+    private Button submitRatingBtn;
 
 
 
