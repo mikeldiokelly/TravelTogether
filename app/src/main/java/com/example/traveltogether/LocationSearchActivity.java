@@ -27,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LocationSearch extends AppCompatActivity {
+public class LocationSearchActivity extends AppCompatActivity {
 
     ListView listView;
     Location[] locationList;

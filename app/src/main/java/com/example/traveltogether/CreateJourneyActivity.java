@@ -177,7 +177,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
     private void startLocationSearchWith(int searchCode, String searchKeyword) {
         updateLocation();
-        Intent _searchList = new Intent(CreateJourneyActivity.this, LocationSearch.class);
+        Intent _searchList = new Intent(CreateJourneyActivity.this, LocationSearchActivity.class);
         _searchList.putExtra(LOCATION_TO_SOURCE, searchKeyword);
         _searchList.putExtra("current_location_lat", currentLocation.getLatitude());
         _searchList.putExtra("current_location_long", currentLocation.getLongitude());

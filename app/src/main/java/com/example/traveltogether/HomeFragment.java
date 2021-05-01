@@ -39,14 +39,6 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        createCommuteBtn = view.findViewById(R.id.CreateCommuteBtn);
-        createCommuteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateCommuteActivity.class);
-                startActivity(intent);
-            }
-        });
 
         createRealTimeBtn = view.findViewById(R.id.createRealTimeBtn);
         createRealTimeBtn.setOnClickListener(new View.OnClickListener() {
