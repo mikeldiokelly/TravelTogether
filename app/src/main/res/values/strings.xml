@@ -108,4 +108,8 @@
     <string name="join">JOIN</string>
     <string name="submitRating">Submit Rating</string>
     <string name="navigation_header">Navigation header</string>
+    <string name="discoveryStarted">Discovery started ...</string>
+    <string name="discoveryNotStarted">can\'t start discovery services !</string>
+    <string name="noDeviceFound">No device found</string>
+    <string name="remember_your_device_name_is_how_other_users_see_you">Remember, your device name is how other users see you !</string>
 </resources>

@@ -133,43 +133,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         @Override
         public boolean onMapClick(@NonNull LatLng point) {
             endPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-            MapboxGeocoding reverseGeocode = MapboxGeocoding.builder()
-                    .accessToken(getString(R.string.access_token))
-                    .query(endPoint)
-                    .build();
-
-            reverseGeocode.enqueueCall(new Callback<GeocodingResponse>() {
-                @Override
-                public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
-                    List<CarmenFeature> features = response.body().features();
-
-                    String selectedAddress = "";
-                    if(!features.isEmpty()){
-
-                        CarmenFeature feature = features.get(0);
-
-                        selectedAddress = feature.placeName();
-                        endPointAddress = selectedAddress;
-                        Log.d(" MapActivity ", " selectedAddress: feature " + feature);
-                        Log.d(" MapActivity ", " selectedAddress: placeName " + feature.placeName());
-                    }
-
-                    TextView selectedLocationTextView = (TextView) findViewById(R.id.selectedLocationTextView);
-                    selectedLocationTextView.setText(selectedAddress);
-
-                }
-
-                @Override
-                public void onFailure(Call<GeocodingResponse> call, Throwable t) {
-
-                }
-            });
+            displayReverseGeocodeAndSetPoint(endPoint);
 
             return true;
         }
 
+    private void displayReverseGeocodeAndSetPoint(Point endPoint) {
+        MapboxGeocoding reverseGeocode = MapboxGeocoding.builder()
+                .accessToken(getString(R.string.access_token))
+                .query(endPoint)
+                .build();
 
-        @SuppressWarnings( {"MissingPermission"})
+        reverseGeocode.enqueueCall(new Callback<GeocodingResponse>() {
+            @Override
+            public void onResponse(Call<GeocodingResponse> call, Response<GeocodingResponse> response) {
+                List<CarmenFeature> features = response.body().features();
+
+                String selectedAddress = "";
+                if(!features.isEmpty()){
+
+                    CarmenFeature feature = features.get(0);
+
+                    selectedAddress = feature.placeName();
+                    endPointAddress = selectedAddress;
+                    Log.d(" MapActivity ", " selectedAddress: feature " + feature);
+                    Log.d(" MapActivity ", " selectedAddress: placeName " + feature.placeName());
+                }
+
+                TextView selectedLocationTextView = (TextView) findViewById(R.id.selectedLocationTextView);
+                selectedLocationTextView.setText(selectedAddress);
+
+            }
+
+            @Override
+            public void onFailure(Call<GeocodingResponse> call, Throwable t) {
+
+            }
+        });
+        }
+
+
+    @SuppressWarnings( {"MissingPermission"})
         private void enableLocationComponent(@NonNull Style loadedMapStyle) {
 // Check if permissions are enabled and if not request
             if (PermissionsManager.areLocationPermissionsGranted(this)) {

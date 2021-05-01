@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         createRealTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), WifiPeerToPeer.class);
+                Intent intent = new Intent(getActivity(), PeerToPeerActivity.class);
                 startActivity(intent);
             }
         });
