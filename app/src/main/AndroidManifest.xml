@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".PeerToPeerActivity"></activity>
+        <activity android:name=".PeerToPeerActivity" />
         <activity android:name=".RatingActivity" />
         <activity android:name=".NavigationActivity" />
         <activity android:name=".JourneyActivity" />
@@ -36,7 +36,6 @@
             android:name="android.test.runner"
             android:required="false" />
 
-        <activity android:name=".WifiPeerToPeer" />
         <activity android:name=".PreferenceActivity" /> <!-- android:theme="@style/Theme.AppCompat.DayNight"> -->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

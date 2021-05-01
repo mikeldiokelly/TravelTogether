@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 
 import androidx.core.app.ActivityCompat;
@@ -36,6 +38,7 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
+                    ActivityCompat.requestPermissions(peerToPeerActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, (int) 1);
                     return;
                 }
                 wifiP2pManager.requestPeers(channel, peerToPeerActivity.peerListListener);
@@ -43,7 +46,15 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
         }
         else if(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)){
             //Respond to new connection or disconnection
-
+            if(wifiP2pManager != null){
+                NetworkInfo networkInfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                if(networkInfo.isConnected()){
+                    wifiP2pManager.requestConnectionInfo(channel, peerToPeerActivity.connectionInfoListener);
+                }
+                else {
+                    peerToPeerActivity.connectionStatusP2P.setText("Not connected");
+                }
+            }
         }
     }
 }
