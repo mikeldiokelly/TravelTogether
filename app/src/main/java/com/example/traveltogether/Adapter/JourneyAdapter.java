@@ -55,22 +55,21 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Journey journey = mJourneys.get(position);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        
-
-
-        FirebaseDatabase.getInstance().getReference().child("Users").child(journey.getHost())
-                .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String userName = snapshot.child("first_name").getValue().toString();
-                holder.username.setText(userName);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        holder.username.setText(String.format("%s -> %s", journey.getSourceAddress(), journey.getDestination()));
+//
+//        FirebaseDatabase.getInstance().getReference().child("Users").child(journey.getHost())
+//                .addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                String userName = snapshot.child("first_name").getValue().toString();
+//                holder.username.setText(userName);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
 
@@ -81,41 +80,40 @@ public class JourneyAdapter extends RecyclerView.Adapter<com.example.traveltoget
         holder.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo: send request to FireBase -> Firebase ask the other user to confirm
-                //       if confirmed, update database, and send notification to this user
-
-                // check whether the user is in the user list
-                mUsers = journey.getUserList();
-
-                boolean joined = false;
-                for (String newuser : mUsers){
-                    if (fuser.getUid().equals(newuser))
-                        joined=true;
-                }
-                
-                if(!joined){
-                    // add user
-                    journey.addUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    FirebaseDatabase.getInstance().getReference("Journeys")
-                            .child(journey.getId())
-                            .setValue(journey);
-                    // delete
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    mContext.startActivity(intent);
-                }
-                else{
-                    Toast.makeText(mContext, "You already joined this", Toast.LENGTH_SHORT).show();
-                }
+               joinJourney(journey);
                
             }
         });
 
     }
 
+    private void joinJourney(Journey journey) {
+        // todo: send request to FireBase -> Firebase ask the other user to confirm
+        //       if confirmed, update database, and send notification to this user
 
+        // check whether the user is in the user list
+        mUsers = journey.getUserList();
 
+        boolean joined = false;
+        for (String newuser : mUsers){
+            if (fuser.getUid().equals(newuser))
+                joined=true;
+        }
 
-
+        if(!joined){
+            // add user
+            journey.addUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            FirebaseDatabase.getInstance().getReference("Journeys")
+                    .child(journey.getId())
+                    .setValue(journey);
+            // delete
+            Intent intent = new Intent(mContext, MainActivity.class);
+            mContext.startActivity(intent);
+        }
+        else{
+            Toast.makeText(mContext, "You already joined this", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     @Override

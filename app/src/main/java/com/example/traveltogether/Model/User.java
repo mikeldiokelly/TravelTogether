@@ -30,7 +30,7 @@ public class User {
         this.gender = gender;
         this.perm_res = perm_res;
         this.curr_loc = curr_loc;
-        this.numRating=0;
+        this.numRating = 0;
         this.avgRating = (Double) 0.0;
         this.journeys = Collections.emptyList();
     }

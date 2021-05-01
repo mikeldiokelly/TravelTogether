@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.traveltogether.Adapter.JourneyAdapter;
 import com.example.traveltogether.Adapter.UserAdapter;
@@ -88,17 +89,21 @@ public class SearchResultActivity extends AppCompatActivity {
         returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewLoc(souceLatLong, destLatLong, sourceAddress, destinationAddress);
-                Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
-                startActivity(intent);
-
+                if(!sourceAddress.equals("src location") && !sourceAddress.equals("")) {
+                    addNewJourney(souceLatLong, destLatLong, sourceAddress, destinationAddress);
+                    Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(SearchResultActivity.this, "Go back and select source and destination", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
     }
 
-    public void writeNewLoc(String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
+    public void addNewJourney(String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
 
         FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
         List<String> users = new ArrayList();

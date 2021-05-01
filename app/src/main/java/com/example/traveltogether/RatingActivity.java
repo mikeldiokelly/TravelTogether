@@ -56,7 +56,9 @@ public class RatingActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     String userId = snapshot1.getValue(String.class);
-                    usersList.add(userId);
+                    if(! userId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                        usersList.add(userId);
+                    }
                 }
                 rateUserAdapter = new RateUserAdapter(RatingActivity.this, usersList);
                 recyclerView.setAdapter(rateUserAdapter);

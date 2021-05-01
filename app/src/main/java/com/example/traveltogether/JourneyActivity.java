@@ -37,11 +37,11 @@ public class JourneyActivity extends AppCompatActivity {
 
     private static final int REQUEST_LOCATION = 999;
     TextView journeySource, journeyDestination, journeyTime;
-    Button routeToStart;
+    Button routeToStart, ratingButton;
     String source;
     String destination;
     Button startJourneyBtn, endJourneyBtn;
-    String hostID;
+    String hostID, journeyId, journeyStatus;
     ListView usersInJourney;
     DatabaseReference reference;
     List<String> userNameList;
@@ -54,6 +54,9 @@ public class JourneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journey);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         updateLocation();
+
+        journeyStatus = getIntent().getStringExtra("journey_status");
+        journeyId = getIntent().getStringExtra("journey_id");
 
         source= getIntent().getStringExtra("journey_source");
         destination= getIntent().getStringExtra("journey_destination");
@@ -95,6 +98,22 @@ public class JourneyActivity extends AppCompatActivity {
                 endJourney();
             }
         });
+
+        ratingButton = findViewById(R.id.rateCompanions);
+        ratingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("journey status in journey activity ---->");
+                System.out.println(journeyStatus);
+                System.out.println(Journey.JourneyStatus.FINISHED.toString());
+                if(!journeyStatus.equals(Journey.JourneyStatus.FINISHED.toString())){
+                    Toast.makeText(JourneyActivity.this, "Rating can not be done as journey has not finished yet", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    showRatingActivity();
+                }
+            }
+        });
     }
 
     private void displayMapWithRoute(String source, String destination) {
@@ -130,13 +149,17 @@ public class JourneyActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().getReference("Journeys")
                     .child(jid).child("journeyStatus")
                     .setValue(Journey.JourneyStatus.FINISHED);
-            Intent intent = new Intent(JourneyActivity.this, RatingActivity.class);
-            intent.putExtra("journey_id", jid);
-            startActivity(intent);
+            showRatingActivity();
         }
         else{
             Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showRatingActivity() {
+        Intent intent = new Intent(JourneyActivity.this, RatingActivity.class);
+        intent.putExtra("journey_id", journeyId);
+        startActivity(intent);
     }
 
 
@@ -147,22 +170,28 @@ public class JourneyActivity extends AppCompatActivity {
 
         for(String uId : usersList) {
 
-            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
+                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
 
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = snapshot.child("first_name").getValue().toString();
-                    userNameList.add(userName);
-                    usersInJourney = findViewById(R.id.users_in_journey_list);
-                    usersInJourney.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, userNameList));
-                }
+                reference.addValueEventListener(new ValueEventListener() {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String userName = snapshot.child("first_name").getValue().toString();
 
-                }
-            });
+                        if(uId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            userName = userName + " (HOST)";
+                        }
+
+                        userNameList.add(userName);
+                        usersInJourney = findViewById(R.id.users_in_journey_list);
+                        usersInJourney.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, userNameList));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
         }
 
     }

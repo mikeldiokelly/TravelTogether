@@ -75,7 +75,7 @@
     <string name="permanent_residence">Permanent residence</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
-    <string name="_return">Return</string>
+    <string name="_createNewJourney">Create New Journey</string>
     <string name="hello">hello</string>
     <string name="account_info">Account Info</string>
     <string name="name">Name</string>

@@ -67,7 +67,8 @@ public class MyJourneysActivity extends AppCompatActivity {
         _journey.putExtra("journey_id", journey.getId());
         _journey.putExtra("host_id", journey.getHost());
         _journey.putExtra("users_in_journey", usersList);
-
+        _journey.putExtra("journey_status", journey.getJourneyStatus().toString());
+        System.out.println(" journey status ------> " + journey.getJourneyStatus().toString());
         startActivity(_journey);
     }
 
