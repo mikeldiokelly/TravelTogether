@@ -35,7 +35,7 @@ public class UserAdapter extends RecyclerView.Adapter<com.example.traveltogether
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = mUsers.get(position);
-        holder.username.setText(user.first_name);
+        holder.username.setText(user.firstName);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

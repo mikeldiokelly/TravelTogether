@@ -14,7 +14,7 @@ import android.widget.Button;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "DirectionsActivity";
-    private Button createJourneyBtn, createCommuteBtn, createRealTimeBtn, myJourneysBtn;
+    private Button createJourneyBtn, createCommuteBtn, peerToPeerBtn, myJourneysBtn;
 
     public HomeFragment() {
     }
@@ -40,8 +40,8 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        createRealTimeBtn = view.findViewById(R.id.createRealTimeBtn);
-        createRealTimeBtn.setOnClickListener(new View.OnClickListener() {
+        peerToPeerBtn = view.findViewById(R.id.peerToPeerBtn);
+        peerToPeerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PeerToPeerActivity.class);

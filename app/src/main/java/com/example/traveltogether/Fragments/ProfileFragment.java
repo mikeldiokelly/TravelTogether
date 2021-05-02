@@ -57,8 +57,8 @@ public class ProfileFragment extends Fragment {
            public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                User user = datasnapshot.getValue(User.class);
                if (user!=null) {
-                   first.setText(user.first_name);
-                   last.setText(user.last_name);
+                   first.setText(user.firstName);
+                   last.setText(user.lastName);
                    age.setText(user.age + " years old");
                    if (user.getImageURL().equals("default")) {
                        Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);

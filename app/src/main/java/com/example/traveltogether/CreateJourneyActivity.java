@@ -244,7 +244,7 @@ public class CreateJourneyActivity extends AppCompatActivity {
                     if (resultCode == Activity.RESULT_OK){
                         String locationName = data.getStringExtra("location_name");
                         String locationPoint = data.getStringExtra("location_point");
-                        souceLatLong = locationPoint.substring(42, locationPoint.length()-2);
+                        destLatLong = locationPoint.substring(42, locationPoint.length()-2);
                         destLocation.setText(locationName);                                                         //reverse geocode for other cases..
                     }
             }
