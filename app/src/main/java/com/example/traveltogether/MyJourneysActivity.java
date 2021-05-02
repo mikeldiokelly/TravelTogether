@@ -42,6 +42,8 @@ public class MyJourneysActivity extends AppCompatActivity {
 
         getMyJourneys();
 
+
+
         listView = findViewById(R.id.my_journeys_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

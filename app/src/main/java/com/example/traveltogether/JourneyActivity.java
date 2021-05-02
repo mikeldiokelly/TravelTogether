@@ -39,12 +39,13 @@ public class JourneyActivity extends AppCompatActivity {
     TextView journeySource, journeyDestination, journeyTime;
     Button routeToStart, ratingButton;
     String source;
-    String destination;
-    Button startJourneyBtn, endJourneyBtn;
+    String destination, journeyProfileStr = "walking";
+    Button startJourneyBtn, endJourneyBtn, driveBtn, cycleBtn, walkBtn;
     String hostID, journeyId, journeyStatus;
     ListView usersInJourney;
     DatabaseReference reference;
     List<String> userNameList;
+    TextView journeyProfile;
     private FusedLocationProviderClient fusedLocationClient;
     private android.location.Location currentLocation;
 
@@ -70,6 +71,35 @@ public class JourneyActivity extends AppCompatActivity {
         journeyTime = findViewById(R.id.journeyStartTime);
         journeyTime.setText(getIntent().getStringExtra("journey_time"));
         displayCompanionList();
+
+        journeyProfile = findViewById(R.id.profileStatus);
+
+        driveBtn = findViewById(R.id.setDrivingButton);
+        driveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                journeyProfileStr = "Driving";
+                journeyProfile.setText(journeyProfileStr);
+            }
+        });
+
+        cycleBtn = findViewById(R.id.setCyclingButton);
+        cycleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                journeyProfileStr = "Cycling";
+                journeyProfile.setText(journeyProfileStr);
+            }
+        });
+
+        walkBtn = findViewById(R.id.setWalkingButton);
+        walkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                journeyProfileStr = "Walking";
+                journeyProfile.setText(journeyProfileStr);
+            }
+        });
 
         hostID = getIntent().getStringExtra("host_id");
 
@@ -120,6 +150,7 @@ public class JourneyActivity extends AppCompatActivity {
         Intent navigation = new Intent(JourneyActivity.this, NavigationActivity.class);
         navigation.putExtra("journey_source", source);
         navigation.putExtra("journey_destination", destination);
+        navigation.putExtra("journey_profile", journeyProfileStr);
         startActivity(navigation);
 
         Log.d(" clicked ", "clicked on routeToSource ");

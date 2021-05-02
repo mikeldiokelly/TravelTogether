@@ -1,5 +1,6 @@
 package com.example.traveltogether;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,8 @@ import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.maps.MapView;
@@ -57,27 +61,16 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
 /**
  * Display {@link SymbolLayer} icons on the map.
  */
-public class NavigationActivity extends AppCompatActivity implements OnMapReadyCallback, PermissionsListener {
-    // variables for adding location layer
+public class NavigationActivity extends AppCompatActivity implements OnMapReadyCallback{
     private MapView mapView;
     private MapboxMap mapboxMap;
-    private static final int REQUEST_LOCATION = 999;
 
-    // variables for adding location layer
-    private PermissionsManager permissionsManager;
-    private LocationComponent locationComponent;
-    // variables for calculating and drawing a route
     private DirectionsRoute currentRoute;
     private static final String TAG = "DirectionsActivity";
     private NavigationMapRoute navigationMapRoute;
-    // variables needed to initialize navigation
     private Button button;
     private String source;
     private String destination;
-    private FusedLocationProviderClient fusedLocationClient;
-    private android.location.Location currentLocation;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +84,9 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
         source= getIntent().getStringExtra("journey_source");
         destination= getIntent().getStringExtra("journey_destination");
-
-
     }
 
     private Point convertStringToPoint(String value){
-        System.out.println(value);
-
         double srcLong = Double.parseDouble( value.split("\\[")[1].split(",")[0]);
         double srcLat = Double.parseDouble( value.split("]")[0].split(" ")[1]);
 
@@ -115,7 +104,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
             @Override
             public void onStyleLoaded(@NonNull Style style) {
-                enableLocationComponent(style);
 
                 addDestinationIconSymbolLayer(style);
 
@@ -127,8 +115,23 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                     source.setGeoJson(Feature.fromGeometry(destinationPoint));
                 }
 
+                CameraPosition position = new CameraPosition.Builder()
+                        .target(new LatLng(origin.latitude(), origin.longitude()))
+                        .zoom(15)
+                        .tilt(20)
+                        .build();
+
+                CameraUpdate update = new CameraUpdate() {
+                    @Nullable
+                    @Override
+                    public CameraPosition getCameraPosition(@NonNull MapboxMap mapboxMap) {
+                        return position;
+                    }
+                };
+
+                mapboxMap.moveCamera(update);
+
                 getRoute(origin, destinationPoint);
-//                mapboxMap.addOnMapClickListener((MapboxMap.OnMapClickListener) NavigationActivity.this);
 
                 button = findViewById(R.id.startButton);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -137,22 +140,14 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                         NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                                 .directionsRoute(currentRoute)
                                 .build();
-// Call this method with Context from within an Activity
                         NavigationLauncher.startNavigation(NavigationActivity.this, options);
                     }
                 });
-
-//                button.setEnabled(true);
-//                button.setBackgroundResource(R.color.mapboxBlue);
-
-
-//        uncomment when you get stuff working
 
             }
 
         });
     }
-
 
     private void addDestinationIconSymbolLayer(@NonNull Style loadedMapStyle) {
         loadedMapStyle.addImage("destination-icon-id",
@@ -168,36 +163,20 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         loadedMapStyle.addLayer(destinationSymbolLayer);
     }
 
-//    @SuppressWarnings( {"MissingPermission"})
-//    @Override
-//    public boolean onMapClick(@NonNull LatLng point) {
-//
-//        Point destinationPoint = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-//        Point originPoint = Point.fromLngLat(locationComponent.getLastKnownLocation().getLongitude(),
-//                locationComponent.getLastKnownLocation().getLatitude());
-//
-//        GeoJsonSource source = mapboxMap.getStyle().getSourceAs("destination-source-id");
-//        if (source != null) {
-//            source.setGeoJson(Feature.fromGeometry(destinationPoint));
-//        }
-//
-//        getRoute(originPoint, destinationPoint);
-//        button.setEnabled(true);
-//        button.setBackgroundResource(R.color.mapboxBlue);
-//        return true;
-//    }
-
     private void getRoute(Point origin, Point destination) {
+
+        String profile = getIntent().getStringExtra("journey_profile").toLowerCase();
+
         NavigationRoute.builder(this)
                 .accessToken(Mapbox.getAccessToken())
                 .origin(origin)
                 .destination(destination)
+                .profile(profile)
                 .build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
                     public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
-                        Log.d(TAG, "Response code: " + response.code());
+
                         if (response.body() == null) {
                             Log.e(TAG, "No routes found, make sure you set the right user and access token.");
                             return;
@@ -208,7 +187,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
 
                         currentRoute = response.body().routes().get(0);
 
-// Draw the route on the map
                         if (navigationMapRoute != null) {
                             navigationMapRoute.removeRoute();
                         } else {
@@ -223,44 +201,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                     }
                 });
     }
-
-    @SuppressWarnings( {"MissingPermission"})
-    private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
-        if (PermissionsManager.areLocationPermissionsGranted(this)) {
-// Activate the MapboxMap LocationComponent to show user location
-// Adding in LocationComponentOptions is also an optional parameter
-            locationComponent = mapboxMap.getLocationComponent();
-            locationComponent.activateLocationComponent(this, loadedMapStyle);
-            locationComponent.setLocationComponentEnabled(true);
-// Set the component's camera mode
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-        } else {
-            permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(this);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPermissionResult(boolean granted) {
-        if (granted) {
-            enableLocationComponent(mapboxMap.getStyle());
-        } else {
-            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
-            finish();
-        }
-    }
-
 
     @Override
     protected void onStart() {
