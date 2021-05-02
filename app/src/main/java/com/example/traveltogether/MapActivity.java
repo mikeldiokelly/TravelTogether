@@ -59,14 +59,11 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener, PermissionsListener {
-        // variables for adding location layer
-        private MapView mapView;
+    // variables for adding location layer
+    private MapView mapView;
     private MapboxMap mapboxMap;
-
     // variables for adding location layer
     private PermissionsManager permissionsManager;
-    // variables for calculating and drawing a route
-    public static DirectionsRoute currentRoute;
     public  Point source;                                                // TODO: need a better way to do this...!
     public  Point endPoint;
     String endPointAddress;

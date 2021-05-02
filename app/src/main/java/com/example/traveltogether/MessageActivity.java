@@ -99,7 +99,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.first_name);
+                username.setText(user.firstName);
                 readMessages(fuser.getUid(), userid);
             }
 

@@ -209,24 +209,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-/*    @IgnoreExtraProperties
-    public class Location {
-
-        public String source;
-        public String destination;
-
-        public Location() {
-            // Default constructor required for calls to DataSnapshot.getValue(User.class)
-        }
-
-        public Location(String source, String destination) {
-            this.source = source;
-            this.destination = destination;
-        }
-
-    }*/
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

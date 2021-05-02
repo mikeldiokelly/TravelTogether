@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login_register, login, forgot;
     private EditText login_email, login_pass;
 
-    private FirebaseAuth mauth;
+    private FirebaseAuth mAuth;
     private ProgressBar loginBar;
 
     @Override
@@ -49,8 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void login() {
-        mauth = FirebaseAuth.getInstance();
-        if (mauth.getCurrentUser() != null) {
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
         }
     }
@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
         loginBar.setVisibility(View.VISIBLE);
-        mauth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
