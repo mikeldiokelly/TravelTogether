@@ -11,9 +11,9 @@ import java.util.List;
 
 public class User {
 
-    public String first_name, last_name, age, email, id, gender;
+    public String firstName, lastName, age, email, id, gender;
     //private String id;
-    Point perm_res, curr_loc;
+    Point perm_res, currLoc;
     Double avgRating;
     int numRating;
     List<Journey> journeys;
@@ -22,23 +22,23 @@ public class User {
     }
 
     public User(String first_name, String last_name, String age, String email, String id, String gender, com.mapbox.geojson.Point perm_res, com.mapbox.geojson.Point curr_loc) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.age = age;
         this.email = email;
         this.id = id;
         this.gender = gender;
         this.perm_res = perm_res;
-        this.curr_loc = curr_loc;
+        this.currLoc = curr_loc;
         this.numRating = 0;
         this.avgRating = (Double) 0.0;
         this.journeys = Collections.emptyList();
     }
 
     public String getUsername(){
-        return this.first_name;
+        return this.firstName;
     }
-    public void setUsername(String name){ this.first_name = name;}
+    public void setUsername(String name){ this.firstName = name;}
 
     public void addJourney(Journey journey){
         journeys.add(journey);
