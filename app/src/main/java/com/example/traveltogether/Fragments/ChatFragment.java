@@ -1,4 +1,5 @@
 package com.example.traveltogether.Fragments;
+
 import com.example.traveltogether.*;
 import com.example.traveltogether.R;
 import com.example.traveltogether.Adapter.*;
@@ -32,20 +33,15 @@ import java.util.List;
  */
 public class ChatFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUsers;
 
-    FirebaseUser fuser;
+    FirebaseUser fUser;
     DatabaseReference dbr;
 
     private List<String> usersList;
@@ -77,20 +73,20 @@ public class ChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_chat,container,false);
-        recyclerView=view.findViewById(R.id.recycler_view);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
         usersList = new ArrayList<>();
 
@@ -99,14 +95,14 @@ public class ChatFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
                     assert chat != null;
-                    if(chat.getSender().equals(fuser.getUid())){
+                    if (chat.getSender().equals(fUser.getUid())) {
                         usersList.add(chat.getReceiver());
 
                     }
-                    if(chat.getReceiver().equals(fuser.getUid())){
+                    if (chat.getReceiver().equals(fUser.getUid())) {
                         usersList.add(chat.getSender());
                     }
                 }
@@ -121,39 +117,39 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-    private void readChats(){
+    private void readChats() {
         mUsers = new ArrayList<>();
         dbr = FirebaseDatabase.getInstance().getReference("Users");
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
 
                     // display 1 user from chats
-                    for (String id: usersList){
+                    for (String id : usersList) {
                         boolean inlist = false;
                         assert user != null;
-                        if (user.getId().equals(id)){
-                            if (mUsers.size()!=0){
-                                for (User userl : mUsers){
-                                    if(user.getId().equals(userl.getId())){
+                        if (user.getId().equals(id)) {
+                            if (mUsers.size() != 0) {
+                                for (User userl : mUsers) {
+                                    if (user.getId().equals(userl.getId())) {
                                         inlist = true;
+                                        break;
                                     }
                                 }
-                                if (inlist==false) {
+                                if (!inlist) {
                                     //if not already added
                                     mUsers.add(user);
                                 }
-                            }
-                            else {
+                            } else {
                                 mUsers.add(user);
                             }
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(),mUsers);
+                userAdapter = new UserAdapter(getContext(), mUsers);
                 recyclerView.setAdapter(userAdapter);
             }
 

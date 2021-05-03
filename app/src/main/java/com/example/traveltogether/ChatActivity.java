@@ -1,7 +1,7 @@
 package com.example.traveltogether;
+
 import com.example.traveltogether.Adapter.*;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.tabs.TabItem;
@@ -16,7 +16,7 @@ public class ChatActivity extends AppCompatActivity {
     TabLayout chat_tab;
     ViewPager viewPager;
 
-    public ChatActivity(){
+    public ChatActivity() {
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ChatActivity extends AppCompatActivity {
         initializePagerAdapter();
     }
 
-    public void initializeButtons(){
+    public void initializeButtons() {
         chat_tab = findViewById(R.id.main_tab);
         chats = findViewById(R.id.chat);
         journeys = findViewById(R.id.journeys);
@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
     }
 
-    public void initializePagerAdapter(){
+    public void initializePagerAdapter() {
         PagerAdapter pagerAdapter = new
                 PagerAdapter(getSupportFragmentManager(),
                 chat_tab.getTabCount());

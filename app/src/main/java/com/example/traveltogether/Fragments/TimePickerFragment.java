@@ -7,43 +7,30 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.traveltogether.Communicator.ItemViewModel;
-import com.example.traveltogether.Model.Journey;
-import com.example.traveltogether.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-//
-//import static com.example.traveltogether.CreateJourneyActivity.endPoint;
-//import static com.example.traveltogether.CreateJourneyActivity.source;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
-import java.util.List;
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener
-    {
+public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-        public static String journeyTime;           //TODO: make this better...
-        private List<User> users;
+    public static String journeyTime;
+    ItemViewModel viewModel;
 
-        private FirebaseAuth mAuth;                 //TODO: organize
-        ItemViewModel viewModel;
-
-        @Override
-        public Dialog onCreateDialog (Bundle savedInstanceState){
+    @Override
+    public @NotNull Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-        mAuth = FirebaseAuth.getInstance();
-
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         // viewModel to communicate between fragments and activity
         viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
@@ -53,17 +40,16 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        public void onTimeSet (TimePicker view,int hourOfDay, int minute){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
         journeyTime = "" + hourOfDay + " : " + minute;
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();  //TODO: get stuff from this user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         System.out.println(user);
 
         //sending into viewModel
         viewModel.selectItem(journeyTime);
-
     }
 
 }

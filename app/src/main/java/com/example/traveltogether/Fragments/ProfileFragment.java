@@ -31,35 +31,39 @@ public class ProfileFragment extends Fragment {
     ImageView image_profile;
     TextView first, last, age;
 
-    DatabaseReference dbr ;
-    FirebaseUser fuser;
+    DatabaseReference dbr;
+    FirebaseUser fUser;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         image_profile = view.findViewById(R.id.profile_image);
         first = view.findViewById(R.id.first);
         last = view.findViewById(R.id.last);
         age = view.findViewById(R.id.p_age);
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
-        dbr = FirebaseDatabase.getInstance().getReference("Users").child(fuser.getUid());
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        dbr = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
+        getProfile();
 
+        return view;
+    }
+
+    public void getProfile() {
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 User user = datasnapshot.getValue(User.class);
-                if (user!=null) {
-                    first.setText(user.first_name);
-                    last.setText(user.last_name);
-                    age.setText(user.age + " years old");
+                if (user != null) {
+                    first.setText(user.firstName);
+                    last.setText(user.lastName);
+                    age.setText(String.format("%s%s", user.age, getString(R.string.years_old_prefix)));
                     if (user.getImageURL().equals("default")) {
-                        Toast.makeText(getContext(), "use default profile",Toast.LENGTH_SHORT);
+                        Toast.makeText(getContext(), "use default profile", Toast.LENGTH_SHORT).show();
                         image_profile.setImageResource(R.drawable.user_dp);
-                    }
-                    else {
+                    } else {
                         Glide.with(getContext()).load(user.getImageURL()).into(image_profile);
                     }
                 }
@@ -70,6 +74,6 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        return view;
+
     }
 }

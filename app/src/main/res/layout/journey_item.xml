@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/journeyItemView">
 
     <ImageView
@@ -11,6 +11,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         tools:src="@tools:sample/avatars"
+        app:srcCompat="@drawable/user_dp"
         android:contentDescription="@string/profile" />
 
     <LinearLayout
@@ -25,19 +26,22 @@
             android:id="@+id/journey_username"
             android:layout_width="220dp"
             android:layout_height="64dp"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="5dp"
             android:layout_marginLeft="31dp"
             android:layout_marginEnd="52dp"
             android:layout_marginRight="52dp"
             android:text="@string/username"
-            android:textSize="14sp" />
+            android:textSize="12dp" />
 
     </LinearLayout>
-    <Button
+    <ImageButton
         android:id="@+id/journeyItemJoinBtn"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/join"
+        android:src="@drawable/join"
+        android:background="@color/white"
         android:layout_toRightOf="@+id/journeyItemText"
         android:layout_toEndOf="@+id/journeyItemText" />
 

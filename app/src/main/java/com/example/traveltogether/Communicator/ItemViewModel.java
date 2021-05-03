@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel;
 public class ItemViewModel extends ViewModel {
     private final MutableLiveData<String> selectedItem = new MutableLiveData<>();
 
-
     public void selectItem(String item) {
         selectedItem.setValue(item);
     }

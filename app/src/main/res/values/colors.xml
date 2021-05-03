@@ -26,4 +26,9 @@
     <color name="profilePrimaryDark">#FF3B30</color>
     <color name="profileAccentColor">#F7F7F7</color>
 
+<!--shadow boarder -->
+    <color name="colorWhite">#FFF</color>
+    <color name="colorShadow">#cacacaca</color>
+    <color name="colorShadowLight">#cae6e4e4</color>
+    <color name="colorBlack">#333</color>
 </resources>

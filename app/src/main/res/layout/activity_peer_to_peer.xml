@@ -7,7 +7,7 @@
     tools:context=".WifiPeerToPeer">
 
     <Button
-        android:id="@+id/onOff"
+        android:id="@+id/wifiSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -17,35 +17,35 @@
         app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.209" />
 
     <Button
-        android:id="@+id/discover"
+        android:id="@+id/discoverPeers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/discover"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.878"
+        app:layout_constraintHorizontal_bias="0.862"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintVertical_bias="0.207" />
 
     <ListView
-        android:id="@+id/peerListView"
-        android:layout_width="416dp"
-        android:layout_height="388dp"
+        android:id="@+id/peersListView"
+        android:layout_width="411dp"
+        android:layout_height="314dp"
         android:layout_below="@+id/discover"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/discover"
-        app:layout_constraintVertical_bias="0.125"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.684"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/readMsg"
+        android:id="@+id/readMsgSentByPeer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/peerListView"
@@ -57,10 +57,10 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.808" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <EditText
-        android:id="@+id/writeMsg"
+        android:id="@+id/writeMsgToPeer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/sendButton"
+        android:id="@+id/sendButtonP2P"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -87,10 +87,11 @@
         app:layout_constraintVertical_bias="0.997" />
 
     <TextView
-        android:id="@+id/connectionStatus"
+        android:id="@+id/connectionStatusP2P"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
         android:text="@string/connection_status"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_dark"
@@ -101,8 +102,21 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062"
-        android:gravity="center_horizontal" />
+        app:layout_constraintVertical_bias="0.133" />
 
+    <TextView
+        android:id="@+id/deviceNameMessage"
+        android:layout_width="403dp"
+        android:layout_height="53dp"
+        android:text="@string/remember_your_device_name_is_how_other_users_see_you"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/peersListView"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025"
+        android:gravity="center_horizontal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

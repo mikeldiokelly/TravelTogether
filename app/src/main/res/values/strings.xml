@@ -47,7 +47,7 @@
     <string name="search_a_location">Search a location</string>
     <string name="create_daily_commute">Create Daily Commute</string>
     <string name="my_journeys">My journeys</string>
-    <string name="create_real_time_journey">Create Real time Journey</string>
+    <string name="p2p_chat">Peer To Peer Chat</string>
     <string name="start_navigation">Start navigation</string>
     <string name="create_journey">Create Journey</string>
     <string name="chat">Chat</string>
@@ -75,7 +75,7 @@
     <string name="permanent_residence">Permanent residence</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
-    <string name="_return">Return</string>
+    <string name="_createNewJourney">Create New Journey</string>
     <string name="hello">hello</string>
     <string name="account_info">Account Info</string>
     <string name="name">Name</string>
@@ -106,5 +106,15 @@
     <string name="app_ver_0_0_1">App ver 0.0.1</string>
     <string name="username">username</string>
     <string name="join">JOIN</string>
+    <string name="submitRating">Submit Rating</string>
     <string name="navigation_header">Navigation header</string>
+    <string name="discoveryStarted">Discovery started ...</string>
+    <string name="discoveryNotStarted">can\'t start discovery services !</string>
+    <string name="noDeviceFound">No device found</string>
+    <string name="remember_your_device_name_is_how_other_users_see_you">Remember, your device name is how other users see you !</string>
+    <string name="connected">\"You are now in connection with \"</string>
+    <string name="errorInConnectionP2P">Error encountered while establishing a connection with</string>
+    <string name="years_old_prefix">\" years old\"</string>
+    <string name="client">Client</string>
+    <string name="host">Host</string>
 </resources>
