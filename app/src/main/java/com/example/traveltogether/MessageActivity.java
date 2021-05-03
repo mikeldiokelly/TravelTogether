@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,14 +36,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MessageActivity extends AppCompatActivity {
 
-    ImageView profile_image;
+    ImageView profileImage;
     TextView username;
 
-    FirebaseUser fuser;
+    FirebaseUser fUser;
     DatabaseReference reference;
 
     ImageButton send;
-    EditText text_send;
+    EditText textSend;
 
     MessageAdapter messageAdapter;
     List<Chat> mChat;
@@ -59,11 +59,8 @@ public class MessageActivity extends AppCompatActivity {
 
         Toolbar message_toolbar = findViewById(R.id.message_toolbar);
         setSupportActionBar(message_toolbar);
-        getSupportActionBar().setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        message_toolbar.setNavigationOnClickListener(v -> {
-            return;
-        });
 
         recyclerView = findViewById(R.id.message_recycler);
         recyclerView.setHasFixedSize(true);
@@ -71,36 +68,33 @@ public class MessageActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        profile_image = findViewById(R.id.message_image);
+        profileImage = findViewById(R.id.message_image);
         username = findViewById(R.id.message_username);
         send = findViewById(R.id.send);
-        text_send = findViewById(R.id.text_send);
+        textSend = findViewById(R.id.text_send);
 
         intent = getIntent();
-        String userid = intent.getStringExtra("userid");
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = intent.getStringExtra("user_id");
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msg = text_send.getText().toString();
-                if (!msg.equals("")) {
-                    sendMessage(fuser.getUid(), userid, msg);
-                } else {
-                    Toast.makeText(MessageActivity.this, "You can't send empty messages", Toast.LENGTH_SHORT).show();
-                }
-                text_send.setText("");
+        send.setOnClickListener(v -> {
+            String msg = textSend.getText().toString();
+            if (!msg.equals("")) {
+                sendMessage(fUser.getUid(), userId, msg);
+            } else {
+                Toast.makeText(MessageActivity.this, "You can't send empty messages", Toast.LENGTH_SHORT).show();
             }
+            textSend.setText("");
         });
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.firstName);
-                readMessages(fuser.getUid(), userid);
+                username.setText(Objects.requireNonNull(user).firstName);
+                readMessages(fUser.getUid(), userId);
             }
 
             @Override

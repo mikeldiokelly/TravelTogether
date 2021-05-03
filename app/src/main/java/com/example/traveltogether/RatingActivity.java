@@ -10,10 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.traveltogether.Adapter.JourneyAdapter;
 import com.example.traveltogether.Adapter.RateUserAdapter;
-import com.example.traveltogether.Model.Journey;
-import com.example.traveltogether.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,13 +26,7 @@ import java.util.List;
 public class RatingActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RateUserAdapter rateUserAdapter;
-    private String jid;
     private List<String> usersList;
-    private List<Double> ratingList;
-    private FirebaseUser fuser;
-    private DatabaseReference reference;
-    private Button submitRatingBtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +37,11 @@ public class RatingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        jid = getIntent().getStringExtra("journey_id");
+        String jid = getIntent().getStringExtra("journey_id");
 
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Journeys").child(jid).child("userList");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Journeys").child(jid).child("userList");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -70,21 +61,18 @@ public class RatingActivity extends AppCompatActivity {
             }
         });
 
-        submitRatingBtn = (Button) findViewById(R.id.submitRatingBtn);
-        submitRatingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rate();
-                Intent intent = new Intent(RatingActivity.this, MainActivity.class);
-                startActivity(intent);
+        Button submitRatingBtn = findViewById(R.id.submitRatingBtn);
+        submitRatingBtn.setOnClickListener(v -> {
+            rate();
+            Intent intent = new Intent(RatingActivity.this, MainActivity.class);
+            startActivity(intent);
 
-            }
         });
 
     }
 
     public void rate() {
-        ratingList = rateUserAdapter.getRatingList();
+        List<Double> ratingList = rateUserAdapter.getRatingList();
         List<Double> oldRatingList = rateUserAdapter.getOldRatingList();
         List<Integer> numRatingList = rateUserAdapter.getNumRatingList();
         List<String> UserIDList = rateUserAdapter.getUserIDList();

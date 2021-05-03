@@ -6,20 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pDevice;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.traveltogether.Adapter.JourneyAdapter;
-import com.example.traveltogether.Adapter.UserAdapter;
-import com.example.traveltogether.Model.Chat;
 import com.example.traveltogether.Model.Journey;
-import com.example.traveltogether.Model.User;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,29 +29,22 @@ public class SearchResultActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
     private List<Journey> mJourneys;
-    private String souceLatLong, destLatLong, startTime, sourceAddress, destinationAddress;
+    private String sourceLatLong, destLatLong, startTime, sourceAddress, destinationAddress;
 
-    FirebaseUser fuser;
+    FirebaseUser fUser;
     DatabaseReference reference;
     Button returnToHomeBtn;
-
-//    private List<String> usersList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        souceLatLong = getIntent().getStringExtra("SOURCE");
+        sourceLatLong = getIntent().getStringExtra("SOURCE");
         destLatLong = getIntent().getStringExtra("DESTINATION");
         startTime = getIntent().getStringExtra("START_TIME");
         sourceAddress = getIntent().getStringExtra("SOURCE_ADDRESS");
         destinationAddress = getIntent().getStringExtra("DESTINATION_ADDRESS");
-
-        System.out.println(".............................");
-        System.out.println(sourceAddress);
-        System.out.println(destinationAddress);
 
         recyclerView = findViewById(R.id.list1);
         recyclerView.setHasFixedSize(true);
@@ -84,26 +70,21 @@ public class SearchResultActivity extends AppCompatActivity {
             }
         });
 
-
         returnToHomeBtn = findViewById(R.id.returnToHomeBtn);
-        returnToHomeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!sourceAddress.equals("src location") && !sourceAddress.equals("")) {
-                    addNewJourney(souceLatLong, destLatLong, sourceAddress, destinationAddress);
-                    Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(SearchResultActivity.this, "Go back and select source and destination", Toast.LENGTH_SHORT).show();
-                }
+        returnToHomeBtn.setOnClickListener(v -> {
+            if(!sourceAddress.equals("src location") && !sourceAddress.equals("")) {
+                addNewJourney(sourceLatLong, destLatLong, sourceAddress, destinationAddress);
+                Intent intent = new Intent(SearchResultActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Snackbar.make( returnToHomeBtn ,"Go back and select source and destination", Snackbar.LENGTH_SHORT).show();
             }
         });
 
-
     }
 
-    public void addNewJourney(String souceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
+    public void addNewJourney(String sourceLatLong, String destLatLong, String sourceAddress, String destinationAddress) {
 
         FirebaseUser userN = FirebaseAuth.getInstance().getCurrentUser();
         List<String> users = new ArrayList();
@@ -111,8 +92,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
         List<Double> src = new ArrayList();
         List<Double> dest = new ArrayList();
-        Double srcLong = Double.parseDouble(souceLatLong.substring(0, souceLatLong.indexOf(",")));
-        String temp = souceLatLong.substring(souceLatLong.indexOf(",") + 1);
+        Double srcLong = Double.parseDouble(sourceLatLong.substring(0, sourceLatLong.indexOf(",")));
+        String temp = sourceLatLong.substring(sourceLatLong.indexOf(",") + 1);
         Double srcLat = Double.parseDouble(temp);
         System.out.println(srcLong);
         System.out.println(srcLat);
@@ -132,7 +113,6 @@ public class SearchResultActivity extends AppCompatActivity {
         Journey journey = new Journey(newPostRef.getKey(), users, src, dest, startTime, true, "", sourceAddress, destinationAddress);
 
         // todo: keep a mJourneyList
-
 
         newPostRef.setValue(journey);
     }

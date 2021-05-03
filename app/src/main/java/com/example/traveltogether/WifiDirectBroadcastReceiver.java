@@ -5,16 +5,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 
 import androidx.core.app.ActivityCompat;
 
 public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
-    private WifiP2pManager wifiP2pManager;
-    private WifiP2pManager.Channel channel;
-    private PeerToPeerActivity peerToPeerActivity;
+    private final WifiP2pManager wifiP2pManager;
+    private final WifiP2pManager.Channel channel;
+    private final PeerToPeerActivity peerToPeerActivity;
 
     public WifiDirectBroadcastReceiver(WifiP2pManager wifiP2pManager, WifiP2pManager.Channel channel, PeerToPeerActivity peerToPeerActivity) {
         this.wifiP2pManager = wifiP2pManager;

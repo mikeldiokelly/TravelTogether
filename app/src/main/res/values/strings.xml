@@ -114,4 +114,7 @@
     <string name="remember_your_device_name_is_how_other_users_see_you">Remember, your device name is how other users see you !</string>
     <string name="connected">\"You are now in connection with \"</string>
     <string name="errorInConnectionP2P">Error encountered while establishing a connection with</string>
+    <string name="years_old_prefix">\" years old\"</string>
+    <string name="client">Client</string>
+    <string name="host">Host</string>
 </resources>

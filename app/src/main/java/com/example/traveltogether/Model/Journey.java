@@ -1,14 +1,7 @@
 package com.example.traveltogether.Model;
-import android.os.Build;
 
-import com.mapbox.geojson.Point;
-
-import java.time.LocalDate;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-
-//@RequiresApi(api = Build.VERSION_CODES.O)
 public class Journey {
     public enum JourneyStatus {
         PENDING,
@@ -24,11 +17,12 @@ public class Journey {
     String transport;
     boolean repeatWeakly;
     JourneyStatus journeyStatus;
-    public Journey(){
+
+    public Journey() {
 
     }
 
-    public Journey(String Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport,  String sourceAddress, String destAddress){
+    public Journey(String Id, List<String> Users, List<Double> Source, List<Double> Destination, String time, boolean repeatWeakly, String transport, String sourceAddress, String destAddress) {
 
         this.Id = Id;
         this.Destination = Destination;
@@ -42,14 +36,21 @@ public class Journey {
         this.destAddress = destAddress;
     }
 
-    public void addUser(String user){ this.Users.add(user); }
-    public void setId(String Id){ this.Id = Id; }
-    public void setUserList(List<String> Users){ this.Users = Users; }
-    public void setSource(List<Double> Source){ this.Source = Source; }
-    public void setDestination(List<Double> Destination){ this.Destination = Destination; }
+    public void addUser(String user) {
+        this.Users.add(user);
+    }
 
-    public String getId(){ return Id; }
-    public List<Double> getSource(){ return Source; }
+    public void setId(String Id) {
+        this.Id = Id;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public List<Double> getSource() {
+        return Source;
+    }
 
     public String getSourceAddress() {
         return sourceAddress;
@@ -59,14 +60,29 @@ public class Journey {
         return destAddress;
     }
 
-    public List<Double> getDestination(){ return Destination; }
-    public List<String> getUserList(){ return Users; }
+    public List<Double> getDestination() {
+        return Destination;
+    }
+
+    public List<String> getUserList() {
+        return Users;
+    }
+
     public String getHost() {
         return Users.get(0);
     }
-    public String getStartTime(){return startTime;}
-    public boolean getRepeatWeekly(){return repeatWeakly;}
-    public JourneyStatus getJourneyStatus(){
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public JourneyStatus getJourneyStatus() {
         return journeyStatus;
     }
+
+    public void setUserList(List<String> Users){ this.Users = Users; }
+
+    public void setSource(List<Double> Source){ this.Source = Source; }
+
+    public void setDestination(List<Double> Destination){ this.Destination = Destination; }
 }

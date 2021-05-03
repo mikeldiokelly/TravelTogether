@@ -1,9 +1,5 @@
 package com.example.traveltogether.Model;
 
-import com.example.traveltogether.R;
-import com.example.traveltogether.*;
-import com.google.android.gms.common.internal.Objects;
-import com.google.firebase.auth.FirebaseUser;
 import com.mapbox.geojson.Point;
 
 import java.util.Collections;
@@ -14,9 +10,8 @@ public class User {
     public String firstName, lastName, age, email, id, gender;
     //private String id;
     Point perm_res, currLoc;
-    Double avgRating;
+    double avgRating;
     int numRating;
-    List<Journey> journeys;
 
     public User() {
     }
@@ -29,28 +24,25 @@ public class User {
         this.id = id;
         this.gender = gender;
         this.perm_res = perm_res;
-        this.currLoc = curr_loc;
+//        this.currLoc = curr_loc;
+
         this.numRating = 0;
-        this.avgRating = (Double) 0.0;
-        this.journeys = Collections.emptyList();
+        this.avgRating = 0;
+
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.firstName;
     }
-    public void setUsername(String name){ this.firstName = name;}
 
-    public void addJourney(Journey journey){
-        journeys.add(journey);
-    };
-
-    public List<Journey> getJourneys(){
-        return journeys;
+    public void setUsername(String name) {
+        this.firstName = name;
     }
 
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -58,11 +50,13 @@ public class User {
     public String getImageURL() {
         return "default";
     }
-    public Double getAvgRating(){return avgRating;}
 
-    public Double updateRating(int newRating){
-        avgRating = (avgRating*numRating + newRating)/(numRating+1);
-        numRating +=1;
+    // getters required by firebase
+    public int getNumRating() {
+        return numRating;
+    }
+
+    public double getAvgRating() {
         return avgRating;
     }
 }

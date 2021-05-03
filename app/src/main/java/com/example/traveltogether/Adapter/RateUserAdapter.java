@@ -29,53 +29,57 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class RateUserAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.RateUserAdapter.ViewHolder> {
-    private Context mContext;
-    private List<String> userIDList;
-    private List<String> userNameList;
-    private List<Double> ratingList,oldRatingList;
-    private List<Integer> numRatingList;
+    private final Context mContext;
+    private final List<String> userIDList;
+    private final List<String> userNameList;
+    private final List<Double> ratingList;
+    private final List<Double> oldRatingList;
+    private final List<Integer> numRatingList;
 
     DatabaseReference reference;
 
-    public RateUserAdapter(Context mContext,  List<String> mUsers) {
-//        super(mContext,resource,textViewResourceId, mJourneys);
+    public RateUserAdapter(Context mContext, List<String> mUsers) {
         this.userIDList = mUsers;
         this.mContext = mContext;
         this.userNameList = new ArrayList<>();
         this.oldRatingList = new ArrayList<>();
         this.numRatingList = new ArrayList<>();
-        for(int i =0;i<mUsers.size();i++)
-                userNameList.add("No Name");
+
+        for (int i = 0; i < mUsers.size(); i++)
+            userNameList.add("No Name");
+
         this.ratingList = new ArrayList<>();
-        for(int i =0;i<mUsers.size();i++)
-            ratingList.add((Double)5.0);
+
+        for (int i = 0; i < mUsers.size(); i++)
+            ratingList.add(5.0);
     }
 
-    public List<Double> getRatingList(){
+    public List<Double> getRatingList() {
         return ratingList;
     }
-    public List<Double> getOldRatingList(){
+
+    public List<Double> getOldRatingList() {
         return oldRatingList;
     }
 
-    public List<Integer> getNumRatingList(){
+    public List<Integer> getNumRatingList() {
         return numRatingList;
     }
-    public List<String> getUserIDList(){
+
+    public List<String> getUserIDList() {
         return userIDList;
     }
-
 
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.rate_user_item, parent, false);
-        return new com.example.traveltogether.Adapter.RateUserAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
-
 
 
     @Override
@@ -84,51 +88,38 @@ public class RateUserAdapter extends RecyclerView.Adapter<com.example.traveltoge
 
         reference = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
         reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = snapshot.child("first_name").getValue().toString();
-                    userNameList.add(userName);
-                    holder.username.setText(userName);
-
-                    int numRating = Integer.parseInt(snapshot.child("numRating").getValue().toString());
-                    Double oldRating = Double.parseDouble(snapshot.child("avgRating").getValue().toString());
-                    numRatingList.add(numRating);
-                    oldRatingList.add(oldRating);
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-        holder.ratingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                ratingList.set(position, (double) rating);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String userName = Objects.requireNonNull(snapshot.child("first_name").getValue()).toString();
+                userNameList.add(userName);
+                holder.username.setText(userName);
+
+                int numRating = Integer.parseInt(Objects.requireNonNull(snapshot.child("numRating").getValue()).toString());
+                Double oldRating = Double.parseDouble(Objects.requireNonNull(snapshot.child("avgRating").getValue()).toString());
+                numRatingList.add(numRating);
+                oldRatingList.add(oldRating);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
+        holder.ratingbar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> ratingList.set(position, (double) rating));
     }
-
-
-
-
-
-
 
     @Override
     public int getItemCount() {
         return userIDList.size();
     }
 
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView username;
         public ImageView profile_image;
         RatingBar ratingbar;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -138,7 +129,5 @@ public class RateUserAdapter extends RecyclerView.Adapter<com.example.traveltoge
 
         }
     }
-
-
 
 }

@@ -7,10 +7,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,7 +17,7 @@ import android.widget.Toast;
 import com.example.traveltogether.Model.Journey;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,8 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.mapbox.geojson.Point;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class JourneyActivity extends AppCompatActivity {
 
@@ -59,8 +56,8 @@ public class JourneyActivity extends AppCompatActivity {
         journeyStatus = getIntent().getStringExtra("journey_status");
         journeyId = getIntent().getStringExtra("journey_id");
 
-        source= getIntent().getStringExtra("journey_source");
-        destination= getIntent().getStringExtra("journey_destination");
+        source = getIntent().getStringExtra("journey_source");
+        destination = getIntent().getStringExtra("journey_destination");
 
         journeySource = findViewById(R.id.journeySource);
         journeySource.setText(getIntent().getStringExtra("journey_source_address"));
@@ -75,73 +72,45 @@ public class JourneyActivity extends AppCompatActivity {
         journeyProfile = findViewById(R.id.profileStatus);
 
         driveBtn = findViewById(R.id.setDrivingButton);
-        driveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                journeyProfileStr = "Driving";
-                journeyProfile.setText(journeyProfileStr);
-            }
+        driveBtn.setOnClickListener(v -> {
+            journeyProfileStr = "Driving";
+            journeyProfile.setText(journeyProfileStr);
         });
 
         cycleBtn = findViewById(R.id.setCyclingButton);
-        cycleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                journeyProfileStr = "Cycling";
-                journeyProfile.setText(journeyProfileStr);
-            }
+        cycleBtn.setOnClickListener(v -> {
+            journeyProfileStr = "Cycling";
+            journeyProfile.setText(journeyProfileStr);
         });
 
         walkBtn = findViewById(R.id.setWalkingButton);
-        walkBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                journeyProfileStr = "Walking";
-                journeyProfile.setText(journeyProfileStr);
-            }
+        walkBtn.setOnClickListener(v -> {
+            journeyProfileStr = "Walking";
+            journeyProfile.setText(journeyProfileStr);
         });
 
         hostID = getIntent().getStringExtra("host_id");
 
         routeToStart = findViewById(R.id.journeyRouteToSource);
-        routeToStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentLocationStr =
-                        Point.fromLngLat(currentLocation.getLongitude(), currentLocation.getLatitude()).coordinates().toString(); ;
+        routeToStart.setOnClickListener(v -> {
+            String currentLocationStr =
+                    Point.fromLngLat(currentLocation.getLongitude(), currentLocation.getLatitude()).coordinates().toString();
 
-                displayMapWithRoute(currentLocationStr, destination);
-            }
+            displayMapWithRoute(currentLocationStr, destination);
         });
 
         startJourneyBtn = findViewById(R.id.startJourneyBtn);
-        startJourneyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startJourney();
-            }
-        });
+        startJourneyBtn.setOnClickListener(v -> startJourney());
+
         endJourneyBtn = findViewById(R.id.endJourneyBtn);
-        endJourneyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                endJourney();
-            }
-        });
+        endJourneyBtn.setOnClickListener(v -> endJourney());
 
         ratingButton = findViewById(R.id.rateCompanions);
-        ratingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("journey status in journey activity ---->");
-                System.out.println(journeyStatus);
-                System.out.println(Journey.JourneyStatus.FINISHED.toString());
-                if(!journeyStatus.equals(Journey.JourneyStatus.FINISHED.toString())){
-                    Toast.makeText(JourneyActivity.this, "Rating can not be done as journey has not finished yet", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    showRatingActivity();
-                }
+        ratingButton.setOnClickListener(v -> {
+            if (!journeyStatus.equals(Journey.JourneyStatus.FINISHED.toString())) {
+                Snackbar.make( ratingButton ,"Rating can not be done as journey has not finished yet", Snackbar.LENGTH_LONG).show();
+            } else {
+                showRatingActivity();
             }
         });
     }
@@ -152,23 +121,21 @@ public class JourneyActivity extends AppCompatActivity {
         navigation.putExtra("journey_destination", destination);
         navigation.putExtra("journey_profile", journeyProfileStr);
         startActivity(navigation);
-
-        Log.d(" clicked ", "clicked on routeToSource ");
     }
 
     private void startJourney() {
         String jid = getIntent().getStringExtra("journey_id");
         //check if the current user is the host
 
-        if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+        if (hostID.equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
             FirebaseDatabase.getInstance().getReference("Journeys")
                     .child(jid).child("journeyStatus")
                     .setValue(Journey.JourneyStatus.ONGOING);
-            Toast.makeText(JourneyActivity.this, "The journey has started", Toast.LENGTH_SHORT).show();
+
+            Snackbar.make( startJourneyBtn ,"The journey has started", Snackbar.LENGTH_SHORT).show();
             displayMapWithRoute(source, destination);
-        }
-        else{
-            Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make( startJourneyBtn ,"You are not the host", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -176,14 +143,13 @@ public class JourneyActivity extends AppCompatActivity {
         String jid = getIntent().getStringExtra("journey_id");
         //check if the current user is the host
 
-        if (hostID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+        if (hostID.equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
             FirebaseDatabase.getInstance().getReference("Journeys")
                     .child(jid).child("journeyStatus")
                     .setValue(Journey.JourneyStatus.FINISHED);
             showRatingActivity();
-        }
-        else{
-            Toast.makeText(JourneyActivity.this, "You are not the host", Toast.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make( endJourneyBtn ,"You are not the host", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -197,54 +163,45 @@ public class JourneyActivity extends AppCompatActivity {
     private void displayCompanionList() {
         String[] usersList = getIntent().getStringArrayExtra("users_in_journey");
 
-        userNameList  = new ArrayList<>();
+        userNameList = new ArrayList<>();
 
-        for(String uId : usersList) {
+        for (String uId : usersList) {
 
-                reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
+            reference = FirebaseDatabase.getInstance().getReference().child("Users").child(uId);
 
-                reference.addValueEventListener(new ValueEventListener() {
+            reference.addValueEventListener(new ValueEventListener() {
 
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String userName = snapshot.child("first_name").getValue().toString();
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String userName = Objects.requireNonNull(snapshot.child("first_name").getValue()).toString();
 
-                        if(uId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                            userName = userName + " (HOST)";
-                        }
-
-                        userNameList.add(userName);
-                        usersInJourney = findViewById(R.id.users_in_journey_list);
-                        usersInJourney.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, userNameList));
+                    if (uId.equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
+                        userName = userName + " (HOST)";
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    userNameList.add(userName);
+                    usersInJourney = findViewById(R.id.users_in_journey_list);
+                    usersInJourney.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, userNameList));
+                }
 
-                    }
-                });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
     }
 
     private void updateLocation() {
-        Log.d("current location -> ", "location: ");
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
             return;
         }
 
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(android.location.Location location) {
-                        Log.d("current location -> ", "location: " + location);
-                        Log.d("current location -> ", "location lat: " + location.getLatitude());
-                        Log.d("current location -> ", "location long: " + location.getLongitude());
-                        currentLocation = location;
-                    }
-                });
+                .addOnSuccessListener(this, location -> currentLocation = location);
     }
 
 }

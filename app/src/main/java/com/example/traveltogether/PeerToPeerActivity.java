@@ -49,7 +49,7 @@ public class PeerToPeerActivity extends AppCompatActivity {
     BroadcastReceiver receiver;
     IntentFilter intentFilter;
 
-    List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    List<WifiP2pDevice> peers = new ArrayList<>();
     String[] deviceNameArray;
     WifiP2pDevice[] deviceArray;
 
@@ -89,7 +89,7 @@ public class PeerToPeerActivity extends AppCompatActivity {
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
 
-                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, (int) 1);
+                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
                     return;
                 }
@@ -123,7 +123,7 @@ public class PeerToPeerActivity extends AppCompatActivity {
                     //                                          int[] grantResults)
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
-                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, (int) 1);
+                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
                     return;
                 }

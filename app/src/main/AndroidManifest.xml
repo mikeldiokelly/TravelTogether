@@ -45,7 +45,6 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
-        <activity android:name=".CreateCommuteActivity" />
         <activity android:name=".MessageActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".CreateJourneyActivity" />

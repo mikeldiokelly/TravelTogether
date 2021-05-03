@@ -1,37 +1,22 @@
 package com.example.traveltogether;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 
 import android.graphics.BitmapFactory;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.mapbox.android.core.permissions.PermissionsListener;
-import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.models.DirectionsResponse;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -44,9 +29,6 @@ import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -54,9 +36,8 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.util.Log;
 
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Display {@link SymbolLayer} icons on the map.
@@ -90,9 +71,6 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
         double srcLong = Double.parseDouble( value.split("\\[")[1].split(",")[0]);
         double srcLat = Double.parseDouble( value.split("]")[0].split(" ")[1]);
 
-        Log.d(" latitude ", " lat : " + srcLat);
-        Log.d(" latitude ", " lat : " + srcLong);
-
         return Point.fromLngLat(srcLong, srcLat);
     }
 
@@ -121,29 +99,21 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                         .tilt(20)
                         .build();
 
-                CameraUpdate update = new CameraUpdate() {
-                    @Nullable
-                    @Override
-                    public CameraPosition getCameraPosition(@NonNull MapboxMap mapboxMap) {
-                        return position;
-                    }
-                };
+                CameraUpdate update = mapboxMap1 -> position;
 
                 mapboxMap.moveCamera(update);
 
                 getRoute(origin, destinationPoint);
 
                 button = findViewById(R.id.startButton);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        NavigationLauncherOptions options = NavigationLauncherOptions.builder()
-                                .directionsRoute(currentRoute)
-                                .build();
-                        NavigationLauncher.startNavigation(NavigationActivity.this, options);
-                    }
+                button.setOnClickListener(v -> {
+                    NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                            .directionsRoute(currentRoute)
+                            .build();
+                    NavigationLauncher.startNavigation(NavigationActivity.this, options);
                 });
 
+                button.setEnabled(true);
             }
 
         });
@@ -175,13 +145,11 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                 .build()
                 .getRoute(new Callback<DirectionsResponse>() {
                     @Override
-                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                    public void onResponse(@NotNull Call<DirectionsResponse> call, @NotNull Response<DirectionsResponse> response) {
 
                         if (response.body() == null) {
-                            Log.e(TAG, "No routes found, make sure you set the right user and access token.");
                             return;
                         } else if (response.body().routes().size() < 1) {
-                            Log.e(TAG, "No routes found");
                             return;
                         }
 
@@ -196,8 +164,8 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
                     }
 
                     @Override
-                    public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
-                        Log.e(TAG, "Error: " + throwable.getMessage());
+                    public void onFailure(@NotNull Call<DirectionsResponse> call, @NotNull Throwable throwable) {
+                        System.out.println(TAG + ", Error: " + throwable.getMessage());
                     }
                 });
     }
@@ -227,7 +195,7 @@ public class NavigationActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }

@@ -13,52 +13,35 @@ import android.widget.Button;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "DirectionsActivity";
-    private Button createJourneyBtn, createCommuteBtn, peerToPeerBtn, myJourneysBtn;
-
     public HomeFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        createJourneyBtn = view.findViewById(R.id.CreateJourneyBtn);
-        createJourneyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreateJourneyActivity.class);
-                startActivity(intent);
-            }
+        Button createJourneyBtn = view.findViewById(R.id.CreateJourneyBtn);
+        createJourneyBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), CreateJourneyActivity.class);
+            startActivity(intent);
         });
 
-        peerToPeerBtn = view.findViewById(R.id.peerToPeerBtn);
-        peerToPeerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PeerToPeerActivity.class);
-                startActivity(intent);
-            }
+        Button peerToPeerBtn = view.findViewById(R.id.peerToPeerBtn);
+        peerToPeerBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), PeerToPeerActivity.class);
+            startActivity(intent);
         });
 
-        myJourneysBtn = view.findViewById(R.id.myJourneysBtn);
-        myJourneysBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MyJourneysActivity.class));
-            }
-        });
+        Button myJourneysBtn = view.findViewById(R.id.myJourneysBtn);
+        myJourneysBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), MyJourneysActivity.class)));
 
         return view;
     }
-
 
 }

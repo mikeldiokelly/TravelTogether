@@ -1,6 +1,6 @@
 package com.example.traveltogether.Adapter;
+
 import com.example.traveltogether.R;
-import com.example.traveltogether.*;
 import com.example.traveltogether.Model.*;
 
 import android.content.Context;
@@ -19,33 +19,30 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltogether.Adapter.MessageAdapter.ViewHolder> {
-    private Context mContext;
-    private List<Chat> mChat;
+    private final Context mContext;
+    private final List<Chat> mChat;
 
-    public static final int MSG_TYPE_LEFT=0;
-    public static final int MSG_TYPE_RIGHT=1;
-    private String imageur1;
+    public static final int MSG_TYPE_LEFT = 0;
+    public static final int MSG_TYPE_RIGHT = 1;
 
-    FirebaseUser fuser;
+    FirebaseUser fUser;
 
     public MessageAdapter(Context mContext, List<Chat> mChat) {
         this.mChat = mChat;
         this.mContext = mContext;
-        //this.imageur1 = imageur1;
 
     }
 
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType==MSG_TYPE_RIGHT) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
-            return new MessageAdapter.ViewHolder(view);
+        View view;
+        if (viewType == MSG_TYPE_RIGHT) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
+        } else {
+            view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left, parent, false);
         }
-        else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_left, parent, false);
-            return new MessageAdapter.ViewHolder(view);
-        }
+        return new ViewHolder(view);
     }
 
     @Override
@@ -59,9 +56,10 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltoget
         return mChat.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView show_message;
         public ImageView profile_image;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -72,11 +70,10 @@ public class MessageAdapter extends RecyclerView.Adapter<com.example.traveltoget
 
     @Override
     public int getItemViewType(int position) {
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
-        if (mChat.get(position).getSender().equals(fuser.getUid())) {
+        fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (mChat.get(position).getSender().equals(fUser.getUid())) {
             return MSG_TYPE_RIGHT;
-        }
-        else {
+        } else {
             return MSG_TYPE_LEFT;
         }
     }

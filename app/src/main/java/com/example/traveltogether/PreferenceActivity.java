@@ -7,34 +7,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.traveltogether.Model.Preferences;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PreferenceActivity extends AppCompatActivity {
 
-    private Spinner spinnerGender, spinnerAge;
     ArrayAdapter<String> adapterGender, adapterAge;
     private final List<String> listGender = Preferences.listGender;
     private final List<String> listAge = Preferences.listAge;
-//    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference);
 
-        spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
+        Spinner spinnerGender = (Spinner) findViewById(R.id.spinnerGender);
         spinnerGender.setPrompt("Set your gender preferences");
         adapterGender=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listGender);
         spinnerGender.setAdapter(adapterGender);
-        SharedPreferences shrd = getSharedPreferences("prefernces", MODE_PRIVATE);
-        SharedPreferences.Editor editor= shrd.edit();
+        SharedPreferences sharedPreferences = getSharedPreferences("prefernces", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -49,11 +45,10 @@ public class PreferenceActivity extends AppCompatActivity {
 
             }
         });
-//
 
-        spinnerAge = (Spinner) findViewById(R.id.spinnerAge);
+        Spinner spinnerAge = findViewById(R.id.spinnerAge);
         spinnerAge.setPrompt("Set your age preferences");
-        adapterAge=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listAge);
+        adapterAge= new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listAge);
         spinnerAge.setAdapter(adapterAge);
         spinnerAge.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -68,9 +63,5 @@ public class PreferenceActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
-
 }

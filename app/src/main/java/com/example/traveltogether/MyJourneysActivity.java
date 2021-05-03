@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.traveltogether.Model.Journey;
 import com.google.firebase.database.DataSnapshot;
@@ -18,15 +17,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mapbox.api.geocoding.v5.MapboxGeocoding;
-import com.mapbox.api.geocoding.v5.models.CarmenFeature;
-import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Arrays;
 
 public class MyJourneysActivity extends AppCompatActivity {
 
@@ -41,8 +33,6 @@ public class MyJourneysActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_journeys);
 
         getMyJourneys();
-
-
 
         listView = findViewById(R.id.my_journeys_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,7 +60,6 @@ public class MyJourneysActivity extends AppCompatActivity {
         _journey.putExtra("host_id", journey.getHost());
         _journey.putExtra("users_in_journey", usersList);
         _journey.putExtra("journey_status", journey.getJourneyStatus().toString());
-        System.out.println(" journey status ------> " + journey.getJourneyStatus().toString());
         startActivity(_journey);
     }
 
@@ -89,14 +78,12 @@ public class MyJourneysActivity extends AppCompatActivity {
                 for(DataSnapshot snapshot1:snapshot.getChildren()){
                     Journey j = snapshot1.getValue(Journey.class);
 
-                    Log.d(" clicked ", " got a journey: " + j);
                     journeyList[index] = j;
                     journeyTitles[index] = getJourneyTitleFromJourney(j);
                     index++;
                 }
 
                 listView.setAdapter(new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, journeyTitles));
-
             }
 
             @Override
@@ -104,7 +91,6 @@ public class MyJourneysActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     String getJourneyTitleFromJourney(Journey journey){

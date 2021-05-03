@@ -1,4 +1,5 @@
 package com.example.traveltogether.Fragments;
+
 import com.example.traveltogether.*;
 import com.example.traveltogether.Adapter.*;
 import com.example.traveltogether.R;
@@ -30,36 +31,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class JourneysFragment extends Fragment  {
+public class JourneysFragment extends Fragment {
     Button create_journey, p2pBtn;
-    DatabaseReference dbr ;
-    FirebaseUser fuser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_journeys, container, false);
-        create_journey = (Button) view.findViewById(R.id.CreateJourney);
-        create_journey.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.CreateJourney:
-                        Intent intent1 = new Intent(JourneysFragment.this.getActivity(), CreateJourneyActivity.class);
-                        startActivity(intent1);
-                        break;
-                }
+        View view = inflater.inflate(R.layout.fragment_journeys, container, false);
+        create_journey = view.findViewById(R.id.CreateJourney);
+        create_journey.setOnClickListener(v -> {
+            if (v.getId() == R.id.CreateJourney) {
+                Intent intent1 = new Intent(JourneysFragment.this.getActivity(), CreateJourneyActivity.class);
+                startActivity(intent1);
             }
         });
 
-        p2pBtn = (Button) view.findViewById(R.id.p2pBtn);
-        p2pBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                        startActivity(new Intent(JourneysFragment.this.getActivity(), PeerToPeerActivity.class));
-
-            }
-        });
+        p2pBtn = view.findViewById(R.id.p2pBtn);
+        p2pBtn.setOnClickListener(v -> startActivity(new Intent(JourneysFragment.this.getActivity(), PeerToPeerActivity.class)));
         return view;
     }
 }
