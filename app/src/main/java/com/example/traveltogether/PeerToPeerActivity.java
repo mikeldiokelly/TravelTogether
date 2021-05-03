@@ -80,30 +80,7 @@ public class PeerToPeerActivity extends AppCompatActivity {
         discoverPeers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-
-                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-                    return;
-                }
-                wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        connectionStatusP2P.setText(R.string.discoveryStarted);
-                    }
-
-                    @Override
-                    public void onFailure(int reason) {
-                        connectionStatusP2P.setText(R.string.discoveryNotStarted);
-                    }
-                });
+                startDiscoveringPeers();
             }
         });
 
@@ -112,32 +89,7 @@ public class PeerToPeerActivity extends AppCompatActivity {
         peersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final WifiP2pDevice device = deviceArray[position];
-                WifiP2pConfig config = new WifiP2pConfig();
-                config.deviceAddress = device.deviceAddress;
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-                    return;
-                }
-                wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        connectionStatusP2P.setText(String.format("%s%s", getString(R.string.connected), device.deviceName));
-                    }
-
-                    @Override
-                    public void onFailure(int reason) {
-                        connectionStatusP2P.setText(String.format("%s%s", getString(R.string.errorInConnectionP2P), device.deviceName));
-                    }
-                });
+                connectToDeviceOnPosition(position);
             }
         });
 
@@ -158,6 +110,62 @@ public class PeerToPeerActivity extends AppCompatActivity {
                         }
                     }
                 });
+            }
+        });
+    }
+
+    private void connectToDeviceOnPosition(int position) {
+        final WifiP2pDevice device = deviceArray[position];
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            return;
+        }
+        wifiP2pManager.connect(channel, config, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                connectionStatusP2P.setText(String.format("%s%s", getString(R.string.connected), device.deviceName));
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                connectionStatusP2P.setText(String.format("%s%s", getString(R.string.errorInConnectionP2P), device.deviceName));
+            }
+        });
+    }
+
+    private void startDiscoveringPeers() {
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            ActivityCompat.requestPermissions(PeerToPeerActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            return;
+        }
+        wifiP2pManager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                connectionStatusP2P.setText(R.string.discoveryStarted);
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                connectionStatusP2P.setText(R.string.discoveryNotStarted);
             }
         });
     }
