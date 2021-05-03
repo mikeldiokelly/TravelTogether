@@ -7,7 +7,7 @@
     tools:context=".LocationSearch">
 
     <ListView
-        android:id="@+id/my_journeys_list"
+        android:id="@+id/myJourneysList"
         android:layout_width="413dp"
         android:layout_height="664dp"
         android:layout_alignParentStart="true"

@@ -52,7 +52,6 @@ public class CreateJourneyActivity extends AppCompatActivity {
 
         updateLocation();
 
-
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
         viewModel.getSelectedItem().observe(this, item -> {
             TextView startTimeText;
