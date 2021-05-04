@@ -90,7 +90,7 @@ public class RateUserAdapter extends RecyclerView.Adapter<com.example.traveltoge
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String userName = Objects.requireNonNull(snapshot.child("first_name").getValue()).toString();
+                String userName = Objects.requireNonNull(snapshot.child("firstName").getValue()).toString();
                 userNameList.add(userName);
                 holder.username.setText(userName);
 
