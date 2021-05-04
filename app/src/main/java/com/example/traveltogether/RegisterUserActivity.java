@@ -39,12 +39,9 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
 
     private static final int REQUEST_LOCATION = 999;
     private Button banner;
-    private EditText first_name, last_name, age, email, password, gender, perm_residence;
-    private Point perm_res, curr_loc;
+    private EditText first_name, last_name, age, email, password, gender;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
-    private FusedLocationProviderClient fusedLocationClient;
-    private Location currentLocation;
 
     DatabaseReference reference;
 
@@ -65,23 +62,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         password = findViewById(R.id.password);
         progressBar = findViewById(R.id.progressBar);
         gender = findViewById(R.id.gender);
-        perm_residence = findViewById(R.id.perm_residence);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        updateLocation();
 
-    }
-
-    private void updateLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-            return;
-        }
-
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    currentLocation = location;
-                    perm_res = Point.fromLngLat(currentLocation.getLongitude(), currentLocation.getLatitude());
-                });
     }
 
     @Override
@@ -98,8 +79,6 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
         String r_email = email.getText().toString().trim();
         String r_pass = password.getText().toString().trim();
         String r_gender = gender.getText().toString().trim();
-        Point r_perm = perm_res;
-        Point r_curr = curr_loc;
 
 
         if (r_first.isEmpty()) {
@@ -143,7 +122,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                         String userId = firebaseUser.getUid();
-                        User user = new User(r_first, r_last, r_age, r_email, userId, r_gender, r_perm, r_curr);
+                        User user = new User(r_first, r_last, r_age, r_email, userId, r_gender);
                         reference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
                         FirebaseDatabase.getInstance().getReference("Users")
                                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())

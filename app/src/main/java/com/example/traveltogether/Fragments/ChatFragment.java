@@ -90,20 +90,24 @@ public class ChatFragment extends Fragment {
 
         usersList = new ArrayList<>();
 
-        dbr = FirebaseDatabase.getInstance().getReference("Chats");
+        dbr = FirebaseDatabase.getInstance().getReference("Journeys");
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 usersList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Chat chat = snapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if (chat.getSender().equals(fUser.getUid())) {
-                        usersList.add(chat.getReceiver());
-
+                    Journey j = snapshot.getValue(Journey.class);
+                    List<String> list = j.getUserList();
+                    boolean inJourney = false;
+                    for (String member : list) {
+                        if (member.equals(fUser.getUid())) {
+                            inJourney = true;
+                        }
                     }
-                    if (chat.getReceiver().equals(fUser.getUid())) {
-                        usersList.add(chat.getSender());
+                    for (String member : list) {
+                        if (inJourney == true) {
+                            usersList.add(member);
+                        }
                     }
                 }
                 readChats();
@@ -131,20 +135,24 @@ public class ChatFragment extends Fragment {
                     for (String id : usersList) {
                         boolean inlist = false;
                         assert user != null;
-                        if (user.getId().equals(id)) {
-                            if (mUsers.size() != 0) {
-                                for (User userl : mUsers) {
-                                    if (user.getId().equals(userl.getId())) {
-                                        inlist = true;
-                                        break;
+                        if (user.getId() != null) {
+                            if (!id.equals(fUser.getUid())) {
+                                if (user.getId().equals(id)) {
+                                    if (mUsers.size() != 0) {
+                                        for (User userl : mUsers) {
+                                            if (user.getId().equals(userl.getId())) {
+                                                inlist = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!inlist) {
+                                            //if not already added
+                                            mUsers.add(user);
+                                        }
+                                    } else {
+                                        mUsers.add(user);
                                     }
                                 }
-                                if (!inlist) {
-                                    //if not already added
-                                    mUsers.add(user);
-                                }
-                            } else {
-                                mUsers.add(user);
                             }
                         }
                     }
