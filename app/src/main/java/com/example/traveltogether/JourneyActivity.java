@@ -173,7 +173,7 @@ public class JourneyActivity extends AppCompatActivity {
 
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = Objects.requireNonNull(snapshot.child("first_name").getValue()).toString();
+                    String userName = (snapshot.child("firstName").getValue()).toString();
 
                     if (uId.equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
                         userName = userName + " (HOST)";
