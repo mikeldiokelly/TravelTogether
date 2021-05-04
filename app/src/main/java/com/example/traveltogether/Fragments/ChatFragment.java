@@ -135,20 +135,24 @@ public class ChatFragment extends Fragment {
                     for (String id : usersList) {
                         boolean inlist = false;
                         assert user != null;
-                        if (user.getId().equals(id)) {
-                            if (mUsers.size() != 0) {
-                                for (User userl : mUsers) {
-                                    if (user.getId().equals(userl.getId())) {
-                                        inlist = true;
-                                        break;
+                        if (user.getId() != null) {
+                            if (!id.equals(fUser.getUid())) {
+                                if (user.getId().equals(id)) {
+                                    if (mUsers.size() != 0) {
+                                        for (User userl : mUsers) {
+                                            if (user.getId().equals(userl.getId())) {
+                                                inlist = true;
+                                                break;
+                                            }
+                                        }
+                                        if (!inlist) {
+                                            //if not already added
+                                            mUsers.add(user);
+                                        }
+                                    } else {
+                                        mUsers.add(user);
                                     }
                                 }
-                                if (!inlist) {
-                                    //if not already added
-                                    mUsers.add(user);
-                                }
-                            } else {
-                                mUsers.add(user);
                             }
                         }
                     }
